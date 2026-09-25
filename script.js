@@ -47,6 +47,8 @@
   let isDragging = false;
   let lastMouseX = 0;
   let lastMouseY = 0;
+  let mouseCanvasX = null;
+  let mouseCanvasY = null;
 
   // --- Stages Meta Data ---
   const STAGES = [
@@ -205,10 +207,71 @@
     }
   }, { passive: true });
 
-  // Keyboard navigation
+  // --- Cyberpunk Matrix Rain Stream ---
+  const matrixCanvas = document.getElementById('matrixCanvas');
+  const matrixToggle = document.getElementById('matrixToggle');
+  let isMatrixActive = false;
+  let matrixAnimId = null;
+
+  function toggleMatrix() {
+    isMatrixActive = !isMatrixActive;
+    if (!matrixCanvas) return;
+    const mCtx = matrixCanvas.getContext('2d');
+
+    if (isMatrixActive) {
+      matrixCanvas.classList.add('active');
+      if (matrixToggle) {
+        matrixToggle.style.borderColor = 'var(--green)';
+        matrixToggle.style.color = 'var(--green)';
+        matrixToggle.style.boxShadow = '0 0 15px rgba(16, 185, 129, 0.4)';
+      }
+      matrixCanvas.width = window.innerWidth;
+      matrixCanvas.height = window.innerHeight;
+      const characters = '010101010101ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ0123456789ｦｱｳｴｵｶｷｹｺｻｼｽｾｿﾀﾂﾃﾅﾆﾇﾈﾊﾋﾎﾏﾐﾑﾒﾓﾔﾕﾗﾘﾜ';
+      const fontSize = 14;
+      const columns = Math.floor(matrixCanvas.width / fontSize);
+      const drops = Array(columns).fill(1);
+
+      function renderMatrix() {
+        if (!isMatrixActive) return;
+        mCtx.fillStyle = 'rgba(7, 9, 14, 0.08)';
+        mCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+
+        mCtx.fillStyle = '#10b981';
+        mCtx.font = `${fontSize}px 'JetBrains Mono', monospace`;
+
+        for (let i = 0; i < drops.length; i++) {
+          const text = characters.charAt(Math.floor(Math.random() * characters.length));
+          mCtx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+          if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+          drops[i]++;
+        }
+        matrixAnimId = requestAnimationFrame(renderMatrix);
+      }
+      renderMatrix();
+    } else {
+      matrixCanvas.classList.remove('active');
+      if (matrixToggle) {
+        matrixToggle.style.borderColor = '';
+        matrixToggle.style.color = '';
+        matrixToggle.style.boxShadow = '';
+      }
+      if (matrixAnimId) cancelAnimationFrame(matrixAnimId);
+      mCtx.clearRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+    }
+  }
+
+  if (matrixToggle) {
+    matrixToggle.addEventListener('click', toggleMatrix);
+  }
+
+  // Keyboard navigation & Power Shortcuts
   window.addEventListener('keydown', (e) => {
-    // Avoid interfering if user is typing in terminal
-    if (document.activeElement && document.activeElement.tagName === 'INPUT') return;
+    // Avoid interfering if user is typing in terminal or input
+    if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) return;
 
     if (e.key === 'ArrowDown' || e.key === 'KeyS' || e.key === 'PageDown') {
       e.preventDefault();
@@ -227,6 +290,30 @@
     } else if (e.code === 'Space') {
       e.preventDefault();
       autoPlay = !autoPlay;
+    } else if (e.key === 'm' || e.key === 'M') {
+      toggleMatrix();
+    } else if (e.key === '1') {
+      targetProgress = 0.0;
+      syncPageScroll();
+      playScrubTone(0.0);
+    } else if (e.key === '2') {
+      targetProgress = 0.33;
+      syncPageScroll();
+      playScrubTone(0.33);
+    } else if (e.key === '3') {
+      targetProgress = 0.66;
+      syncPageScroll();
+      playScrubTone(0.66);
+    } else if (e.key === '4') {
+      targetProgress = 1.0;
+      syncPageScroll();
+      playScrubTone(1.0);
+    } else if (e.key === 'l' || e.key === 'L') {
+      document.getElementById('ai-lab')?.scrollIntoView({ behavior: 'smooth' });
+    } else if (e.key === 't' || e.key === 'T') {
+      document.getElementById('terminal-section')?.scrollIntoView({ behavior: 'smooth' });
+    } else if (e.key === 'p' || e.key === 'P') {
+      document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
     }
   });
 
@@ -236,11 +323,22 @@
     window.scrollTo({ top: newScrollTop, behavior: 'smooth' });
   }
 
-  // Mouse drag for 3D Camera Orbit
+  // Mouse drag for 3D Camera Orbit & Hover Physics
   canvas.addEventListener('mousedown', (e) => {
     isDragging = true;
     lastMouseX = e.clientX;
     lastMouseY = e.clientY;
+  });
+
+  canvas.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouseCanvasX = e.clientX - rect.left;
+    mouseCanvasY = e.clientY - rect.top;
+  });
+
+  canvas.addEventListener('mouseleave', () => {
+    mouseCanvasX = null;
+    mouseCanvasY = null;
   });
 
   window.addEventListener('mousemove', (e) => {
@@ -363,6 +461,19 @@
       }
 
       const proj = project(curX, curY, curZ);
+
+      // Magnetic cursor attraction & interactive physics
+      if (mouseCanvasX !== null && mouseCanvasY !== null && proj.scale > 0) {
+        const dx = mouseCanvasX - proj.x;
+        const dy = mouseCanvasY - proj.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist < 180 && dist > 1) {
+          const pull = (1 - dist / 180) * 32 * proj.scale;
+          proj.x += (dx / dist) * pull;
+          proj.y += (dy / dist) * pull;
+        }
+      }
+
       return { proj, node };
     });
 

@@ -96,6 +96,21 @@ body {
   z-index: 0;
 }
 
+#matrixCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+#matrixCanvas.active {
+  opacity: 0.28;
+}
+
 /* Navbar */
 .navbar {
   position: fixed;
