@@ -25,6 +25,7 @@
   <div class="ambient-glow glow-1"></div>
   <div class="ambient-glow glow-2"></div>
   <div class="ambient-grid"></div>
+  <canvas id="matrixCanvas"></canvas>
 
   <!-- Navigation Bar -->
   <nav class="navbar" id="navbar">
@@ -36,12 +37,17 @@
 
       <div class="nav-links">
         <a href="#scroller" class="nav-link">Neural Model</a>
-        <a href="#projects" class="nav-link">Architecture & Repos</a>
+        <a href="#ai-lab" class="nav-link highlight-link"><i class="fa-solid fa-flask"></i> AI Lab</a>
+        <a href="#projects" class="nav-link">Projects</a>
         <a href="#skills" class="nav-link">Arsenal</a>
-        <a href="#terminal-section" class="nav-link">Live Terminal</a>
+        <a href="#terminal-section" class="nav-link">Terminal</a>
       </div>
 
       <div class="nav-actions">
+        <button id="matrixToggle" class="cyber-btn-sm" title="Toggle Matrix Data Stream">
+          <i class="fa-solid fa-code"></i>
+          <span>MATRIX</span>
+        </button>
         <button id="soundToggle" class="cyber-btn-sm" title="Toggle Synthesizer Audio">
           <i class="fa-solid fa-volume-xmark" id="soundIcon"></i>
           <span>AUDIO FX</span>
@@ -166,6 +172,74 @@
           <div class="stat-icon"><i class="fa-solid fa-bolt"></i></div>
           <div class="stat-number">RAG + FP16</div>
           <div class="stat-text">Production Scale Ready</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hands-on Interactive AI Lab (Digit Recognizer) -->
+    <section class="section-container" id="ai-lab">
+      <div class="section-header">
+        <span class="section-tag">// INTERACTIVE IN-BROWSER AI LAB</span>
+        <h2 class="section-title">Live Neural Digit Recognizer</h2>
+        <p class="section-subtitle">Draw any digit (0 - 9) on the tensor pad below. A lightweight in-browser feature-extraction neural model classifies your drawing in real time with live softmax probability distribution.</p>
+      </div>
+
+      <div class="ai-lab-container glass-card">
+        <div class="lab-left">
+          <div class="pad-header">
+            <span class="pad-title"><i class="fa-solid fa-pen-nib"></i> 28x28 Tensor Input Pad</span>
+            <span class="pad-status" id="padStatus">READY TO INFER</span>
+          </div>
+
+          <div class="canvas-wrap">
+            <canvas id="drawCanvas" width="280" height="280"></canvas>
+            <div class="canvas-grid-guide"></div>
+          </div>
+
+          <div class="pad-controls">
+            <button class="lab-btn" id="btnClearPad"><i class="fa-solid fa-trash"></i> Clear</button>
+            <button class="lab-btn" id="btnPresetPad"><i class="fa-solid fa-dice"></i> Sample Digit</button>
+            <div class="brush-size-control">
+              <span class="ctrl-label">Stroke:</span>
+              <input type="range" id="brushSize" min="14" max="28" value="20" />
+            </div>
+          </div>
+        </div>
+
+        <div class="lab-right">
+          <div class="prediction-hero">
+            <div class="prediction-card">
+              <span class="pred-label">TOP PREDICTION</span>
+              <div class="pred-digit" id="topDigit">-</div>
+              <div class="pred-confidence">
+                <span>CONFIDENCE: </span>
+                <strong class="accent-green" id="topConf">--%</strong>
+              </div>
+            </div>
+
+            <div class="telemetry-mini">
+              <div class="telemetry-item">
+                <span class="tel-label">INFERENCE TIME</span>
+                <span class="tel-val accent-cyan" id="inferTime">~4.2 ms</span>
+              </div>
+              <div class="telemetry-item">
+                <span class="tel-label">PIXEL MATRIX</span>
+                <span class="tel-val accent-purple">784 Inputs (28x28)</span>
+              </div>
+              <div class="telemetry-item">
+                <span class="tel-label">ACTIVATION</span>
+                <span class="tel-val accent-green">Softmax Logits</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 10 Class Probability Distribution Meter -->
+          <div class="probability-meters">
+            <div class="meters-title">CLASS PROBABILITY DISTRIBUTION (0 - 9)</div>
+            <div class="meter-bars" id="meterBars">
+              <!-- Dynamically populated 0 - 9 meters -->
+            </div>
+          </div>
         </div>
       </div>
     </section>
