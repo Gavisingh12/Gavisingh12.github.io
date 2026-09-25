@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gavinder Singh | Machine Learning Engineer & AI Systems</title>
+  <meta name="description" content="Interactive 3D AI & Machine Learning Portfolio of Gavinder Singh. Scrub through deep neural network architectures and model training phases." />
+  
+  <!-- Google Fonts: Syne & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="dark-mode">
+
+  <!-- Custom Cursor Glow -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- Ambient Background Gradients -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-grid"></div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo">
+        <span class="logo-symbol">&lt;GS/&gt;</span>
+        <span class="logo-text">GAVINDER<span class="accent-dot">.</span>AI</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#scroller" class="nav-link">Neural Model</a>
+        <a href="#projects" class="nav-link">Architecture & Repos</a>
+        <a href="#skills" class="nav-link">Arsenal</a>
+        <a href="#terminal-section" class="nav-link">Live Terminal</a>
+      </div>
+
+      <div class="nav-actions">
+        <button id="soundToggle" class="cyber-btn-sm" title="Toggle Synthesizer Audio">
+          <i class="fa-solid fa-volume-xmark" id="soundIcon"></i>
+          <span>AUDIO FX</span>
+        </button>
+        <a href="https://github.com/Gavisingh12" target="_blank" class="github-pill">
+          <i class="fa-brands fa-github"></i>
+          <span>@Gavisingh12</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sticky Frame Motion Scroller Section -->
+  <section class="scroller-container" id="scroller">
+    <!-- Sticky Canvas Viewport -->
+    <div class="sticky-viewport">
+      <canvas id="neuralCanvas"></canvas>
+
+      <!-- HUD Overlay (Telemetry & Telemetrics) -->
+      <div class="hud-top-left">
+        <div class="hud-badge pulse-dot">
+          <span class="live-dot"></span>
+          <span>GPU RUNTIME: CUDA 12.4</span>
+        </div>
+        <div class="hud-metric-row">
+          <span class="metric-label">MODEL ARCH:</span>
+          <span class="metric-value accent-cyan" id="hudArch">TRANSFORMER-GEN-7B</span>
+        </div>
+        <div class="hud-metric-row">
+          <span class="metric-label">CURRENT PHASE:</span>
+          <span class="metric-value accent-purple" id="hudPhase">1 / 4 [DATA INGESTION]</span>
+        </div>
+        <div class="hud-metric-row">
+          <span class="metric-label">FRAME PROGRESS:</span>
+          <span class="metric-value accent-green" id="hudProgress">00.0%</span>
+        </div>
+      </div>
+
+      <div class="hud-top-right">
+        <div class="hud-card">
+          <div class="hud-stat">
+            <span class="hud-label">EPOCH</span>
+            <span class="hud-num" id="hudEpoch">01 / 100</span>
+          </div>
+          <div class="hud-stat">
+            <span class="hud-label">TRAIN LOSS</span>
+            <span class="hud-num accent-red" id="hudLoss">2.418</span>
+          </div>
+          <div class="hud-stat">
+            <span class="hud-label">VAL ACCURACY</span>
+            <span class="hud-num accent-green" id="hudAcc">41.2%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center Dynamic Annotation based on Scroll Frame -->
+      <div class="frame-annotation" id="frameAnnotation">
+        <div class="annotation-tag" id="annotTag">PHASE 01 // RAW DATA INGESTION</div>
+        <h2 class="annotation-title" id="annotTitle">High-Dimensional Feature Tokenization</h2>
+        <p class="annotation-desc" id="annotDesc">Continuous token embedding across dense vectors. Scrub mouse or use keyboard arrows to initiate transformer layer compilation.</p>
+      </div>
+
+      <!-- Keyboard & Mouse Interactive Controls Hint -->
+      <div class="controls-hint">
+        <div class="key-badge-group">
+          <span class="key-cap">▲</span>
+          <span class="key-cap">▼</span>
+          <span class="key-label">or [SCROLL] to Scrub Frames</span>
+        </div>
+        <div class="key-badge-group">
+          <span class="key-cap">◄</span>
+          <span class="key-cap">►</span>
+          <span class="key-label">or [DRAG] to 3D Orbit</span>
+        </div>
+        <div class="key-badge-group">
+          <span class="key-cap">SPACE</span>
+          <span class="key-label">to Auto-Drive</span>
+        </div>
+      </div>
+
+      <!-- Scroller Progress Bar -->
+      <div class="progress-track">
+        <div class="progress-bar-fill" id="progressBar"></div>
+      </div>
+    </div>
+
+    <!-- Virtual Scroll Heights to drive the frame timeline -->
+    <div class="scroll-milestone" data-step="1"></div>
+    <div class="scroll-milestone" data-step="2"></div>
+    <div class="scroll-milestone" data-step="3"></div>
+    <div class="scroll-milestone" data-step="4"></div>
+  </section>
+
+  <!-- Main Content Showcase -->
+  <main class="content-wrapper">
+
+    <!-- About / Machine Learning Philosophy -->
+    <section class="section-container" id="about">
+      <div class="section-header">
+        <span class="section-tag">// IDENTITY & ARCHITECTURE</span>
+        <h2 class="section-title">Machine Learning Engineer</h2>
+        <p class="section-subtitle">Specialized in deep learning architectures, end-to-end model training, multi-modal pipelines, and production inference optimization.</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="glass-card stat-box">
+          <div class="stat-icon"><i class="fa-solid fa-microchip"></i></div>
+          <div class="stat-number">17+</div>
+          <div class="stat-text">Public Repositories & Architectures</div>
+        </div>
+        <div class="glass-card stat-box">
+          <div class="stat-icon"><i class="fa-solid fa-brain"></i></div>
+          <div class="stat-number">99.4%</div>
+          <div class="stat-text">Peak Validation Benchmark</div>
+        </div>
+        <div class="glass-card stat-box">
+          <div class="stat-icon"><i class="fa-solid fa-network-wired"></i></div>
+          <div class="stat-number">&lt;15ms</div>
+          <div class="stat-text">Inference Latency Optimization</div>
+        </div>
+        <div class="glass-card stat-box">
+          <div class="stat-icon"><i class="fa-solid fa-bolt"></i></div>
+          <div class="stat-number">RAG + FP16</div>
+          <div class="stat-text">Production Scale Ready</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Projects Grid -->
+    <section class="section-container" id="projects">
+      <div class="section-header">
+        <span class="section-tag">// DEPLOYED SYSTEMS</span>
+        <h2 class="section-title">Production Models & AI Architectures</h2>
+        <p class="section-subtitle">Real-world AI platforms with end-to-end forecasting, explainability, and hardware-accelerated interfaces.</p>
+      </div>
+
+      <div class="projects-grid">
+        <!-- Project 1 -->
+        <article class="glass-card project-card featured">
+          <div class="card-glow"></div>
+          <div class="project-header">
+            <span class="project-badge">FLAGSHIP AI</span>
+            <div class="project-actions">
+              <a href="https://github.com/Gavisingh12/ai-decision-intelligence-platform" target="_blank" class="icon-link"><i class="fa-brands fa-github"></i></a>
+            </div>
+          </div>
+          <h3 class="project-title">AI Decision Intelligence Platform</h3>
+          <p class="project-summary">High-throughput decision engine integrating predictive forecasting, Retrieval-Augmented Generation (RAG), and explainable model inference with guided clinical & enterprise workflows.</p>
+          <div class="tag-list">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">Deep Learning</span>
+            <span class="tech-tag">RAG</span>
+            <span class="tech-tag">FastAPI</span>
+            <span class="tech-tag">Vector DB</span>
+          </div>
+          <a href="https://github.com/Gavisingh12/ai-decision-intelligence-platform" target="_blank" class="card-btn">
+            <span>Inspect Repository</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="glass-card project-card">
+          <div class="card-glow"></div>
+          <div class="project-header">
+            <span class="project-badge">CORE RESEARCH</span>
+            <div class="project-actions">
+              <a href="https://github.com/Gavisingh12/ai-project" target="_blank" class="icon-link"><i class="fa-brands fa-github"></i></a>
+            </div>
+          </div>
+          <h3 class="project-title">AI Core Models & Experiments</h3>
+          <p class="project-summary">Modular repository of neural architectures, multi-layered perceptrons, convolutional pipelines, and hyperparameter tuning suites tested against benchmark datasets.</p>
+          <div class="tag-list">
+            <span class="tech-tag">PyTorch</span>
+            <span class="tech-tag">TensorFlow</span>
+            <span class="tech-tag">Scikit-Learn</span>
+            <span class="tech-tag">Optuna</span>
+          </div>
+          <a href="https://github.com/Gavisingh12/ai-project" target="_blank" class="card-btn">
+            <span>Inspect Repository</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </article>
+
+        <!-- Project 3 -->
+        <article class="glass-card project-card">
+          <div class="card-glow"></div>
+          <div class="project-header">
+            <span class="project-badge">TIME-SERIES ML</span>
+            <div class="project-actions">
+              <a href="https://github.com/Gavisingh12/smart-energy-tracker" target="_blank" class="icon-link"><i class="fa-brands fa-github"></i></a>
+            </div>
+          </div>
+          <h3 class="project-title">Smart Energy Consumption Tracker</h3>
+          <p class="project-summary">IoT-enabled multivariate time-series forecasting model with anomaly classification to predict peak grid demand and optimize carbon consumption footprints.</p>
+          <div class="tag-list">
+            <span class="tech-tag">Time Series</span>
+            <span class="tech-tag">Anomaly Detection</span>
+            <span class="tech-tag">Pandas</span>
+            <span class="tech-tag">IoT Analytics</span>
+          </div>
+          <a href="https://github.com/Gavisingh12/smart-energy-tracker" target="_blank" class="card-btn">
+            <span>Inspect Repository</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </article>
+
+        <!-- Project 4 -->
+        <article class="glass-card project-card">
+          <div class="card-glow"></div>
+          <div class="project-header">
+            <span class="project-badge">INTERACTIVE 3D</span>
+            <div class="project-actions">
+              <a href="https://github.com/Gavisingh12/apple-headphones" target="_blank" class="icon-link"><i class="fa-brands fa-github"></i></a>
+            </div>
+          </div>
+          <h3 class="project-title">AirPods Max Motion Showcase</h3>
+          <p class="project-summary">Cinematic hardware experience with interactive frame scrubbing, responsive dynamic audio shaders, and frame-by-frame 3D component breakdown.</p>
+          <div class="tag-list">
+            <span class="tech-tag">Next.js</span>
+            <span class="tech-tag">Framer Motion</span>
+            <span class="tech-tag">WebGL</span>
+            <span class="tech-tag">Tailwind</span>
+          </div>
+          <a href="https://github.com/Gavisingh12/apple-headphones" target="_blank" class="card-btn">
+            <span>Inspect Repository</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <!-- Skills & Arsenal -->
+    <section class="section-container" id="skills">
+      <div class="section-header">
+        <span class="section-tag">// NEURAL ARSENAL</span>
+        <h2 class="section-title">Frameworks & Technologies</h2>
+        <p class="section-subtitle">Battle-tested tools and frameworks used daily to design, train, and deploy intelligent agents.</p>
+      </div>
+
+      <div class="skills-category-grid">
+        <div class="glass-card skill-cat">
+          <div class="cat-header">
+            <i class="fa-solid fa-brain accent-purple"></i>
+            <h3>Deep Learning & Frameworks</h3>
+          </div>
+          <div class="skill-chips">
+            <span class="chip">PyTorch</span>
+            <span class="chip">TensorFlow</span>
+            <span class="chip">Keras</span>
+            <span class="chip">Hugging Face Transformers</span>
+            <span class="chip">Scikit-Learn</span>
+            <span class="chip">OpenCV</span>
+            <span class="chip">TorchVision</span>
+          </div>
+        </div>
+
+        <div class="glass-card skill-cat">
+          <div class="cat-header">
+            <i class="fa-solid fa-chart-line accent-cyan"></i>
+            <h3>Data Engineering & Math</h3>
+          </div>
+          <div class="skill-chips">
+            <span class="chip">Python 3.12</span>
+            <span class="chip">NumPy</span>
+            <span class="chip">Pandas</span>
+            <span class="chip">SciPy</span>
+            <span class="chip">Jupyter Lab</span>
+            <span class="chip">Matplotlib / Seaborn</span>
+            <span class="chip">Vector Databases</span>
+          </div>
+        </div>
+
+        <div class="glass-card skill-cat">
+          <div class="cat-header">
+            <i class="fa-solid fa-server accent-green"></i>
+            <h3>MLOps & Infrastructure</h3>
+          </div>
+          <div class="skill-chips">
+            <span class="chip">CUDA Acceleration</span>
+            <span class="chip">FastAPI</span>
+            <span class="chip">Docker Containers</span>
+            <span class="chip">Git / GitHub Actions</span>
+            <span class="chip">Linux System Administration</span>
+            <span class="chip">ONNX Runtime</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive In-Browser ML Terminal -->
+    <section class="section-container" id="terminal-section">
+      <div class="section-header">
+        <span class="section-tag">// INTERACTIVE SHELL</span>
+        <h2 class="section-title">Live ML Neural Terminal</h2>
+        <p class="section-subtitle">Run commands directly in this simulated AI runtime environment.</p>
+      </div>
+
+      <div class="terminal-window">
+        <div class="terminal-bar">
+          <div class="term-dots">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+          </div>
+          <div class="term-title">gavinder@cuda-node-01: ~/model_training</div>
+          <div class="term-actions">
+            <span class="term-badge">CUDA: ONLINE</span>
+          </div>
+        </div>
+        <div class="terminal-body" id="termBody">
+          <div class="term-line output">Initialized Gavinder Singh AI Terminal runtime v2.4.0.</div>
+          <div class="term-line output">Type <span class="highlight">help</span> or click command buttons below to interact.</div>
+          <div class="term-line prompt-line">
+            <span class="prompt-text">gavinder@ai-core:~$</span>
+            <input type="text" id="termInput" placeholder="Type 'train', 'projects', 'status'..." autocomplete="off" />
+          </div>
+        </div>
+        <div class="terminal-footer">
+          <span class="quick-label">Quick Commands:</span>
+          <button class="term-btn" data-cmd="train --model gpt-custom">train model</button>
+          <button class="term-btn" data-cmd="status">gpu status</button>
+          <button class="term-btn" data-cmd="projects">list projects</button>
+          <button class="term-btn" data-cmd="clear">clear</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Connect & Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-main">
+          <h2>Ready to build state-of-the-art AI?</h2>
+          <p>Let's collaborate on challenging machine learning models, RAG pipelines, and automated intelligence.</p>
+          <div class="footer-links">
+            <a href="https://github.com/Gavisingh12" target="_blank" class="footer-btn">
+              <i class="fa-brands fa-github"></i> GitHub
+            </a>
+            <a href="mailto:contact@gavisingh.dev" class="footer-btn">
+              <i class="fa-solid fa-envelope"></i> Email Me
+            </a>
+            <a href="https://linkedin.com" target="_blank" class="footer-btn">
+              <i class="fa-brands fa-linkedin"></i> LinkedIn
+            </a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2026 Gavinder Singh. Designed with 3D Canvas motion frames & hardware acceleration.</p>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
