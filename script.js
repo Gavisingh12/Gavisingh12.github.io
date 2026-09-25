@@ -78,11 +78,11 @@
     }
   ];
 
-  // --- 3D Neural Nodes & Layers Model Generation ---
-  const NUM_INPUT_NODES = 48;
-  const NUM_HIDDEN_1 = 36;
+  // --- 3D Neural Nodes & Layers Model Generation (Curved Bio-Cortex Manifold) ---
+  const NUM_INPUT_NODES = 42;
+  const NUM_HIDDEN_1 = 34;
   const NUM_HIDDEN_2 = 28;
-  const NUM_OUTPUT = 16;
+  const NUM_OUTPUT = 18;
   
   const nodes = [];
   const connections = [];
@@ -90,24 +90,35 @@
   function createLayer(count, zPos, spreadX, spreadY, layerType) {
     const layerNodes = [];
     for (let i = 0; i < count; i++) {
-      const angle = (i / count) * Math.PI * 2;
-      const radius = 120 + (i % 3) * 35;
+      const normIdx = count > 1 ? (i / (count - 1)) - 0.5 : 0; // -0.5 to +0.5
+      const arcAngle = normIdx * Math.PI * 0.72; // Cranial arc curve
+      const archRadius = 240 - Math.abs(normIdx) * 55;
+
+      // Realistic curved cortex position
+      const baseX = Math.sin(arcAngle) * archRadius + (Math.random() - 0.5) * 35;
+      const baseY = (normIdx * spreadY) + (Math.random() - 0.5) * 30;
+      const baseZ = zPos + Math.cos(arcAngle) * 95 + (Math.random() - 0.5) * 30;
+
+      // Converged core position (for stage 4)
+      const ringAngle = (i / count) * Math.PI * 2;
+      const coreRadius = 85 + (i % 4) * 28;
+
       const node = {
-        // base resting position
-        baseX: (Math.random() - 0.5) * spreadX,
-        baseY: (Math.random() - 0.5) * spreadY,
-        baseZ: zPos,
-        // randomized initial disperse position (for stage 1)
-        scatterX: (Math.random() - 0.5) * 1200,
+        baseX,
+        baseY,
+        baseZ,
+        // Disperse position (for stage 1)
+        scatterX: (Math.random() - 0.5) * 1250,
         scatterY: (Math.random() - 0.5) * 900,
-        scatterZ: (Math.random() - 0.5) * 800,
-        // converged core position (for stage 4)
-        coreX: Math.cos(angle) * (radius * 0.8),
-        coreY: Math.sin(angle) * (radius * 0.8),
-        coreZ: ((i % 5) - 2) * 50,
+        scatterZ: (Math.random() - 0.5) * 850,
+        // Converged core position
+        coreX: Math.cos(ringAngle) * coreRadius,
+        coreY: Math.sin(ringAngle) * coreRadius,
+        coreZ: ((i % 5) - 2) * 45,
         layer: layerType,
         pulseOffset: Math.random() * Math.PI * 2,
-        color: layerType === 0 ? '#38bdf8' : layerType === 1 ? '#6366f1' : layerType === 2 ? '#a855f7' : '#10b981'
+        flash: 0.0, // Bioluminescent action potential flash
+        color: layerType === 0 ? '#38bdf8' : layerType === 1 ? '#818cf8' : layerType === 2 ? '#c084fc' : '#34d399'
       };
       nodes.push(node);
       layerNodes.push(node);
@@ -115,21 +126,23 @@
     return layerNodes;
   }
 
-  const l1 = createLayer(NUM_INPUT_NODES, -300, 450, 350, 0);
-  const l2 = createLayer(NUM_HIDDEN_1, -100, 380, 300, 1);
-  const l3 = createLayer(NUM_HIDDEN_2, 100, 320, 240, 2);
-  const l4 = createLayer(NUM_OUTPUT, 300, 200, 180, 3);
+  const l1 = createLayer(NUM_INPUT_NODES, -280, 420, 320, 0);
+  const l2 = createLayer(NUM_HIDDEN_1, -90, 360, 270, 1);
+  const l3 = createLayer(NUM_HIDDEN_2, 90, 300, 220, 2);
+  const l4 = createLayer(NUM_OUTPUT, 270, 200, 170, 3);
 
-  // Connect adjacent layers with weights
-  function buildSynapses(sourceLayer, targetLayer, density = 0.25) {
+  // Connect adjacent layers with curved bezier synapses
+  function buildSynapses(sourceLayer, targetLayer, density = 0.24) {
     sourceLayer.forEach(src => {
       targetLayer.forEach(tgt => {
         if (Math.random() < density) {
           connections.push({
             src,
             tgt,
-            weight: Math.random(),
-            pulseSpeed: 1.5 + Math.random() * 2
+            weight: 0.4 + Math.random() * 0.6,
+            pulseSpeed: 1.2 + Math.random() * 2.2,
+            curveBend: (Math.random() - 0.5) * 45,
+            packetT: Math.random()
           });
         }
       });
@@ -137,51 +150,103 @@
   }
 
   buildSynapses(l1, l2, 0.22);
-  buildSynapses(l2, l3, 0.25);
-  buildSynapses(l3, l4, 0.35);
+  buildSynapses(l2, l3, 0.24);
+  buildSynapses(l3, l4, 0.32);
 
-  // --- 3D Cosmic Galaxy & Singularity Starfield System (Option A) ---
-  const NUM_GALAXY_STARS = 320;
+  // --- 3D Realistic Cosmic Galaxy (4 Spiral Arms, Volumetric Nebula Gas, Stellar Bulge) ---
+  const NUM_GALAXY_STARS = 450;
   const galaxyStars = [];
+  const NUM_NEBULA_CLOUDS = 18;
+  const nebulaClouds = [];
 
+  // 1. Generate Volumetric Cosmic Gas & Dust Clouds
+  for (let i = 0; i < NUM_NEBULA_CLOUDS; i++) {
+    const armIdx = i % 4;
+    const armOffset = armIdx * (Math.PI / 2);
+    const radius = 120 + Math.random() * 520;
+    const theta = armOffset + radius * 0.003 + (Math.random() - 0.5) * 0.6;
+    const phi = (Math.random() - 0.5) * 0.22;
+
+    const x = Math.cos(theta) * Math.cos(phi) * radius;
+    const y = Math.sin(phi) * radius * 0.6;
+    const z = Math.sin(theta) * Math.cos(phi) * radius;
+
+    const gasColors = [
+      { core: 'rgba(56, 189, 248, 0.18)', mid: 'rgba(99, 102, 241, 0.08)', outer: 'transparent' }, // Cyan-Indigo Gas
+      { core: 'rgba(217, 70, 239, 0.16)', mid: 'rgba(168, 85, 247, 0.07)', outer: 'transparent' }, // Magenta-Purple H-II
+      { core: 'rgba(251, 191, 36, 0.14)', mid: 'rgba(244, 63, 94, 0.06)', outer: 'transparent' }   // Golden-Amber Dust
+    ];
+
+    nebulaClouds.push({
+      baseX: x,
+      baseY: y,
+      baseZ: z,
+      baseRadius: radius,
+      baseTheta: theta,
+      basePhi: phi,
+      size: 130 + Math.random() * 190,
+      orbitSpeed: 0.0002 + Math.random() * 0.0004,
+      colors: gasColors[i % gasColors.length]
+    });
+  }
+
+  // 2. Generate Logarithmic Spiral Stars & Core Bulge
   for (let i = 0; i < NUM_GALAXY_STARS; i++) {
-    const isHalo = Math.random() < 0.35;
-    let radius, theta, phi;
+    const isCoreBulge = Math.random() < 0.28; // 28% dense warm galactic core
+    const isHalo = !isCoreBulge && Math.random() < 0.18; // 18% outer stellar halo
+    let radius, theta, phi, color, glow, baseAlpha, size, hasFlare;
 
-    if (isHalo) {
-      // Outer spherical stellar halo for deep 3D perspective
+    if (isCoreBulge) {
+      // Dense Golden/White Galactic Core
+      radius = Math.pow(Math.random(), 1.6) * 160;
+      theta = Math.random() * Math.PI * 2;
+      phi = (Math.random() - 0.5) * 0.6;
+      color = Math.random() < 0.6 ? '#fef08a' : '#ffffff';
+      glow = 'rgba(253, 224, 71, 0.75)';
+      baseAlpha = 0.85 + Math.random() * 0.15;
+      size = 1.8 + Math.random() * 2.6;
+      hasFlare = Math.random() < 0.35;
+    } else if (isHalo) {
+      // Outer spherical 3D Halo
       radius = 280 + Math.random() * 850;
       theta = Math.random() * Math.PI * 2;
       phi = (Math.random() - 0.5) * Math.PI;
+      color = '#ffffff';
+      glow = 'rgba(255, 255, 255, 0.5)';
+      baseAlpha = 0.65 + Math.random() * 0.35;
+      size = 1.4 + Math.random() * 1.8;
+      hasFlare = Math.random() < 0.15;
     } else {
-      // Galactic spiral arms
-      radius = 100 + Math.pow(Math.random(), 1.2) * 750;
-      const armOffset = (i % 3) * ((Math.PI * 2) / 3);
-      theta = armOffset + (radius * 0.0035) + (Math.random() - 0.5) * 0.45;
-      phi = (Math.random() - 0.5) * 0.35; // disc plane
+      // 4-Arm Logarithmic Spiral Density
+      const armIdx = i % 4;
+      const armOffset = armIdx * (Math.PI / 2);
+      radius = 90 + Math.pow(Math.random(), 1.1) * 720;
+      theta = armOffset + (radius * 0.004) + (Math.random() - 0.5) * 0.38;
+      phi = (Math.random() - 0.5) * 0.24;
+
+      const roll = Math.random();
+      if (roll < 0.45) {
+        color = '#00f0ff'; // Hot young blue/cyan stars
+        glow = 'rgba(0, 240, 255, 0.75)';
+      } else if (roll < 0.78) {
+        color = '#f472b6'; // Star-forming pink/magenta
+        glow = 'rgba(244, 114, 182, 0.75)';
+      } else if (roll < 0.90) {
+        color = '#fbbf24'; // Amber stars
+        glow = 'rgba(251, 191, 36, 0.75)';
+      } else {
+        color = '#ffffff'; // Brilliant diamond
+        glow = 'rgba(255, 255, 255, 0.85)';
+      }
+
+      baseAlpha = 0.8 + Math.random() * 0.2;
+      size = 1.6 + Math.random() * 2.8;
+      hasFlare = Math.random() < 0.25;
     }
 
     const x = Math.cos(theta) * Math.cos(phi) * radius;
     const y = Math.sin(phi) * radius;
     const z = Math.sin(theta) * Math.cos(phi) * radius;
-
-    // Vibrant cosmic colors: Electric Cyan, Neon Magenta/Purple, Starlight Gold, Pure Diamond
-    const colorRoll = Math.random();
-    let color = '#ffffff';
-    let glow = 'rgba(255, 255, 255, 0.6)';
-    if (colorRoll < 0.35) {
-      color = '#00f0ff'; // Electric Cyan
-      glow = 'rgba(0, 240, 255, 0.7)';
-    } else if (colorRoll < 0.65) {
-      color = '#d946ef'; // Radiant Magenta
-      glow = 'rgba(217, 70, 239, 0.7)';
-    } else if (colorRoll < 0.82) {
-      color = '#fbbf24'; // Warm Gold
-      glow = 'rgba(251, 191, 36, 0.7)';
-    } else {
-      color = '#ffffff'; // Diamond White
-      glow = 'rgba(255, 255, 255, 0.8)';
-    }
 
     galaxyStars.push({
       baseRadius: radius,
@@ -190,20 +255,21 @@
       baseX: x,
       baseY: y,
       baseZ: z,
-      size: 1.6 + Math.random() * 2.4, // Clearly visible 1.6 - 4.0 px
+      size,
       color,
       glow,
-      twinkleSpeed: 1.5 + Math.random() * 3.0,
+      twinkleSpeed: 1.5 + Math.random() * 3.5,
       twinkleOffset: Math.random() * Math.PI * 2,
-      baseAlpha: 0.75 + Math.random() * 0.25, // High contrast bright stars
-      orbitSpeed: 0.00035 + Math.random() * 0.0007,
-      hasFlare: Math.random() < 0.20 // 20% stars have prominent 4-point sparkle cross
+      baseAlpha,
+      orbitSpeed: 0.0003 + (1 / (radius + 80)) * 0.08, // Differential galactic rotation
+      hasFlare
     });
   }
 
-  // --- Web Audio Synthesizer (Zero External Dependencies) ---
+  // --- Web Audio Synthesizer: Cosmic "Om" Ambient Drone & Interactive Sonics ---
   let audioCtx = null;
   let isSoundEnabled = false;
+  let omDrone = null;
 
   function initAudio() {
     if (!audioCtx) {
@@ -214,22 +280,110 @@
     }
   }
 
+  // Cosmic Om (136.1 Hz Cosmic Tuning + Sub-bass 68Hz + Theta Binaural Waves)
+  function startCosmicOmDrone() {
+    if (!audioCtx || omDrone) return;
+    try {
+      const masterOmGain = audioCtx.createGain();
+      masterOmGain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+      masterOmGain.gain.exponentialRampToValueAtTime(0.045, audioCtx.currentTime + 3.0); // Gentle 3s swell
+      masterOmGain.connect(audioCtx.destination);
+
+      // 1. Fundamental Cosmic Om Frequency: 136.1 Hz
+      const oscOm = audioCtx.createOscillator();
+      oscOm.type = 'sine';
+      oscOm.frequency.setValueAtTime(136.1, audioCtx.currentTime);
+
+      // 2. Deep Sub-bass Resonance: 68.05 Hz
+      const oscSub = audioCtx.createOscillator();
+      oscSub.type = 'sine';
+      oscSub.frequency.setValueAtTime(68.05, audioCtx.currentTime);
+
+      // 3. Higher Harmonic Overtone: 272.2 Hz
+      const oscHarmonic = audioCtx.createOscillator();
+      oscHarmonic.type = 'triangle';
+      oscHarmonic.frequency.setValueAtTime(272.2, audioCtx.currentTime);
+
+      // 4. Low-Pass Resonant Filter (breathing space sweep)
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(320, audioCtx.currentTime);
+      filter.Q.setValueAtTime(3.5, audioCtx.currentTime);
+
+      // 5. LFO for breathing wave modulation (0.12 Hz slow cosmic breathing)
+      const lfo = audioCtx.createOscillator();
+      const lfoGain = audioCtx.createGain();
+      lfo.frequency.setValueAtTime(0.12, audioCtx.currentTime);
+      lfoGain.gain.setValueAtTime(140, audioCtx.currentTime);
+      lfo.connect(filter.frequency);
+      lfo.start();
+
+      // Connect oscillators
+      const omSubGain = audioCtx.createGain();
+      omSubGain.gain.setValueAtTime(0.6, audioCtx.currentTime);
+      oscSub.connect(omSubGain);
+
+      const harmGain = audioCtx.createGain();
+      harmGain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      oscHarmonic.connect(harmGain);
+
+      oscOm.connect(filter);
+      omSubGain.connect(filter);
+      harmGain.connect(filter);
+      filter.connect(masterOmGain);
+
+      oscOm.start();
+      oscSub.start();
+      oscHarmonic.start();
+
+      omDrone = {
+        masterOmGain,
+        oscOm,
+        oscSub,
+        oscHarmonic,
+        filter,
+        lfo,
+        stop() {
+          try {
+            masterOmGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.0);
+            setTimeout(() => {
+              oscOm.stop();
+              oscSub.stop();
+              oscHarmonic.stop();
+              lfo.stop();
+              omDrone = null;
+            }, 1050);
+          } catch (e) {}
+        }
+      };
+    } catch (e) {
+      console.warn('Om drone synth error:', e);
+    }
+  }
+
+  function stopCosmicOmDrone() {
+    if (omDrone) {
+      omDrone.stop();
+      omDrone = null;
+    }
+  }
+
   function playScrubTone(pitch) {
     if (!isSoundEnabled || !audioCtx) return;
     try {
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(140 + pitch * 320, audioCtx.currentTime);
-      gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.1);
+      // Harmonic scale based on 136.1 Hz Om fundamental
+      const freq = 136.1 * (1 + pitch * 2.5);
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.025, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.18);
       osc.connect(gain);
       gain.connect(audioCtx.destination);
       osc.start();
-      osc.stop(audioCtx.currentTime + 0.1);
-    } catch (e) {
-      // Audio fallback silent
-    }
+      osc.stop(audioCtx.currentTime + 0.18);
+    } catch (e) {}
   }
 
   soundToggle.addEventListener('click', () => {
@@ -239,10 +393,12 @@
       soundIcon.className = 'fa-solid fa-volume-high';
       soundToggle.style.borderColor = 'var(--cyan)';
       soundToggle.style.color = 'var(--cyan)';
+      startCosmicOmDrone();
     } else {
       soundIcon.className = 'fa-solid fa-volume-xmark';
       soundToggle.style.borderColor = '';
       soundToggle.style.color = '';
+      stopCosmicOmDrone();
     }
   });
 
@@ -493,24 +649,52 @@
 
     const p = currentProgress;
 
-    // --- 1. RENDER 3D COSMIC GALAXY & SINGULARITY COLLAPSE (OPTION A) ---
-    // When p > 0.65 (Phase 4), stars gravitationally collapse and spiral into the crystalline core
+    // --- 1. RENDER VOLUMETRIC COSMIC NEBULA & GAS CLOUDS ---
+    nebulaClouds.forEach((cloud) => {
+      let currentTheta = cloud.baseTheta + time * cloud.orbitSpeed;
+      let curX = Math.cos(currentTheta) * Math.cos(cloud.basePhi) * cloud.baseRadius;
+      let curY = cloud.baseY + Math.sin(time * 0.4 + cloud.baseRadius) * 15;
+      let curZ = Math.sin(currentTheta) * Math.cos(cloud.basePhi) * cloud.baseRadius;
+
+      if (p > 0.65) {
+        const cFactor = Math.min(1, (p - 0.65) / 0.35);
+        curX *= (1 - cFactor * 0.7);
+        curY *= (1 - cFactor * 0.7);
+        curZ *= (1 - cFactor * 0.7);
+      }
+
+      const proj = project(curX, curY, curZ);
+      if (proj.scale <= 0) return;
+
+      const cloudRadius = cloud.size * proj.scale;
+      const gasGrad = ctx.createRadialGradient(
+        proj.x, proj.y, 0,
+        proj.x, proj.y, cloudRadius
+      );
+      gasGrad.addColorStop(0, cloud.colors.core);
+      gasGrad.addColorStop(0.55, cloud.colors.mid);
+      gasGrad.addColorStop(1, 'transparent');
+
+      ctx.fillStyle = gasGrad;
+      ctx.beginPath();
+      ctx.arc(proj.x, proj.y, cloudRadius, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    // --- 2. RENDER 3D COSMIC GALAXY (SPIRAL ARMS + STELLAR BULGE + COLLAPSE) ---
     const isCollapsing = p > 0.65;
     const collapseT = isCollapsing ? Math.min(1, (p - 0.65) / 0.35) : 0;
     const gravityPull = Math.pow(collapseT, 2.2);
 
     galaxyStars.forEach((star) => {
-      // Always apply slow orbital drift for living galaxy feel
       let currentTheta = star.baseTheta + time * star.orbitSpeed;
       let currentRadius = star.baseRadius;
 
-      // Compute current 3D position with orbital drift
       let curX = Math.cos(currentTheta) * Math.cos(star.basePhi) * currentRadius;
       let curY = star.baseY;
       let curZ = Math.sin(currentTheta) * Math.cos(star.basePhi) * currentRadius;
 
       if (isCollapsing) {
-        // Spiral inward toward center singularity (0, 0, 0)
         currentRadius = star.baseRadius * (1 - gravityPull * 0.88);
         currentTheta += gravityPull * 10.0;
 
@@ -522,30 +706,29 @@
       const proj = project(curX, curY, curZ);
       if (proj.scale <= 0) return;
 
-      // Bright twinkle with high baseline visibility
-      const twinkle = (Math.sin(time * star.twinkleSpeed + star.twinkleOffset) * 0.2 + 0.8) * star.baseAlpha;
+      const twinkle = (Math.sin(time * star.twinkleSpeed + star.twinkleOffset) * 0.22 + 0.78) * star.baseAlpha;
       const finalAlpha = Math.min(1, twinkle + gravityPull * 0.3);
       const starRadius = Math.max(1.0, star.size * proj.scale * (1 + gravityPull * 0.6));
 
-      // Outer soft glow aura (always visible)
+      // Soft glow aura
       ctx.fillStyle = star.glow;
-      ctx.globalAlpha = finalAlpha * 0.35;
+      ctx.globalAlpha = finalAlpha * 0.4;
       ctx.beginPath();
-      ctx.arc(proj.x, proj.y, starRadius * 3.5, 0, Math.PI * 2);
+      ctx.arc(proj.x, proj.y, starRadius * 3.6, 0, Math.PI * 2);
       ctx.fill();
 
-      // Star Core (bright, solid)
+      // Brilliant Star Core
       ctx.fillStyle = star.color;
       ctx.globalAlpha = finalAlpha;
       ctx.beginPath();
       ctx.arc(proj.x, proj.y, starRadius, 0, Math.PI * 2);
       ctx.fill();
 
-      // 4-point sparkle cross flare on select stars
-      if (star.hasFlare && starRadius > 1.2) {
+      // 4-point sparkle cross flare
+      if (star.hasFlare && starRadius > 1.1) {
         const flareLen = starRadius * 4.5;
         ctx.strokeStyle = star.color;
-        ctx.globalAlpha = finalAlpha * 0.55;
+        ctx.globalAlpha = finalAlpha * 0.6;
         ctx.lineWidth = 0.8;
         ctx.beginPath();
         ctx.moveTo(proj.x - flareLen, proj.y);
@@ -558,29 +741,63 @@
 
     ctx.globalAlpha = 1.0;
 
-    // Compute node coordinates based on frame progress
-    // Stage 1 (0 -> 0.25): Interpolate from scatter to base
-    // Stage 2 (0.25 -> 0.5): Structured layered matrix
-    // Stage 3 (0.5 -> 0.75): Backprop wave activations
-    // Stage 4 (0.75 -> 1.0): Converge into crystal core
+    // --- 3. CENTRAL HOLOGRAPHIC LATENT ATTENTION CORE (AI ENGINE) ---
+    const centerProj = project(0, 0, 0);
+    if (centerProj.scale > 0) {
+      const corePulse = (Math.sin(time * 2.5) + 1) * 0.5;
+      const coreRadius = (16 + corePulse * 6 + (p > 0.65 ? (p - 0.65) * 55 : 0)) * centerProj.scale;
+      
+      // Central Ambient Glow Sphere
+      const coreGrad = ctx.createRadialGradient(
+        centerProj.x, centerProj.y, 0,
+        centerProj.x, centerProj.y, coreRadius * 3.5
+      );
+      coreGrad.addColorStop(0, 'rgba(255, 255, 255, 0.85)');
+      coreGrad.addColorStop(0.25, p > 0.5 ? 'rgba(244, 63, 94, 0.65)' : 'rgba(56, 189, 248, 0.65)');
+      coreGrad.addColorStop(0.65, 'rgba(168, 85, 247, 0.25)');
+      coreGrad.addColorStop(1, 'transparent');
 
+      ctx.fillStyle = coreGrad;
+      ctx.beginPath();
+      ctx.arc(centerProj.x, centerProj.y, coreRadius * 3.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Quantum Orbital Rings
+      ctx.save();
+      ctx.translate(centerProj.x, centerProj.y);
+      ctx.rotate(time * 0.8);
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
+      ctx.lineWidth = 1.2 * centerProj.scale;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, coreRadius * 2.4, coreRadius * 0.8, Math.PI / 3, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.rotate(time * -0.5);
+      ctx.strokeStyle = 'rgba(217, 70, 239, 0.4)';
+      ctx.beginPath();
+      ctx.ellipse(0, 0, coreRadius * 2.8, coreRadius * 0.9, -Math.PI / 4, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // --- 4. COMPUTE NODE 3D COORDINATES & INTERACTIVE MAGNETIC PHYSICS ---
     const projectedNodes = nodes.map((node) => {
       let curX, curY, curZ;
 
       if (p < 0.35) {
-        // Scatter -> Layered
+        // Scatter -> Organic Curved Cortex
         const factor = Math.min(1, p / 0.35);
         curX = node.scatterX + (node.baseX - node.scatterX) * factor;
         curY = node.scatterY + (node.baseY - node.scatterY) * factor;
         curZ = node.scatterZ + (node.baseZ - node.scatterZ) * factor;
       } else if (p < 0.75) {
-        // Layered matrix with activation wobble
-        const wobble = Math.sin(time * 3 + node.pulseOffset) * 12;
+        // Curved cortex with synaptic activation resonance
+        const wobble = Math.sin(time * 3 + node.pulseOffset) * 10;
         curX = node.baseX + wobble;
-        curY = node.baseY;
+        curY = node.baseY + Math.cos(time * 2.5 + node.pulseOffset) * 6;
         curZ = node.baseZ;
       } else {
-        // Converge to crystalline core
+        // Converge into Singular Crystalline Intelligence Core
         const factor = (p - 0.75) / 0.25;
         curX = node.baseX + (node.coreX - node.baseX) * factor;
         curY = node.baseY + (node.coreY - node.baseY) * factor;
@@ -589,92 +806,119 @@
 
       const proj = project(curX, curY, curZ);
 
-      // Magnetic cursor attraction & interactive physics
+      // Interactive Cursor Magnetic Excitation
       if (mouseCanvasX !== null && mouseCanvasY !== null && proj.scale > 0) {
         const dx = mouseCanvasX - proj.x;
         const dy = mouseCanvasY - proj.y;
         const dist = Math.hypot(dx, dy);
-        if (dist < 180 && dist > 1) {
-          const pull = (1 - dist / 180) * 32 * proj.scale;
+        if (dist < 200 && dist > 1) {
+          const pull = (1 - dist / 200) * 36 * proj.scale;
           proj.x += (dx / dist) * pull;
           proj.y += (dy / dist) * pull;
+          node.flash = Math.min(1.0, node.flash + (1 - dist / 200) * 0.25);
         }
       }
 
-      return { proj, node };
+      // Decay action potential flash smoothly
+      node.flash *= 0.93;
+
+      return { proj, node, z: proj.z };
     });
 
-    // Draw Connections (Synapses)
-    ctx.lineWidth = 1;
+    // Sort nodes back-to-front for realistic Depth of Field
+    projectedNodes.sort((a, b) => b.z - a.z);
+
+    // --- 5. RENDER CURVED BEZIER SYNAPSES & ACTION POTENTIAL PULSES ---
     connections.forEach((conn) => {
       const srcNode = projectedNodes.find(n => n.node === conn.src);
       const tgtNode = projectedNodes.find(n => n.node === conn.tgt);
 
       if (srcNode && tgtNode && srcNode.proj.scale > 0 && tgtNode.proj.scale > 0) {
-        // Dynamic opacity based on backprop pulse
         const pulse = (Math.sin(time * conn.pulseSpeed + conn.weight * 10) + 1) * 0.5;
-        const alpha = Math.min(0.7, (0.08 + pulse * 0.35) * Math.min(1, p * 1.5));
+        const alpha = Math.min(0.75, (0.10 + pulse * 0.35 + (srcNode.node.flash + tgtNode.node.flash) * 0.3) * Math.min(1, p * 1.5));
 
-        ctx.strokeStyle = p > 0.5 && p < 0.8 ? `rgba(244, 63, 94, ${alpha * 1.2})` : `rgba(99, 102, 241, ${alpha})`;
+        // Bezier control point with dynamic organic curvature
+        const avgScale = (srcNode.proj.scale + tgtNode.proj.scale) * 0.5;
+        const ctrlX = (srcNode.proj.x + tgtNode.proj.x) * 0.5 + conn.curveBend * avgScale;
+        const ctrlY = (srcNode.proj.y + tgtNode.proj.y) * 0.5 - Math.abs(conn.curveBend) * 0.5 * avgScale;
+
+        ctx.strokeStyle = p > 0.5 && p < 0.8 ? `rgba(244, 63, 94, ${alpha * 1.2})` : `rgba(129, 140, 248, ${alpha})`;
+        ctx.lineWidth = Math.max(0.6, (0.8 + conn.weight * 1.4) * avgScale);
         ctx.beginPath();
         ctx.moveTo(srcNode.proj.x, srcNode.proj.y);
-        ctx.lineTo(tgtNode.proj.x, tgtNode.proj.y);
+        ctx.quadraticCurveTo(ctrlX, ctrlY, tgtNode.proj.x, tgtNode.proj.y);
         ctx.stroke();
 
-        // Draw animated energy signal packet moving along wire
-        if (p > 0.2) {
-          const packetT = (time * conn.pulseSpeed * 0.4) % 1;
-          const px = srcNode.proj.x + (tgtNode.proj.x - srcNode.proj.x) * packetT;
-          const py = srcNode.proj.y + (tgtNode.proj.y - srcNode.proj.y) * packetT;
+        // Animated Synaptic Signal Packet along Bezier Curve
+        if (p > 0.18) {
+          conn.packetT = (conn.packetT + 0.016 * conn.pulseSpeed * 0.6) % 1;
+          const t = conn.packetT;
 
-          ctx.fillStyle = p > 0.5 ? '#f43f5e' : '#38bdf8';
+          // Quadratic Bezier Formula: B(t) = (1-t)^2 * P0 + 2(1-t)t * P1 + t^2 * P2
+          const px = Math.pow(1 - t, 2) * srcNode.proj.x + 2 * (1 - t) * t * ctrlX + Math.pow(t, 2) * tgtNode.proj.x;
+          const py = Math.pow(1 - t, 2) * srcNode.proj.y + 2 * (1 - t) * t * ctrlY + Math.pow(t, 2) * tgtNode.proj.y;
+
+          // When signal reaches destination neuron, fire bioluminescent action potential!
+          if (t > 0.94) {
+            tgtNode.node.flash = Math.min(1.0, tgtNode.node.flash + 0.55);
+          }
+
+          // Glowing Signal Packet
+          const packetRadius = Math.max(1.8, 3.2 * avgScale);
+          ctx.fillStyle = p > 0.5 ? '#fb7185' : '#38bdf8';
           ctx.beginPath();
-          ctx.arc(px, py, 2.5 * srcNode.proj.scale, 0, Math.PI * 2);
+          ctx.arc(px, py, packetRadius, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Packet Halo
+          ctx.fillStyle = p > 0.5 ? 'rgba(251, 113, 133, 0.4)' : 'rgba(56, 189, 248, 0.4)';
+          ctx.beginPath();
+          ctx.arc(px, py, packetRadius * 2.2, 0, Math.PI * 2);
           ctx.fill();
         }
       }
     });
 
-    // Draw Nodes (Neurons)
+    // --- 6. RENDER ARTIFICIAL NEURONS (BIOLUMINESCENT FLASH & DEPTH OF FIELD) ---
     projectedNodes.forEach(({ proj, node }) => {
       if (proj.scale <= 0) return;
 
-      const baseRadius = (3.5 + Math.sin(time * 2 + node.pulseOffset) * 1.5) * proj.scale;
-      const nodeRadius = Math.max(1.5, baseRadius);
+      const flashBoost = node.flash || 0;
+      const baseRadius = (3.6 + Math.sin(time * 2.5 + node.pulseOffset) * 1.2 + flashBoost * 2.5) * proj.scale;
+      const nodeRadius = Math.max(1.6, baseRadius);
 
-      // Node Glow
-      const grad = ctx.createRadialGradient(proj.x, proj.y, 0, proj.x, proj.y, nodeRadius * 4);
-      grad.addColorStop(0, node.color);
-      grad.addColorStop(0.4, 'rgba(99, 102, 241, 0.3)');
+      // Outer Bioluminescent Action Potential Glow
+      const glowMultiplier = 3.5 + flashBoost * 4.0;
+      const grad = ctx.createRadialGradient(proj.x, proj.y, 0, proj.x, proj.y, nodeRadius * glowMultiplier);
+      grad.addColorStop(0, flashBoost > 0.3 ? '#ffffff' : node.color);
+      grad.addColorStop(0.35, flashBoost > 0.3 ? 'rgba(255, 255, 255, 0.6)' : 'rgba(129, 140, 248, 0.45)');
       grad.addColorStop(1, 'transparent');
 
       ctx.fillStyle = grad;
       ctx.beginPath();
-      ctx.arc(proj.x, proj.y, nodeRadius * 4, 0, Math.PI * 2);
+      ctx.arc(proj.x, proj.y, nodeRadius * glowMultiplier, 0, Math.PI * 2);
       ctx.fill();
 
-      // Node Core
+      // Sharp Hot White Neuron Core
       ctx.fillStyle = '#ffffff';
       ctx.beginPath();
       ctx.arc(proj.x, proj.y, nodeRadius, 0, Math.PI * 2);
       ctx.fill();
     });
 
-    // In Stage 4 (Crystal Core / Gravitational Singularity): Event Horizon & Accretion Swirl
+    // --- 7. STAGE 4: GRAVITATIONAL SINGULARITY & ACCRETION DISK ---
     if (p > 0.68) {
       const ringAlpha = (p - 0.68) / 0.32;
-      const centerProj = project(0, 0, 0);
-
       if (centerProj.scale > 0) {
         // Event Horizon Singularity Glow
-        const haloRadius = Math.max(30, 180 * centerProj.scale * ringAlpha);
+        const haloRadius = Math.max(35, 210 * centerProj.scale * ringAlpha);
         const singGlow = ctx.createRadialGradient(
           centerProj.x, centerProj.y, 4,
           centerProj.x, centerProj.y, haloRadius
         );
-        singGlow.addColorStop(0, `rgba(6, 182, 212, ${ringAlpha * 0.55})`);
-        singGlow.addColorStop(0.3, `rgba(99, 102, 241, ${ringAlpha * 0.30})`);
-        singGlow.addColorStop(0.7, `rgba(168, 85, 247, ${ringAlpha * 0.15})`);
+        singGlow.addColorStop(0, `rgba(6, 182, 212, ${ringAlpha * 0.65})`);
+        singGlow.addColorStop(0.3, `rgba(99, 102, 241, ${ringAlpha * 0.40})`);
+        singGlow.addColorStop(0.7, `rgba(168, 85, 247, ${ringAlpha * 0.20})`);
         singGlow.addColorStop(1, 'transparent');
 
         ctx.fillStyle = singGlow;
@@ -687,20 +931,20 @@
         ctx.translate(centerProj.x, centerProj.y);
         ctx.rotate(time * 0.65 + rotY * 0.5);
 
-        ctx.strokeStyle = `rgba(6, 182, 212, ${ringAlpha * 0.55})`;
-        ctx.lineWidth = 2 * centerProj.scale;
+        ctx.strokeStyle = `rgba(6, 182, 212, ${ringAlpha * 0.65})`;
+        ctx.lineWidth = 2.5 * centerProj.scale;
         ctx.beginPath();
-        ctx.ellipse(0, 0, 240 * centerProj.scale, 85 * centerProj.scale, Math.PI / 4, 0, Math.PI * 2);
+        ctx.ellipse(0, 0, 250 * centerProj.scale, 85 * centerProj.scale, Math.PI / 4, 0, Math.PI * 2);
         ctx.stroke();
 
-        ctx.strokeStyle = `rgba(168, 85, 247, ${ringAlpha * 0.45})`;
+        ctx.strokeStyle = `rgba(168, 85, 247, ${ringAlpha * 0.55})`;
         ctx.beginPath();
-        ctx.ellipse(0, 0, 280 * centerProj.scale, 100 * centerProj.scale, -Math.PI / 4, 0, Math.PI * 2);
+        ctx.ellipse(0, 0, 290 * centerProj.scale, 100 * centerProj.scale, -Math.PI / 4, 0, Math.PI * 2);
         ctx.stroke();
 
-        ctx.strokeStyle = `rgba(251, 191, 36, ${ringAlpha * 0.35})`;
+        ctx.strokeStyle = `rgba(251, 191, 36, ${ringAlpha * 0.45})`;
         ctx.beginPath();
-        ctx.ellipse(0, 0, 320 * centerProj.scale, 115 * centerProj.scale, 0, 0, Math.PI * 2);
+        ctx.ellipse(0, 0, 330 * centerProj.scale, 115 * centerProj.scale, 0, 0, Math.PI * 2);
         ctx.stroke();
 
         ctx.restore();
