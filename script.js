@@ -141,37 +141,47 @@
   buildSynapses(l3, l4, 0.35);
 
   // --- 3D Cosmic Galaxy & Singularity Starfield System (Option A) ---
-  const NUM_GALAXY_STARS = 280;
+  const NUM_GALAXY_STARS = 320;
   const galaxyStars = [];
 
   for (let i = 0; i < NUM_GALAXY_STARS; i++) {
-    const isHalo = Math.random() < 0.28;
+    const isHalo = Math.random() < 0.35;
     let radius, theta, phi;
 
     if (isHalo) {
       // Outer spherical stellar halo for deep 3D perspective
-      radius = 450 + Math.random() * 950;
+      radius = 280 + Math.random() * 850;
       theta = Math.random() * Math.PI * 2;
       phi = (Math.random() - 0.5) * Math.PI;
     } else {
-      // Galactic disc with logarithmic spiral arms
-      radius = 180 + Math.pow(Math.random(), 1.4) * 850;
+      // Galactic spiral arms
+      radius = 100 + Math.pow(Math.random(), 1.2) * 750;
       const armOffset = (i % 3) * ((Math.PI * 2) / 3);
       theta = armOffset + (radius * 0.0035) + (Math.random() - 0.5) * 0.45;
-      phi = (Math.random() - 0.5) * 0.25; // planar disc
+      phi = (Math.random() - 0.5) * 0.35; // disc plane
     }
 
     const x = Math.cos(theta) * Math.cos(phi) * radius;
     const y = Math.sin(phi) * radius;
     const z = Math.sin(theta) * Math.cos(phi) * radius;
 
-    // Cosmic color palette: stellar cyan, deep violet, amber gold, diamond white
+    // Vibrant cosmic colors: Electric Cyan, Neon Magenta/Purple, Starlight Gold, Pure Diamond
     const colorRoll = Math.random();
     let color = '#ffffff';
-    if (colorRoll < 0.38) color = '#38bdf8'; // cyan
-    else if (colorRoll < 0.68) color = '#c084fc'; // purple/violet
-    else if (colorRoll < 0.82) color = '#fbbf24'; // gold
-    else color = '#ffffff';
+    let glow = 'rgba(255, 255, 255, 0.6)';
+    if (colorRoll < 0.35) {
+      color = '#00f0ff'; // Electric Cyan
+      glow = 'rgba(0, 240, 255, 0.7)';
+    } else if (colorRoll < 0.65) {
+      color = '#d946ef'; // Radiant Magenta
+      glow = 'rgba(217, 70, 239, 0.7)';
+    } else if (colorRoll < 0.82) {
+      color = '#fbbf24'; // Warm Gold
+      glow = 'rgba(251, 191, 36, 0.7)';
+    } else {
+      color = '#ffffff'; // Diamond White
+      glow = 'rgba(255, 255, 255, 0.8)';
+    }
 
     galaxyStars.push({
       baseRadius: radius,
@@ -180,12 +190,14 @@
       baseX: x,
       baseY: y,
       baseZ: z,
-      size: 0.75 + Math.random() * 1.8,
+      size: 1.6 + Math.random() * 2.4, // Clearly visible 1.6 - 4.0 px
       color,
-      twinkleSpeed: 1.0 + Math.random() * 2.8,
+      glow,
+      twinkleSpeed: 1.5 + Math.random() * 3.0,
       twinkleOffset: Math.random() * Math.PI * 2,
-      baseAlpha: 0.25 + Math.random() * 0.55,
-      orbitSpeed: 0.00025 + Math.random() * 0.0006
+      baseAlpha: 0.75 + Math.random() * 0.25, // High contrast bright stars
+      orbitSpeed: 0.00035 + Math.random() * 0.0007,
+      hasFlare: Math.random() < 0.20 // 20% stars have prominent 4-point sparkle cross
     });
   }
 
@@ -488,16 +500,18 @@
     const gravityPull = Math.pow(collapseT, 2.2);
 
     galaxyStars.forEach((star) => {
+      // Always apply slow orbital drift for living galaxy feel
       let currentTheta = star.baseTheta + time * star.orbitSpeed;
       let currentRadius = star.baseRadius;
-      let curX = star.baseX;
+
+      // Compute current 3D position with orbital drift
+      let curX = Math.cos(currentTheta) * Math.cos(star.basePhi) * currentRadius;
       let curY = star.baseY;
-      let curZ = star.baseZ;
+      let curZ = Math.sin(currentTheta) * Math.cos(star.basePhi) * currentRadius;
 
       if (isCollapsing) {
         // Spiral inward toward center singularity (0, 0, 0)
         currentRadius = star.baseRadius * (1 - gravityPull * 0.88);
-        // Angular velocity increases as radius contracts (conservation of angular momentum)
         currentTheta += gravityPull * 10.0;
 
         curX = Math.cos(currentTheta) * Math.cos(star.basePhi) * currentRadius;
@@ -508,25 +522,37 @@
       const proj = project(curX, curY, curZ);
       if (proj.scale <= 0) return;
 
-      // Realistic twinkle calculation with parallax depth
-      const twinkle = (Math.sin(time * star.twinkleSpeed + star.twinkleOffset) * 0.35 + 0.65) * star.baseAlpha;
-      const finalAlpha = Math.min(1, twinkle + gravityPull * 0.4);
-      const starRadius = Math.max(0.6, star.size * proj.scale * (1 + gravityPull * 0.6));
+      // Bright twinkle with high baseline visibility
+      const twinkle = (Math.sin(time * star.twinkleSpeed + star.twinkleOffset) * 0.2 + 0.8) * star.baseAlpha;
+      const finalAlpha = Math.min(1, twinkle + gravityPull * 0.3);
+      const starRadius = Math.max(1.0, star.size * proj.scale * (1 + gravityPull * 0.6));
 
-      // Draw Star Core
+      // Outer soft glow aura (always visible)
+      ctx.fillStyle = star.glow;
+      ctx.globalAlpha = finalAlpha * 0.35;
+      ctx.beginPath();
+      ctx.arc(proj.x, proj.y, starRadius * 3.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Star Core (bright, solid)
       ctx.fillStyle = star.color;
       ctx.globalAlpha = finalAlpha;
       ctx.beginPath();
       ctx.arc(proj.x, proj.y, starRadius, 0, Math.PI * 2);
       ctx.fill();
 
-      // Soft cosmic glow for larger stars or accelerating accretion particles
-      if (star.size > 1.3 || isCollapsing) {
-        ctx.fillStyle = star.color;
-        ctx.globalAlpha = finalAlpha * 0.25;
+      // 4-point sparkle cross flare on select stars
+      if (star.hasFlare && starRadius > 1.2) {
+        const flareLen = starRadius * 4.5;
+        ctx.strokeStyle = star.color;
+        ctx.globalAlpha = finalAlpha * 0.55;
+        ctx.lineWidth = 0.8;
         ctx.beginPath();
-        ctx.arc(proj.x, proj.y, starRadius * 2.8, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.moveTo(proj.x - flareLen, proj.y);
+        ctx.lineTo(proj.x + flareLen, proj.y);
+        ctx.moveTo(proj.x, proj.y - flareLen);
+        ctx.lineTo(proj.x, proj.y + flareLen);
+        ctx.stroke();
       }
     });
 
