@@ -71,10 +71,10 @@
       desc: 'AdamW optimizer calculates stochastic gradients across billions of parameters. Cross-entropy loss drops rapidly toward convergence.'
     },
     {
-      phase: '4 / 4 [INFERENCE CORE]',
-      tag: 'PHASE 04 // AUTONOMOUS INFERENCE',
-      title: 'Converged AI Intelligence Engine',
-      desc: 'The neural network reaches 99.4% benchmark accuracy. Ready for ultra-low latency real-time production inference and RAG pipelines.'
+      phase: '4 / 4 [SINGULARITY CORE]',
+      tag: 'PHASE 04 // GRAVITATIONAL CONVERGENCE',
+      title: 'Converged AI Singularity Engine',
+      desc: 'Gravitational collapse complete: billions of latent parameters and stellar tokens coalesce into a singular crystalline intelligence core, benchmarked at 99.4% accuracy.'
     }
   ];
 
@@ -139,6 +139,55 @@
   buildSynapses(l1, l2, 0.22);
   buildSynapses(l2, l3, 0.25);
   buildSynapses(l3, l4, 0.35);
+
+  // --- 3D Cosmic Galaxy & Singularity Starfield System (Option A) ---
+  const NUM_GALAXY_STARS = 280;
+  const galaxyStars = [];
+
+  for (let i = 0; i < NUM_GALAXY_STARS; i++) {
+    const isHalo = Math.random() < 0.28;
+    let radius, theta, phi;
+
+    if (isHalo) {
+      // Outer spherical stellar halo for deep 3D perspective
+      radius = 450 + Math.random() * 950;
+      theta = Math.random() * Math.PI * 2;
+      phi = (Math.random() - 0.5) * Math.PI;
+    } else {
+      // Galactic disc with logarithmic spiral arms
+      radius = 180 + Math.pow(Math.random(), 1.4) * 850;
+      const armOffset = (i % 3) * ((Math.PI * 2) / 3);
+      theta = armOffset + (radius * 0.0035) + (Math.random() - 0.5) * 0.45;
+      phi = (Math.random() - 0.5) * 0.25; // planar disc
+    }
+
+    const x = Math.cos(theta) * Math.cos(phi) * radius;
+    const y = Math.sin(phi) * radius;
+    const z = Math.sin(theta) * Math.cos(phi) * radius;
+
+    // Cosmic color palette: stellar cyan, deep violet, amber gold, diamond white
+    const colorRoll = Math.random();
+    let color = '#ffffff';
+    if (colorRoll < 0.38) color = '#38bdf8'; // cyan
+    else if (colorRoll < 0.68) color = '#c084fc'; // purple/violet
+    else if (colorRoll < 0.82) color = '#fbbf24'; // gold
+    else color = '#ffffff';
+
+    galaxyStars.push({
+      baseRadius: radius,
+      baseTheta: theta,
+      basePhi: phi,
+      baseX: x,
+      baseY: y,
+      baseZ: z,
+      size: 0.75 + Math.random() * 1.8,
+      color,
+      twinkleSpeed: 1.0 + Math.random() * 2.8,
+      twinkleOffset: Math.random() * Math.PI * 2,
+      baseAlpha: 0.25 + Math.random() * 0.55,
+      orbitSpeed: 0.00025 + Math.random() * 0.0006
+    });
+  }
 
   // --- Web Audio Synthesizer (Zero External Dependencies) ---
   let audioCtx = null;
@@ -430,12 +479,64 @@
     // Clear Canvas
     ctx.clearRect(0, 0, width, height);
 
+    const p = currentProgress;
+
+    // --- 1. RENDER 3D COSMIC GALAXY & SINGULARITY COLLAPSE (OPTION A) ---
+    // When p > 0.65 (Phase 4), stars gravitationally collapse and spiral into the crystalline core
+    const isCollapsing = p > 0.65;
+    const collapseT = isCollapsing ? Math.min(1, (p - 0.65) / 0.35) : 0;
+    const gravityPull = Math.pow(collapseT, 2.2);
+
+    galaxyStars.forEach((star) => {
+      let currentTheta = star.baseTheta + time * star.orbitSpeed;
+      let currentRadius = star.baseRadius;
+      let curX = star.baseX;
+      let curY = star.baseY;
+      let curZ = star.baseZ;
+
+      if (isCollapsing) {
+        // Spiral inward toward center singularity (0, 0, 0)
+        currentRadius = star.baseRadius * (1 - gravityPull * 0.88);
+        // Angular velocity increases as radius contracts (conservation of angular momentum)
+        currentTheta += gravityPull * 10.0;
+
+        curX = Math.cos(currentTheta) * Math.cos(star.basePhi) * currentRadius;
+        curY = Math.sin(star.basePhi) * currentRadius * (1 - gravityPull * 0.7);
+        curZ = Math.sin(currentTheta) * Math.cos(star.basePhi) * currentRadius;
+      }
+
+      const proj = project(curX, curY, curZ);
+      if (proj.scale <= 0) return;
+
+      // Realistic twinkle calculation with parallax depth
+      const twinkle = (Math.sin(time * star.twinkleSpeed + star.twinkleOffset) * 0.35 + 0.65) * star.baseAlpha;
+      const finalAlpha = Math.min(1, twinkle + gravityPull * 0.4);
+      const starRadius = Math.max(0.6, star.size * proj.scale * (1 + gravityPull * 0.6));
+
+      // Draw Star Core
+      ctx.fillStyle = star.color;
+      ctx.globalAlpha = finalAlpha;
+      ctx.beginPath();
+      ctx.arc(proj.x, proj.y, starRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Soft cosmic glow for larger stars or accelerating accretion particles
+      if (star.size > 1.3 || isCollapsing) {
+        ctx.fillStyle = star.color;
+        ctx.globalAlpha = finalAlpha * 0.25;
+        ctx.beginPath();
+        ctx.arc(proj.x, proj.y, starRadius * 2.8, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    });
+
+    ctx.globalAlpha = 1.0;
+
     // Compute node coordinates based on frame progress
     // Stage 1 (0 -> 0.25): Interpolate from scatter to base
     // Stage 2 (0.25 -> 0.5): Structured layered matrix
     // Stage 3 (0.5 -> 0.75): Backprop wave activations
     // Stage 4 (0.75 -> 1.0): Converge into crystal core
-    const p = currentProgress;
 
     const projectedNodes = nodes.map((node) => {
       let curX, curY, curZ;
@@ -533,24 +634,51 @@
       ctx.fill();
     });
 
-    // In Stage 4 (Crystal Core): Draw orbiting hyper-rings
-    if (p > 0.7) {
-      const ringAlpha = (p - 0.7) / 0.3;
-      ctx.strokeStyle = `rgba(6, 182, 212, ${ringAlpha * 0.4})`;
-      ctx.lineWidth = 2;
+    // In Stage 4 (Crystal Core / Gravitational Singularity): Event Horizon & Accretion Swirl
+    if (p > 0.68) {
+      const ringAlpha = (p - 0.68) / 0.32;
+      const centerProj = project(0, 0, 0);
 
-      ctx.save();
-      ctx.translate(width / 2, height / 2);
-      ctx.rotate(time * 0.5);
-      ctx.beginPath();
-      ctx.ellipse(0, 0, 240, 90, Math.PI / 4, 0, Math.PI * 2);
-      ctx.stroke();
+      if (centerProj.scale > 0) {
+        // Event Horizon Singularity Glow
+        const haloRadius = Math.max(30, 180 * centerProj.scale * ringAlpha);
+        const singGlow = ctx.createRadialGradient(
+          centerProj.x, centerProj.y, 4,
+          centerProj.x, centerProj.y, haloRadius
+        );
+        singGlow.addColorStop(0, `rgba(6, 182, 212, ${ringAlpha * 0.55})`);
+        singGlow.addColorStop(0.3, `rgba(99, 102, 241, ${ringAlpha * 0.30})`);
+        singGlow.addColorStop(0.7, `rgba(168, 85, 247, ${ringAlpha * 0.15})`);
+        singGlow.addColorStop(1, 'transparent');
 
-      ctx.strokeStyle = `rgba(168, 85, 247, ${ringAlpha * 0.4})`;
-      ctx.beginPath();
-      ctx.ellipse(0, 0, 270, 110, -Math.PI / 4, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.restore();
+        ctx.fillStyle = singGlow;
+        ctx.beginPath();
+        ctx.arc(centerProj.x, centerProj.y, haloRadius, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 3D Relativistic Accretion Swirl Rings
+        ctx.save();
+        ctx.translate(centerProj.x, centerProj.y);
+        ctx.rotate(time * 0.65 + rotY * 0.5);
+
+        ctx.strokeStyle = `rgba(6, 182, 212, ${ringAlpha * 0.55})`;
+        ctx.lineWidth = 2 * centerProj.scale;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, 240 * centerProj.scale, 85 * centerProj.scale, Math.PI / 4, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.strokeStyle = `rgba(168, 85, 247, ${ringAlpha * 0.45})`;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, 280 * centerProj.scale, 100 * centerProj.scale, -Math.PI / 4, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.strokeStyle = `rgba(251, 191, 36, ${ringAlpha * 0.35})`;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, 320 * centerProj.scale, 115 * centerProj.scale, 0, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.restore();
+      }
     }
 
     requestAnimationFrame(render);
