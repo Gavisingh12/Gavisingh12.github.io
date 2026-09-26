@@ -38,12 +38,20 @@
     height = canvas.height = window.innerHeight;
   });
 
+  // Prevent browser from restoring scroll to middle on refresh
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  window.scrollTo(0, 0);
+
   // --- Motion Frames Timeline State ---
   let targetProgress = 0.0;
   let currentProgress = 0.0;
   let autoPlay = false;
   let rotX = 0.15;
   let rotY = 0.0;
+  let targetRotX = 0.15;
+  let targetRotY = 0.0;
   let isDragging = false;
   let lastMouseX = 0;
   let lastMouseY = 0;
@@ -407,11 +415,13 @@
 
   // Direct mouse wheel scrubbing when hovering sticky canvas
   canvas.addEventListener('wheel', (e) => {
-    // allow natural page scroll while fine-scrubbing progress
-    if (Math.abs(e.deltaY) > 5) {
-      playScrubTone(currentProgress);
-    }
-  }, { passive: true });
+    e.preventDefault();
+    autoPlay = false;
+    const delta = (e.deltaY > 0 ? 1 : -1) * 0.04;
+    targetProgress = Math.max(0, Math.min(1, targetProgress + delta));
+    syncPageScroll();
+    playScrubTone(targetProgress);
+  }, { passive: false });
 
   // --- Cyberpunk Matrix Rain Stream ---
   const matrixCanvas = document.getElementById('matrixCanvas');
@@ -557,10 +567,16 @@
     if (isDragging) {
       const deltaX = e.clientX - lastMouseX;
       const deltaY = e.clientY - lastMouseY;
-      rotY += deltaX * 0.005;
-      rotX += deltaY * 0.005;
+      targetRotY += deltaX * 0.006;
+      targetRotX += deltaY * 0.006;
       lastMouseX = e.clientX;
       lastMouseY = e.clientY;
+    } else {
+      // Direct, buttery-smooth 3D parallax tilt following cursor
+      const normX = (e.clientX / window.innerWidth - 0.5) * 2;
+      const normY = (e.clientY / window.innerHeight - 0.5) * 2;
+      targetRotY = normX * 0.65;
+      targetRotX = -normY * 0.35 + 0.15;
     }
   });
 
@@ -628,10 +644,9 @@
     annotTitle.textContent = stage.title;
     annotDesc.textContent = stage.desc;
 
-    // Gentle camera auto-sway
-    if (!isDragging) {
-      rotY += 0.0015;
-    }
+    // Smooth responsive camera rotation tracking cursor
+    rotY += (targetRotY - rotY) * 0.08;
+    rotX += (targetRotX - rotX) * 0.08;
 
     // Clear Canvas
     ctx.clearRect(0, 0, width, height);
