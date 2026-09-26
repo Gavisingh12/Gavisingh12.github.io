@@ -190,58 +190,47 @@
     });
   }
 
-  // 2. Generate Logarithmic Spiral Stars & Core Bulge
+  // 2. Generate Logarithmic Spiral Stars & Ambient Galaxy
   for (let i = 0; i < NUM_GALAXY_STARS; i++) {
-    const isCoreBulge = Math.random() < 0.28; // 28% dense warm galactic core
-    const isHalo = !isCoreBulge && Math.random() < 0.18; // 18% outer stellar halo
+    const isHalo = Math.random() < 0.25;
     let radius, theta, phi, color, glow, baseAlpha, size, hasFlare;
 
-    if (isCoreBulge) {
-      // Dense Golden/White Galactic Core
-      radius = Math.pow(Math.random(), 1.6) * 160;
-      theta = Math.random() * Math.PI * 2;
-      phi = (Math.random() - 0.5) * 0.6;
-      color = Math.random() < 0.6 ? '#fef08a' : '#ffffff';
-      glow = 'rgba(253, 224, 71, 0.75)';
-      baseAlpha = 0.85 + Math.random() * 0.15;
-      size = 1.8 + Math.random() * 2.6;
-      hasFlare = Math.random() < 0.35;
-    } else if (isHalo) {
+    if (isHalo) {
       // Outer spherical 3D Halo
-      radius = 280 + Math.random() * 850;
+      radius = 320 + Math.random() * 850;
       theta = Math.random() * Math.PI * 2;
       phi = (Math.random() - 0.5) * Math.PI;
       color = '#ffffff';
-      glow = 'rgba(255, 255, 255, 0.5)';
-      baseAlpha = 0.65 + Math.random() * 0.35;
-      size = 1.4 + Math.random() * 1.8;
-      hasFlare = Math.random() < 0.15;
+      glow = 'rgba(255, 255, 255, 0.35)';
+      baseAlpha = 0.5 + Math.random() * 0.4;
+      size = 1.0 + Math.random() * 1.4;
+      hasFlare = Math.random() < 0.10;
     } else {
-      // 4-Arm Logarithmic Spiral Density
+      // 4-Arm Logarithmic Spiral Density (Orbiting around the neural cortex)
       const armIdx = i % 4;
       const armOffset = armIdx * (Math.PI / 2);
-      radius = 90 + Math.pow(Math.random(), 1.1) * 720;
-      theta = armOffset + (radius * 0.004) + (Math.random() - 0.5) * 0.38;
-      phi = (Math.random() - 0.5) * 0.24;
+      radius = 180 + Math.pow(Math.random(), 1.2) * 780;
+      theta = armOffset + (radius * 0.0035) + (Math.random() - 0.5) * 0.35;
+      phi = (Math.random() - 0.5) * 0.28;
 
       const roll = Math.random();
       if (roll < 0.45) {
-        color = '#00f0ff'; // Hot young blue/cyan stars
-        glow = 'rgba(0, 240, 255, 0.75)';
-      } else if (roll < 0.78) {
-        color = '#f472b6'; // Star-forming pink/magenta
-        glow = 'rgba(244, 114, 182, 0.75)';
+        color = '#00f0ff'; // Hot young cyan stars
+        glow = 'rgba(0, 240, 255, 0.45)';
+      } else if (roll < 0.75) {
+        color = '#f472b6'; // Neon pink/magenta
+        glow = 'rgba(244, 114, 182, 0.45)';
       } else if (roll < 0.90) {
-        color = '#fbbf24'; // Amber stars
-        glow = 'rgba(251, 191, 36, 0.75)';
+        color = '#fbbf24'; // Warm gold
+        glow = 'rgba(251, 191, 36, 0.45)';
       } else {
-        color = '#ffffff'; // Brilliant diamond
-        glow = 'rgba(255, 255, 255, 0.85)';
+        color = '#ffffff'; // Diamond white
+        glow = 'rgba(255, 255, 255, 0.5)';
       }
 
-      baseAlpha = 0.8 + Math.random() * 0.2;
-      size = 1.6 + Math.random() * 2.8;
-      hasFlare = Math.random() < 0.25;
+      baseAlpha = 0.65 + Math.random() * 0.35;
+      size = 1.2 + Math.random() * 1.8;
+      hasFlare = Math.random() < 0.15;
     }
 
     const x = Math.cos(theta) * Math.cos(phi) * radius;
@@ -741,43 +730,21 @@
 
     ctx.globalAlpha = 1.0;
 
-    // --- 3. CENTRAL HOLOGRAPHIC LATENT ATTENTION CORE (AI ENGINE) ---
-    const centerProj = project(0, 0, 0);
-    if (centerProj.scale > 0) {
-      const corePulse = (Math.sin(time * 2.5) + 1) * 0.5;
-      const coreRadius = (16 + corePulse * 6 + (p > 0.65 ? (p - 0.65) * 55 : 0)) * centerProj.scale;
-      
-      // Central Ambient Glow Sphere
-      const coreGrad = ctx.createRadialGradient(
-        centerProj.x, centerProj.y, 0,
-        centerProj.x, centerProj.y, coreRadius * 3.5
-      );
-      coreGrad.addColorStop(0, 'rgba(255, 255, 255, 0.85)');
-      coreGrad.addColorStop(0.25, p > 0.5 ? 'rgba(244, 63, 94, 0.65)' : 'rgba(56, 189, 248, 0.65)');
-      coreGrad.addColorStop(0.65, 'rgba(168, 85, 247, 0.25)');
-      coreGrad.addColorStop(1, 'transparent');
-
-      ctx.fillStyle = coreGrad;
-      ctx.beginPath();
-      ctx.arc(centerProj.x, centerProj.y, coreRadius * 3.5, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Quantum Orbital Rings
-      ctx.save();
-      ctx.translate(centerProj.x, centerProj.y);
-      ctx.rotate(time * 0.8);
-      ctx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
-      ctx.lineWidth = 1.2 * centerProj.scale;
-      ctx.beginPath();
-      ctx.ellipse(0, 0, coreRadius * 2.4, coreRadius * 0.8, Math.PI / 3, 0, Math.PI * 2);
-      ctx.stroke();
-
-      ctx.rotate(time * -0.5);
-      ctx.strokeStyle = 'rgba(217, 70, 239, 0.4)';
-      ctx.beginPath();
-      ctx.ellipse(0, 0, coreRadius * 2.8, coreRadius * 0.9, -Math.PI / 4, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.restore();
+    // --- 3. CENTRAL HOLOGRAPHIC LATENT ATTENTION CORE (ONLY IN STAGE 4 CONVERGENCE) ---
+    if (p > 0.68) {
+      const centerProj = project(0, 0, 0);
+      if (centerProj.scale > 0) {
+        const ringAlpha = (p - 0.68) / 0.32;
+        ctx.save();
+        ctx.translate(centerProj.x, centerProj.y);
+        ctx.rotate(time * 0.8);
+        ctx.strokeStyle = `rgba(56, 189, 248, ${ringAlpha * 0.45})`;
+        ctx.lineWidth = 1.2 * centerProj.scale;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, 50 * centerProj.scale, 20 * centerProj.scale, Math.PI / 3, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+      }
     }
 
     // --- 4. COMPUTE NODE 3D COORDINATES & INTERACTIVE MAGNETIC PHYSICS ---
@@ -811,16 +778,12 @@
         const dx = mouseCanvasX - proj.x;
         const dy = mouseCanvasY - proj.y;
         const dist = Math.hypot(dx, dy);
-        if (dist < 200 && dist > 1) {
-          const pull = (1 - dist / 200) * 36 * proj.scale;
+        if (dist < 180 && dist > 1) {
+          const pull = (1 - dist / 180) * 32 * proj.scale;
           proj.x += (dx / dist) * pull;
           proj.y += (dy / dist) * pull;
-          node.flash = Math.min(1.0, node.flash + (1 - dist / 200) * 0.25);
         }
       }
-
-      // Decay action potential flash smoothly
-      node.flash *= 0.93;
 
       return { proj, node, z: proj.z };
     });
@@ -828,14 +791,14 @@
     // Sort nodes back-to-front for realistic Depth of Field
     projectedNodes.sort((a, b) => b.z - a.z);
 
-    // --- 5. RENDER CURVED BEZIER SYNAPSES & ACTION POTENTIAL PULSES ---
+    // --- 5. RENDER CURVED BEZIER SYNAPSES & SIGNAL PACKETS ---
     connections.forEach((conn) => {
       const srcNode = projectedNodes.find(n => n.node === conn.src);
       const tgtNode = projectedNodes.find(n => n.node === conn.tgt);
 
       if (srcNode && tgtNode && srcNode.proj.scale > 0 && tgtNode.proj.scale > 0) {
         const pulse = (Math.sin(time * conn.pulseSpeed + conn.weight * 10) + 1) * 0.5;
-        const alpha = Math.min(0.75, (0.10 + pulse * 0.35 + (srcNode.node.flash + tgtNode.node.flash) * 0.3) * Math.min(1, p * 1.5));
+        const alpha = Math.min(0.75, (0.10 + pulse * 0.35) * Math.min(1, p * 1.5));
 
         // Bezier control point with dynamic organic curvature
         const avgScale = (srcNode.proj.scale + tgtNode.proj.scale) * 0.5;
@@ -858,48 +821,35 @@
           const px = Math.pow(1 - t, 2) * srcNode.proj.x + 2 * (1 - t) * t * ctrlX + Math.pow(t, 2) * tgtNode.proj.x;
           const py = Math.pow(1 - t, 2) * srcNode.proj.y + 2 * (1 - t) * t * ctrlY + Math.pow(t, 2) * tgtNode.proj.y;
 
-          // When signal reaches destination neuron, fire bioluminescent action potential!
-          if (t > 0.94) {
-            tgtNode.node.flash = Math.min(1.0, tgtNode.node.flash + 0.55);
-          }
-
           // Glowing Signal Packet
-          const packetRadius = Math.max(1.8, 3.2 * avgScale);
+          const packetRadius = Math.max(1.8, 3.0 * avgScale);
           ctx.fillStyle = p > 0.5 ? '#fb7185' : '#38bdf8';
           ctx.beginPath();
           ctx.arc(px, py, packetRadius, 0, Math.PI * 2);
-          ctx.fill();
-
-          // Packet Halo
-          ctx.fillStyle = p > 0.5 ? 'rgba(251, 113, 133, 0.4)' : 'rgba(56, 189, 248, 0.4)';
-          ctx.beginPath();
-          ctx.arc(px, py, packetRadius * 2.2, 0, Math.PI * 2);
           ctx.fill();
         }
       }
     });
 
-    // --- 6. RENDER ARTIFICIAL NEURONS (BIOLUMINESCENT FLASH & DEPTH OF FIELD) ---
+    // --- 6. RENDER ARTIFICIAL NEURONS (CLEAN CRISP NEON GLOW) ---
     projectedNodes.forEach(({ proj, node }) => {
       if (proj.scale <= 0) return;
 
-      const flashBoost = node.flash || 0;
-      const baseRadius = (3.6 + Math.sin(time * 2.5 + node.pulseOffset) * 1.2 + flashBoost * 2.5) * proj.scale;
-      const nodeRadius = Math.max(1.6, baseRadius);
+      const baseRadius = (3.5 + Math.sin(time * 2 + node.pulseOffset) * 1.4) * proj.scale;
+      const nodeRadius = Math.max(1.5, baseRadius);
 
-      // Outer Bioluminescent Action Potential Glow
-      const glowMultiplier = 3.5 + flashBoost * 4.0;
-      const grad = ctx.createRadialGradient(proj.x, proj.y, 0, proj.x, proj.y, nodeRadius * glowMultiplier);
-      grad.addColorStop(0, flashBoost > 0.3 ? '#ffffff' : node.color);
-      grad.addColorStop(0.35, flashBoost > 0.3 ? 'rgba(255, 255, 255, 0.6)' : 'rgba(129, 140, 248, 0.45)');
+      // Clean Colored Neon Glow (Crisp, No White Mist)
+      const grad = ctx.createRadialGradient(proj.x, proj.y, 0, proj.x, proj.y, nodeRadius * 3.5);
+      grad.addColorStop(0, node.color);
+      grad.addColorStop(0.4, 'rgba(99, 102, 241, 0.25)');
       grad.addColorStop(1, 'transparent');
 
       ctx.fillStyle = grad;
       ctx.beginPath();
-      ctx.arc(proj.x, proj.y, nodeRadius * glowMultiplier, 0, Math.PI * 2);
+      ctx.arc(proj.x, proj.y, nodeRadius * 3.5, 0, Math.PI * 2);
       ctx.fill();
 
-      // Sharp Hot White Neuron Core
+      // Sharp Crisp White Neuron Core
       ctx.fillStyle = '#ffffff';
       ctx.beginPath();
       ctx.arc(proj.x, proj.y, nodeRadius, 0, Math.PI * 2);
