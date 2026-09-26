@@ -747,28 +747,45 @@
       }
     }
 
-    // --- 4. COMPUTE NODE 3D COORDINATES & INTERACTIVE MAGNETIC PHYSICS ---
+    // --- 4. COMPUTE NODE 3D COORDINATES & DYNAMIC 4-STAGE TRANSFORMATION ---
     const projectedNodes = nodes.map((node) => {
       let curX, curY, curZ;
 
-      if (p < 0.35) {
-        // Scatter -> Organic Curved Cortex
-        const factor = Math.min(1, p / 0.35);
-        curX = node.scatterX + (node.baseX - node.scatterX) * factor;
-        curY = node.scatterY + (node.baseY - node.scatterY) * factor;
-        curZ = node.scatterZ + (node.baseZ - node.scatterZ) * factor;
+      if (p < 0.25) {
+        // Stage 1 (0 -> 0.25): Ingestion (Scatter Pointcloud -> Structured Curved Cortex)
+        const t = p / 0.25;
+        const ease = t * t * (3 - 2 * t); // Smooth Hermite interpolation
+        curX = node.scatterX + (node.baseX - node.scatterX) * ease;
+        curY = node.scatterY + (node.baseY - node.scatterY) * ease;
+        curZ = node.scatterZ + (node.baseZ - node.scatterZ) * ease;
+      } else if (p < 0.50) {
+        // Stage 2 (0.25 -> 0.50): Attention Matrix Projection (Expand & Multi-Head 3D Layer Separation)
+        const t = (p - 0.25) / 0.25;
+        const expandX = 1 + Math.sin(t * Math.PI) * 0.22;
+        const expandY = 1 + Math.sin(t * Math.PI) * 0.16;
+        const wobble = Math.sin(time * 3 + node.pulseOffset) * (6 + t * 6);
+        curX = node.baseX * expandX + wobble;
+        curY = node.baseY * expandY + Math.cos(time * 2.5 + node.pulseOffset) * 4;
+        curZ = node.baseZ + Math.sin(t * Math.PI) * 40;
       } else if (p < 0.75) {
-        // Curved cortex with synaptic activation resonance
-        const wobble = Math.sin(time * 3 + node.pulseOffset) * 10;
-        curX = node.baseX + wobble;
-        curY = node.baseY + Math.cos(time * 2.5 + node.pulseOffset) * 6;
-        curZ = node.baseZ;
+        // Stage 3 (0.50 -> 0.75): Backpropagation Optimization (Gradient Pulse Wave & Inward Compression)
+        const t = (p - 0.50) / 0.25;
+        const compressX = 1 - t * 0.24;
+        const compressY = 1 - t * 0.14;
+        const backpropWave = Math.sin(time * 3.5 - node.baseZ * 0.012 + t * Math.PI * 2) * (8 + (1 - t) * 6);
+        curX = node.baseX * compressX + backpropWave;
+        curY = node.baseY * compressY + Math.cos(time * 2.8 + node.pulseOffset) * 4;
+        curZ = node.baseZ * (1 - t * 0.18);
       } else {
-        // Converge into Singular Crystalline Intelligence Core
-        const factor = (p - 0.75) / 0.25;
-        curX = node.baseX + (node.coreX - node.baseX) * factor;
-        curY = node.baseY + (node.coreY - node.baseY) * factor;
-        curZ = node.baseZ + (node.coreZ - node.baseZ) * factor;
+        // Stage 4 (0.75 -> 1.00): Gravitational Singularity (Converge into Singular Intelligence Core)
+        const t = (p - 0.75) / 0.25;
+        const smoothT = Math.pow(t, 1.3);
+        const startX = node.baseX * 0.76;
+        const startY = node.baseY * 0.86;
+        const startZ = node.baseZ * 0.82;
+        curX = startX + (node.coreX - startX) * smoothT;
+        curY = startY + (node.coreY - startY) * smoothT;
+        curZ = startZ + (node.coreZ - startZ) * smoothT;
       }
 
       const proj = project(curX, curY, curZ);
