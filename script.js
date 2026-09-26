@@ -413,15 +413,12 @@
 
   window.addEventListener('scroll', updateScrollProgress, { passive: true });
 
-  // Direct mouse wheel scrubbing when hovering sticky canvas
+  // Direct mouse wheel sound feedback when hovering sticky canvas
   canvas.addEventListener('wheel', (e) => {
-    e.preventDefault();
-    autoPlay = false;
-    const delta = (e.deltaY > 0 ? 1 : -1) * 0.04;
-    targetProgress = Math.max(0, Math.min(1, targetProgress + delta));
-    syncPageScroll();
-    playScrubTone(targetProgress);
-  }, { passive: false });
+    if (Math.abs(e.deltaY) > 5) {
+      playScrubTone(currentProgress);
+    }
+  }, { passive: true });
 
   // --- Cyberpunk Matrix Rain Stream ---
   const matrixCanvas = document.getElementById('matrixCanvas');
@@ -536,7 +533,7 @@
   function syncPageScroll() {
     const totalHeight = scroller.offsetHeight - window.innerHeight;
     const newScrollTop = scroller.offsetTop + targetProgress * totalHeight;
-    window.scrollTo({ top: newScrollTop, behavior: 'smooth' });
+    window.scrollTo({ top: newScrollTop });
   }
 
   // Mouse drag for 3D Camera Orbit & Hover Physics
