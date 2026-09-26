@@ -641,9 +641,11 @@
     annotTitle.textContent = stage.title;
     annotDesc.textContent = stage.desc;
 
-    // Smooth responsive camera rotation tracking cursor
+    // Smooth responsive camera rotation tracking cursor + gentle auto-sway
     rotY += (targetRotY - rotY) * 0.08;
     rotX += (targetRotX - rotX) * 0.08;
+    rotY += Math.sin(time * 0.35) * 0.0012;
+    rotX += Math.cos(time * 0.28) * 0.0006;
 
     // Clear Canvas
     ctx.clearRect(0, 0, width, height);
@@ -742,21 +744,21 @@
 
     ctx.globalAlpha = 1.0;
 
-    // --- 3. CENTRAL HOLOGRAPHIC LATENT ATTENTION CORE (ONLY IN STAGE 4 CONVERGENCE) ---
-    if (p > 0.68) {
-      const centerProj = project(0, 0, 0);
-      if (centerProj.scale > 0) {
-        const ringAlpha = (p - 0.68) / 0.32;
-        ctx.save();
-        ctx.translate(centerProj.x, centerProj.y);
-        ctx.rotate(time * 0.8);
-        ctx.strokeStyle = `rgba(56, 189, 248, ${ringAlpha * 0.45})`;
-        ctx.lineWidth = 1.2 * centerProj.scale;
-        ctx.beginPath();
-        ctx.ellipse(0, 0, 50 * centerProj.scale, 20 * centerProj.scale, Math.PI / 3, 0, Math.PI * 2);
-        ctx.stroke();
-        ctx.restore();
-      }
+    // --- 3. CENTRAL HOLOGRAPHIC LATENT ATTENTION CORE ---
+    // Compute center projection ONCE for both holographic core & singularity rendering
+    const centerProj = project(0, 0, 0);
+
+    if (p > 0.68 && centerProj.scale > 0) {
+      const ringAlpha = (p - 0.68) / 0.32;
+      ctx.save();
+      ctx.translate(centerProj.x, centerProj.y);
+      ctx.rotate(time * 0.8);
+      ctx.strokeStyle = `rgba(56, 189, 248, ${ringAlpha * 0.45})`;
+      ctx.lineWidth = 1.2 * centerProj.scale;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 50 * centerProj.scale, 20 * centerProj.scale, Math.PI / 3, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
     }
 
     // --- 4. COMPUTE NODE 3D COORDINATES & DYNAMIC 4-STAGE TRANSFORMATION ---
