@@ -25,8 +25,6 @@
   const annotDesc = document.getElementById('annotDesc');
   const frameAnnotation = document.getElementById('frameAnnotation');
   const cursorGlow = document.getElementById('cursorGlow');
-  const soundToggle = document.getElementById('soundToggle');
-  const soundIcon = document.getElementById('soundIcon');
   const scroller = document.getElementById('scroller');
 
   // --- Dimensions & Canvas Sizing ---
@@ -263,141 +261,8 @@
     });
   }
 
-  // --- Web Audio Synthesizer: Cosmic "Om" Ambient Drone & Interactive Sonics ---
-  let audioCtx = null;
-  let isSoundEnabled = false;
-  let omDrone = null;
-
-  function initAudio() {
-    if (!audioCtx) {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    if (audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
-  }
-
-  // Cosmic Om (136.1 Hz Cosmic Tuning + Sub-bass 68Hz + Theta Binaural Waves)
-  function startCosmicOmDrone() {
-    if (!audioCtx || omDrone) return;
-    try {
-      const masterOmGain = audioCtx.createGain();
-      masterOmGain.gain.setValueAtTime(0.001, audioCtx.currentTime);
-      masterOmGain.gain.exponentialRampToValueAtTime(0.045, audioCtx.currentTime + 3.0); // Gentle 3s swell
-      masterOmGain.connect(audioCtx.destination);
-
-      // 1. Fundamental Cosmic Om Frequency: 136.1 Hz
-      const oscOm = audioCtx.createOscillator();
-      oscOm.type = 'sine';
-      oscOm.frequency.setValueAtTime(136.1, audioCtx.currentTime);
-
-      // 2. Deep Sub-bass Resonance: 68.05 Hz
-      const oscSub = audioCtx.createOscillator();
-      oscSub.type = 'sine';
-      oscSub.frequency.setValueAtTime(68.05, audioCtx.currentTime);
-
-      // 3. Higher Harmonic Overtone: 272.2 Hz
-      const oscHarmonic = audioCtx.createOscillator();
-      oscHarmonic.type = 'triangle';
-      oscHarmonic.frequency.setValueAtTime(272.2, audioCtx.currentTime);
-
-      // 4. Low-Pass Resonant Filter (breathing space sweep)
-      const filter = audioCtx.createBiquadFilter();
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(320, audioCtx.currentTime);
-      filter.Q.setValueAtTime(3.5, audioCtx.currentTime);
-
-      // 5. LFO for breathing wave modulation (0.12 Hz slow cosmic breathing)
-      const lfo = audioCtx.createOscillator();
-      const lfoGain = audioCtx.createGain();
-      lfo.frequency.setValueAtTime(0.12, audioCtx.currentTime);
-      lfoGain.gain.setValueAtTime(140, audioCtx.currentTime);
-      lfo.connect(filter.frequency);
-      lfo.start();
-
-      // Connect oscillators
-      const omSubGain = audioCtx.createGain();
-      omSubGain.gain.setValueAtTime(0.6, audioCtx.currentTime);
-      oscSub.connect(omSubGain);
-
-      const harmGain = audioCtx.createGain();
-      harmGain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-      oscHarmonic.connect(harmGain);
-
-      oscOm.connect(filter);
-      omSubGain.connect(filter);
-      harmGain.connect(filter);
-      filter.connect(masterOmGain);
-
-      oscOm.start();
-      oscSub.start();
-      oscHarmonic.start();
-
-      omDrone = {
-        masterOmGain,
-        oscOm,
-        oscSub,
-        oscHarmonic,
-        filter,
-        lfo,
-        stop() {
-          try {
-            masterOmGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.0);
-            setTimeout(() => {
-              oscOm.stop();
-              oscSub.stop();
-              oscHarmonic.stop();
-              lfo.stop();
-              omDrone = null;
-            }, 1050);
-          } catch (e) {}
-        }
-      };
-    } catch (e) {
-      console.warn('Om drone synth error:', e);
-    }
-  }
-
-  function stopCosmicOmDrone() {
-    if (omDrone) {
-      omDrone.stop();
-      omDrone = null;
-    }
-  }
-
-  function playScrubTone(pitch) {
-    if (!isSoundEnabled || !audioCtx) return;
-    try {
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'sine';
-      // Harmonic scale based on 136.1 Hz Om fundamental
-      const freq = 136.1 * (1 + pitch * 2.5);
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-      gain.gain.setValueAtTime(0.025, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.18);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start();
-      osc.stop(audioCtx.currentTime + 0.18);
-    } catch (e) {}
-  }
-
-  soundToggle.addEventListener('click', () => {
-    initAudio();
-    isSoundEnabled = !isSoundEnabled;
-    if (isSoundEnabled) {
-      soundIcon.className = 'fa-solid fa-volume-high';
-      soundToggle.style.borderColor = 'var(--cyan)';
-      soundToggle.style.color = 'var(--cyan)';
-      startCosmicOmDrone();
-    } else {
-      soundIcon.className = 'fa-solid fa-volume-xmark';
-      soundToggle.style.borderColor = '';
-      soundToggle.style.color = '';
-      stopCosmicOmDrone();
-    }
-  });
+  // Harmless stub for audio scrub tone
+  function playScrubTone() {}
 
   // --- Controls: Scroll, Wheel & Keyboard Handling ---
   
@@ -521,10 +386,6 @@
       targetProgress = 1.0;
       syncPageScroll();
       playScrubTone(1.0);
-    } else if (e.key === 'l' || e.key === 'L') {
-      document.getElementById('ai-lab')?.scrollIntoView({ behavior: 'smooth' });
-    } else if (e.key === 't' || e.key === 'T') {
-      document.getElementById('terminal-section')?.scrollIntoView({ behavior: 'smooth' });
     } else if (e.key === 'p' || e.key === 'P') {
       document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
     }
@@ -934,73 +795,6 @@
 
     requestAnimationFrame(render);
   }
-
-  // --- Interactive Terminal Logic ---
-  const termBody = document.getElementById('termBody');
-  const termInput = document.getElementById('termInput');
-  const termBtns = document.querySelectorAll('.term-btn');
-
-  const COMMANDS = {
-    help: 'Available commands:\n  • experience            : Show current role & industry work @ Alpever AI\n  • projects              : List highlighted production AI & data science platforms\n  • skills                : Print technical framework arsenal\n  • status                : Display CUDA GPU memory & compute utilization\n  • train --model <name>  : Launch simulated deep learning training job\n  • contact               : Display official communication endpoints\n  • clear                 : Clear terminal console buffer',
-    
-    experience: 'INDUSTRY EXPERIENCE:\n  • Role: AI Solution Engineer Intern\n  • Company: Alpever AI (2025 — Present)\n  • Work: Autonomous Voice AI Agents (ElevenLabs, Gemini Live, Transcribers), LinkedIn Full-Cycle Automation, and Multi-Agent Workflow Pipelines.',
-
-    status: 'SYSTEM TELEMETRY [CUDA 12.4]:\n  • Device: NVIDIA GeForce RTX 4090 (24GB VRAM)\n  • Compute Engine: Tensor Cores Active (Mixed Precision FP16)\n  • Host OS: Linux Kernel 6.8 / Docker Containerized\n  • Active Workers: 8 DataLoader threads | NCCL Distributed',
-
-    projects: 'HIGHLIGHTED ARCHITECTURES:\n  1. AI Decision Intelligence Platform  [RAG + Forecasting]\n  2. SBM ODF District Analytics Engine  [Data Science & Outlier ML]\n  3. Deep Backend Neural Model Trainer  [Python + WebSocket]\n  4. Smart Energy Consumption Tracker   [Time-Series Anomaly]\n  5. LedgerLens Expense Engine          [CSV Audit & FinTech]\n  6. AirPods Max 3D Motion Showcase     [HTML5 Canvas + Next.js]',
-
-    skills: 'TECHNICAL ARSENAL:\n  • Core: Python, C++, PyTorch, TensorFlow, Scikit-Learn\n  • Specialized: ElevenLabs, Gemini Live, Whisper, LLMs, Voice AI\n  • MLOps & Web: FastAPI, Docker, Flask, CUDA, Git, WebSockets\n  • Domains: Deep Learning, Data Science, RAG, Automation, Time-Series\n  • Languages: English, Hindi, French (Fluent)',
-
-    contact: 'COMMUNICATION CHANNELS:\n  • GitHub: https://github.com/Gavisingh12\n  • Email: gavindersingh164@gmail.com\n  • LinkedIn: https://www.linkedin.com/in/gavindra-singh/'
-  };
-
-  function addTermLine(text, isOutput = true) {
-    const line = document.createElement('div');
-    line.className = isOutput ? 'term-line output' : 'term-line';
-    line.style.whiteSpace = 'pre-wrap';
-    line.textContent = text;
-    termBody.insertBefore(line, termBody.lastElementChild);
-    termBody.scrollTop = termBody.scrollHeight;
-  }
-
-  function handleCommand(cmd) {
-    const raw = cmd.trim();
-    if (!raw) return;
-
-    addTermLine(`gavinder@ai-core:~$ ${raw}`, false);
-
-    const lower = raw.toLowerCase();
-
-    if (lower === 'clear') {
-      const promptLine = termBody.lastElementChild;
-      termBody.innerHTML = '';
-      termBody.appendChild(promptLine);
-      return;
-    }
-
-    if (lower.startsWith('train')) {
-      addTermLine('>> [INITIATING TRAINING RUN]...\n>> Loading weights...\n>> Epoch [1/10] Loss: 1.842 | Val Acc: 78.4%\n>> Epoch [5/10] Loss: 0.412 | Val Acc: 94.2%\n>> Epoch [10/10] Loss: 0.089 | Val Acc: 99.1%\n>> [OPTIMIZATION CONVERGED] Model checkpoint exported.');
-    } else if (COMMANDS[lower]) {
-      addTermLine(COMMANDS[lower]);
-    } else {
-      addTermLine(`Command not found: "${raw}". Type "help" for a list of valid commands.`);
-    }
-  }
-
-  termInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      const val = termInput.value;
-      termInput.value = '';
-      handleCommand(val);
-    }
-  });
-
-  termBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const cmd = btn.getAttribute('data-cmd');
-      handleCommand(cmd);
-    });
-  });
 
   // --- Toast Notification System ---
   const toastEl = document.getElementById('toastNotification');
