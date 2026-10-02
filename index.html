@@ -6,10 +6,10 @@
   <title>Gavinder Singh | Machine Learning Engineer & AI Systems</title>
   <meta name="description" content="Interactive 3D AI & Machine Learning Portfolio of Gavinder Singh. Scrub through deep neural network architectures and model training phases." />
   
-  <!-- Google Fonts: Syne & JetBrains Mono -->
+  <!-- Google Fonts: Lora (serif display), Plus Jakarta Sans, JetBrains Mono, Caveat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;0,700;1,400&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <!-- FontAwesome for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
@@ -30,27 +30,30 @@
   <!-- Navigation Bar -->
   <nav class="navbar" id="navbar">
     <div class="nav-container">
-      <a href="#hero" class="nav-logo">
+      <a href="#about" class="nav-logo">
         <span class="logo-symbol">&lt;GS/&gt;</span>
         <span class="logo-text">GAVINDER<span class="accent-dot">.</span>AI</span>
       </a>
 
       <div class="nav-links">
-        <a href="#scroller" class="nav-link">Neural Model</a>
-        <a href="#ai-lab" class="nav-link highlight-link"><i class="fa-solid fa-flask"></i> AI Lab</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#experience" class="nav-link highlight-link"><i class="fa-solid fa-briefcase"></i> Experience</a>
         <a href="#projects" class="nav-link">Projects</a>
-        <a href="#skills" class="nav-link">Arsenal</a>
-        <a href="#terminal-section" class="nav-link">Terminal</a>
+        <a href="#journey" class="nav-link">Journey</a>
+        <a href="#education" class="nav-link">Education</a>
+        <a href="#skills" class="nav-link">Stack</a>
+        <a href="#beyond-code" class="nav-link">Beyond Code</a>
+        <a href="#contact" class="nav-link">Contact</a>
       </div>
 
       <div class="nav-actions">
-        <button id="matrixToggle" class="cyber-btn-sm" title="Toggle Matrix Data Stream">
-          <i class="fa-solid fa-code"></i>
-          <span>MATRIX</span>
+        <button id="themeToggle" class="cyber-btn-sm" title="Toggle Light / Warm Dark Theme">
+          <i class="fa-solid fa-sun" id="themeIcon"></i>
+          <span id="themeLabel">LIGHT</span>
         </button>
         <button id="soundToggle" class="cyber-btn-sm" title="Toggle Synthesizer Audio">
           <i class="fa-solid fa-volume-xmark" id="soundIcon"></i>
-          <span>AUDIO FX</span>
+          <span>AUDIO</span>
         </button>
         <a href="https://github.com/Gavisingh12" target="_blank" class="github-pill">
           <i class="fa-brands fa-github"></i>
@@ -66,22 +69,21 @@
     <div class="sticky-viewport">
       <canvas id="neuralCanvas"></canvas>
 
-      <!-- HUD Overlay (Telemetry & Telemetrics) -->
+      <!-- Clean Telemetry Overlay (Simplified & Humanized) -->
       <div class="hud-top-left">
         <div class="hud-badge pulse-dot">
           <span class="live-dot"></span>
-          <span>GPU RUNTIME: CUDA 12.4</span>
+          <span>Cosmic Metaphor · 3D Particle Simulation</span>
+        </div>
+        <div class="hud-metaphor-quote">
+          "Like gravity pulling stardust into stars, data collapses into intelligence."
         </div>
         <div class="hud-metric-row">
-          <span class="metric-label">MODEL ARCH:</span>
-          <span class="metric-value accent-cyan" id="hudArch">TRANSFORMER-GEN-7B</span>
+          <span class="metric-label">STAGE:</span>
+          <span class="metric-value accent-purple" id="hudPhase">1 / 4 [Raw Universe]</span>
         </div>
         <div class="hud-metric-row">
-          <span class="metric-label">CURRENT PHASE:</span>
-          <span class="metric-value accent-purple" id="hudPhase">1 / 4 [DATA INGESTION]</span>
-        </div>
-        <div class="hud-metric-row">
-          <span class="metric-label">FRAME PROGRESS:</span>
+          <span class="metric-label">SCRUB:</span>
           <span class="metric-value accent-green" id="hudProgress">00.0%</span>
         </div>
       </div>
@@ -93,11 +95,11 @@
             <span class="hud-num" id="hudEpoch">01 / 100</span>
           </div>
           <div class="hud-stat">
-            <span class="hud-label">TRAIN LOSS</span>
+            <span class="hud-label">LOSS</span>
             <span class="hud-num accent-red" id="hudLoss">2.418</span>
           </div>
           <div class="hud-stat">
-            <span class="hud-label">VAL ACCURACY</span>
+            <span class="hud-label">ACC</span>
             <span class="hud-num accent-green" id="hudAcc">41.2%</span>
           </div>
         </div>
@@ -105,9 +107,9 @@
 
       <!-- Center Dynamic Annotation based on Scroll Frame -->
       <div class="frame-annotation" id="frameAnnotation">
-        <div class="annotation-tag" id="annotTag">PHASE 01 // RAW DATA INGESTION</div>
-        <h2 class="annotation-title" id="annotTitle">High-Dimensional Feature Tokenization</h2>
-        <p class="annotation-desc" id="annotDesc">Continuous token embedding across dense vectors. Scrub mouse or use keyboard arrows to initiate transformer layer compilation.</p>
+        <div class="annotation-tag" id="annotTag">STAGE 01 · THE RAW UNIVERSE</div>
+        <h2 class="annotation-title" id="annotTitle">Scattered Data &amp; Noise</h2>
+        <p class="annotation-desc" id="annotDesc">Millions of raw words, sounds, and pixels floating in space — waiting to be given meaning.</p>
       </div>
 
       <!-- Keyboard & Mouse Interactive Controls Hint -->
@@ -115,16 +117,16 @@
         <div class="key-badge-group">
           <span class="key-cap">▲</span>
           <span class="key-cap">▼</span>
-          <span class="key-label">or [SCROLL] to Scrub Frames</span>
+          <span class="key-label">or [SCROLL] to Scrub</span>
         </div>
         <div class="key-badge-group">
           <span class="key-cap">◄</span>
           <span class="key-cap">►</span>
-          <span class="key-label">or [DRAG] to 3D Orbit</span>
+          <span class="key-label">or [DRAG] to Orbit</span>
         </div>
         <div class="key-badge-group">
           <span class="key-cap">SPACE</span>
-          <span class="key-label">to Auto-Drive</span>
+          <span class="key-label">Auto-Drive</span>
         </div>
       </div>
 
@@ -144,164 +146,382 @@
   <!-- Main Content Showcase -->
   <main class="content-wrapper">
 
-    <!-- About / Machine Learning Philosophy -->
-    <section class="section-container" id="about">
+    <!-- About / Human Story Section -->
+    <section class="section-container" id="about" data-num="01">
       <div class="section-header">
-        <span class="section-tag">// IDENTITY & ARCHITECTURE</span>
-        <h2 class="section-title">Machine Learning Engineer</h2>
-        <p class="section-subtitle">Specialized in deep learning architectures, end-to-end model training, multi-modal pipelines, and production inference optimization.</p>
+        <span class="section-tag-warm">A Little About Me</span>
+        <h2 class="section-title">The Person Behind the Models</h2>
+        <p class="section-subtitle">AI Solution Engineer Intern @ Alpever AI & Pre-Final Year B.Tech CSE at Lovely Professional University.</p>
+      </div>
+
+      <div class="about-hero-card glass-card">
+        <div class="about-avatar-wrap">
+          <div class="about-avatar">
+            <img src="profile.jpg" alt="Gavinder Singh" class="avatar-photo" />
+            <span class="status-indicator" title="AI Solution Engineer Intern @ Alpever AI · Open for Roles"></span>
+          </div>
+          <div class="avatar-meta">
+            <h3 class="avatar-name">Gavinder Singh</h3>
+            <span class="avatar-role">AI Solution Engineer Intern @ Alpever AI</span>
+            <span class="avatar-location"><i class="fa-solid fa-graduation-cap"></i> Lovely Professional University</span>
+            <span class="avatar-cgpa"><i class="fa-solid fa-chart-line"></i> 7.51 CGPA · B.Tech CSE (2023–2027)</span>
+            <div class="avatar-badges">
+              <span class="badge-mini"><i class="fa-solid fa-language"></i> Fluent in French</span>
+              <span class="badge-mini"><i class="fa-solid fa-book-open"></i> Manhwa & Manga Reader</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-bio-content">
+          <!-- Language Switcher Bar -->
+          <div class="bio-lang-bar">
+            <span class="bio-lang-label"><i class="fa-solid fa-earth-europe"></i> Read In:</span>
+            <button type="button" class="lang-toggle-btn active" id="btnLangEn">English</button>
+            <button type="button" class="lang-toggle-btn" id="btnLangFr">Français 🇫🇷</button>
+          </div>
+
+          <!-- English Bio Block -->
+          <div class="bio-block" id="bioEn">
+            <p class="bio-p">
+              Hey! I'm <strong>Gavinder Singh</strong>, an <strong>AI Solution Engineer Intern at Alpever AI</strong> and pre-final year Computer Science & Engineering undergraduate at <strong>Lovely Professional University</strong> (Class of 2023–2027, 7.51 CGPA).
+            </p>
+            <p class="bio-p">
+              At <strong>Alpever AI</strong>, I build autonomous voice AI agents, design multi-step intelligent workflows, and engineer production-ready automation platforms. I work extensively with cutting-edge speech & multimodal technologies including <strong>ElevenLabs</strong> for natural voice synthesis, <strong>Gemini Live</strong> for continuous conversational audio, real-time transcribers (Whisper/Deepgram), and large language models. I also engineered a full LinkedIn automation platform that autonomously searches, connects, and sends personalized contextual messages upon connection.
+            </p>
+            <p class="bio-p">
+              Beyond work and code, I am <strong>fluent in French</strong> and an avid reader of <strong>Manhwa & Manga</strong> (I strictly prefer reading over watching anime). This entire portfolio was handcrafted with <strong>zero external CSS/JS frameworks</strong> — pure HTML Canvas math, CSS, and vanilla JS.
+            </p>
+          </div>
+
+          <!-- French Bio Block (Hidden by Default) -->
+          <div class="bio-block" id="bioFr" style="display: none;">
+            <p class="bio-p">
+              Salut ! Je m'appelle <strong>Gavinder Singh</strong>, stagiaire en ingénierie de solutions d'intelligence artificielle chez <strong>Alpever AI</strong> et étudiant en informatique à <strong>Lovely Professional University</strong> (Promotion 2023–2027, moyenne de 7.51 CGPA).
+            </p>
+            <p class="bio-p">
+              Chez <strong>Alpever AI</strong>, je développe des agents vocaux autonomes et des plateformes d'automatisation. J'utilise quotidiennement <strong>ElevenLabs</strong> pour la synthèse vocale ultra-réaliste, <strong>Gemini Live</strong> pour le dialogue continu et des modèles de transcription comme Whisper. J'ai également conçu une plateforme complète d'automatisation LinkedIn pour prospecter et envoyer des messages personnalisés.
+            </p>
+            <p class="bio-p">
+              En dehors du code, je parle <strong>français couramment</strong> et je suis un grand lecteur de <strong>Manhwas et Mangas</strong> (je préfère de loin lire que regarder des animes). Tout ce portfolio a été créé à la main, avec <strong>zéro framework externe</strong> — que des mathématiques pures et du JavaScript natif.
+            </p>
+          </div>
+
+          <div class="bio-actions">
+            <a href="mailto:gavindersingh164@gmail.com" class="bio-btn primary-bio-btn">
+              <i class="fa-solid fa-envelope"></i>
+              <span>Get in Touch</span>
+            </a>
+            <a href="#experience" class="bio-btn">
+              <i class="fa-solid fa-briefcase"></i>
+              <span>My Experience</span>
+            </a>
+            <a href="https://www.linkedin.com/in/gavindra-singh/" target="_blank" class="bio-btn">
+              <i class="fa-brands fa-linkedin"></i>
+              <span>LinkedIn</span>
+            </a>
+            <button type="button" class="bio-btn copy-email-btn" id="quickCopyEmail" data-email="gavindersingh164@gmail.com">
+              <i class="fa-regular fa-copy"></i>
+              <span>Copy Email</span>
+            </button>
+          </div>
+        </div>
       </div>
 
       <div class="stats-grid">
         <div class="glass-card stat-box">
           <div class="stat-icon"><i class="fa-solid fa-microchip"></i></div>
           <div class="stat-number">17+</div>
-          <div class="stat-text">Public Repositories & Architectures</div>
+          <div class="stat-text">Open Source Repositories & Architectures</div>
         </div>
         <div class="glass-card stat-box">
           <div class="stat-icon"><i class="fa-solid fa-brain"></i></div>
-          <div class="stat-number">99.4%</div>
-          <div class="stat-text">Peak Validation Benchmark</div>
+          <div class="stat-number">4+</div>
+          <div class="stat-text">Deep Learning Specialties (Voice AI, RAG, NLP, Time-Series)</div>
         </div>
         <div class="glass-card stat-box">
-          <div class="stat-icon"><i class="fa-solid fa-network-wired"></i></div>
-          <div class="stat-number">&lt;15ms</div>
-          <div class="stat-text">Inference Latency Optimization</div>
+          <div class="stat-icon"><i class="fa-solid fa-code"></i></div>
+          <div class="stat-number">0</div>
+          <div class="stat-text">Frameworks in this Site (Pure Vanilla Math & JS)</div>
         </div>
         <div class="glass-card stat-box">
-          <div class="stat-icon"><i class="fa-solid fa-bolt"></i></div>
-          <div class="stat-number">RAG + FP16</div>
-          <div class="stat-text">Production Scale Ready</div>
+          <div class="stat-icon"><i class="fa-solid fa-mug-hot"></i></div>
+          <div class="stat-number">∞</div>
+          <div class="stat-text">Cups of Masala Chai Fueling Model Training</div>
         </div>
       </div>
     </section>
 
-    <!-- Hands-on Interactive AI Lab (Digit Recognizer) -->
-    <section class="section-container" id="ai-lab">
+    <!-- Work Experience Section -->
+    <section class="section-container" id="experience" data-num="02">
       <div class="section-header">
-        <span class="section-tag">// INTERACTIVE IN-BROWSER AI LAB</span>
-        <h2 class="section-title">Live Neural Digit Recognizer</h2>
-        <p class="section-subtitle">Draw any digit (0 - 9) on the tensor pad below. A lightweight in-browser feature-extraction neural model classifies your drawing in real time with live softmax probability distribution.</p>
+        <span class="section-tag-warm">Work & Industry Impact</span>
+        <h2 class="section-title">Where I'm Working</h2>
+        <p class="section-subtitle">Real-world AI deployment, voice agent architecture, automation workflows, and platform development.</p>
       </div>
 
-      <div class="ai-lab-container glass-card">
-        <div class="lab-left">
-          <div class="pad-header">
-            <span class="pad-title"><i class="fa-solid fa-pen-nib"></i> 28x28 Tensor Input Pad</span>
-            <span class="pad-status" id="padStatus">READY TO INFER</span>
-          </div>
+      <div class="glass-card experience-card">
+        <div class="postit-note exp-note">
+          <span class="postit-pin">📌</span>
+          <span>"Voice AI latency under 400ms feels like pure magic when ElevenLabs & Gemini Live sync up."</span>
+        </div>
 
-          <div class="canvas-wrap">
-            <canvas id="drawCanvas" width="280" height="280"></canvas>
-            <div class="canvas-grid-guide"></div>
-          </div>
-
-          <div class="pad-controls">
-            <button class="lab-btn" id="btnClearPad"><i class="fa-solid fa-trash"></i> Clear</button>
-            <button class="lab-btn" id="btnPresetPad"><i class="fa-solid fa-dice"></i> Sample Digit</button>
-            <div class="brush-size-control">
-              <span class="ctrl-label">Stroke:</span>
-              <input type="range" id="brushSize" min="14" max="28" value="20" />
+        <div class="exp-header">
+          <div class="exp-company-info">
+            <div class="exp-icon"><i class="fa-solid fa-robot"></i></div>
+            <div>
+              <h3 class="exp-role">AI Solution Engineer Intern</h3>
+              <h4 class="exp-company">Alpever AI <span class="exp-badge">Current Role</span></h4>
             </div>
+          </div>
+          <div class="exp-period">
+            <span class="period-pill"><i class="fa-solid fa-calendar"></i> 2025 — Present</span>
+            <span class="location-pill"><i class="fa-solid fa-location-dot"></i> Voice AI & Automation Platform</span>
           </div>
         </div>
 
-        <div class="lab-right">
-          <div class="prediction-hero">
-            <div class="prediction-card">
-              <span class="pred-label">TOP PREDICTION</span>
-              <div class="pred-digit" id="topDigit">-</div>
-              <div class="pred-confidence">
-                <span>CONFIDENCE: </span>
-                <strong class="accent-green" id="topConf">--%</strong>
-              </div>
-            </div>
+        <div class="exp-body">
+          <p class="exp-summary">
+            Architecting end-to-end autonomous voice AI agents, designing complex business automation workflows, performing multimodal data analysis, and building full-stack platforms from ground up.
+          </p>
+          <ul class="exp-points">
+            <li>
+              <strong>Conversational Voice AI Agents:</strong> Built real-time, low-latency voice agents integrating <strong>ElevenLabs</strong> for lifelike speech synthesis, <strong>Gemini Live</strong> for continuous conversational intelligence, and state-of-the-art transcribers (Whisper/Deepgram) paired with fine-tuned LLM backends.
+            </li>
+            <li>
+              <strong>LinkedIn Full-Cycle Automation Platform:</strong> Designed and deployed an end-to-end automated lead growth engine capable of automated candidate search, dispatching connection requests, detecting when requests are accepted, and triggering personalized contextual follow-up messages automatically.
+            </li>
+            <li>
+              <strong>Platform Development & Workflow Design:</strong> Engineered robust Python backend microservices, mapped complex conditional multi-agent workflows, and built analytical telemetry dashboards to monitor model performance and user interactions.
+            </li>
+          </ul>
 
-            <div class="telemetry-mini">
-              <div class="telemetry-item">
-                <span class="tel-label">INFERENCE TIME</span>
-                <span class="tel-val accent-cyan" id="inferTime">~4.2 ms</span>
-              </div>
-              <div class="telemetry-item">
-                <span class="tel-label">PIXEL MATRIX</span>
-                <span class="tel-val accent-purple">784 Inputs (28x28)</span>
-              </div>
-              <div class="telemetry-item">
-                <span class="tel-label">ACTIVATION</span>
-                <span class="tel-val accent-green">Softmax Logits</span>
-              </div>
-            </div>
+          <div class="tag-list">
+            <span class="tech-tag">ElevenLabs</span>
+            <span class="tech-tag">Gemini Live</span>
+            <span class="tech-tag">Voice AI</span>
+            <span class="tech-tag">Transcribers</span>
+            <span class="tech-tag">LLMs</span>
+            <span class="tech-tag">LinkedIn Automation</span>
+            <span class="tech-tag">Workflow Design</span>
+            <span class="tech-tag">Python Backend</span>
+            <span class="tech-tag">Data Analytics</span>
           </div>
+        </div>
+      </div>
+    </section>
 
-          <!-- 10 Class Probability Distribution Meter -->
-          <div class="probability-meters">
-            <div class="meters-title">CLASS PROBABILITY DISTRIBUTION (0 - 9)</div>
-            <div class="meter-bars" id="meterBars">
-              <!-- Dynamically populated 0 - 9 meters -->
+    <!-- My Journey / Timeline -->
+    <section class="section-container" id="journey" data-num="03">
+      <div class="section-header">
+        <span class="section-tag-warm">My Real Journey</span>
+        <h2 class="section-title">How I Got Here</h2>
+        <p class="section-subtitle">Not the LinkedIn version — the real one. From writing my first "Hello World" to training models that actually work (sometimes).</p>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-marker">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <div class="timeline-content glass-card">
+            <span class="timeline-date">2023</span>
+            <h3 class="timeline-title">Began B.Tech CSE at Lovely Professional University</h3>
+            <p class="timeline-desc">Started my undergraduate journey in Computer Science & Engineering. Mastered Python, Object-Oriented Programming, and Data Structures. Spent nights building algorithmic logic and figuring out how software really works at the memory and OS level.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker">
+            <i class="fa-solid fa-chart-pie"></i>
+          </div>
+          <div class="timeline-content glass-card">
+            <span class="timeline-date">2024</span>
+            <h3 class="timeline-title">Data Science & Swachh Bharat ODF Analytics Project</h3>
+            <p class="timeline-desc">Dove head-first into data science, statistical analysis, and data munging. Built an end-to-end analytics platform for Swachh Bharat Mission (SBM) district ODF datasets, implementing Z-score and Interquartile Range (IQR) outlier detection algorithms with interactive web reports.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker">
+            <i class="fa-solid fa-cloud"></i>
+          </div>
+          <div class="timeline-content glass-card">
+            <span class="timeline-date">2025</span>
+            <h3 class="timeline-title">NPTEL Cloud Computing (IIT Kharagpur) & Deep Backend Engineering</h3>
+            <p class="timeline-desc">Completed the rigorous 12-week NPTEL Online Certification in Cloud Computing funded by MoE, Govt. of India via IIT Kharagpur. Applied cloud concepts to containerized backend architectures, building scalable training loops, asynchronous workers, and RESTful inference endpoints.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker">
+            <i class="fa-solid fa-brain"></i>
+          </div>
+          <div class="timeline-content glass-card">
+            <span class="timeline-date">2026 — Present</span>
+            <h3 class="timeline-title">Pre-Final Year (7.51 CGPA) · Transformers & Production AI</h3>
+            <p class="timeline-desc">Deepening focus on Transformer architectures, vector databases, RAG systems, and responsive user interfaces. Building software that bridges advanced machine learning models with rock-solid Python backends and zero-framework frontend math.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="section-container" id="education" data-num="04">
+      <div class="section-header">
+        <span class="section-tag-warm">Academics & Formal Credentials</span>
+        <h2 class="section-title">Education & Certifications</h2>
+        <p class="section-subtitle">Rigorous undergraduate engineering at Lovely Professional University paired with specialized credentials in Cloud Computing & Deep Learning.</p>
+      </div>
+
+      <div class="education-grid">
+        <div class="glass-card edu-card edu-main">
+          <div class="edu-icon-wrap">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <div class="edu-details">
+            <div class="edu-header-badge">
+              <h3 class="edu-degree">Bachelor of Technology (B.Tech)</h3>
+              <span class="cgpa-pill"><i class="fa-solid fa-award"></i> 7.51 CGPA</span>
             </div>
+            <p class="edu-school"><i class="fa-solid fa-university"></i> Lovely Professional University (LPU)</p>
+            <div class="edu-meta">
+              <span class="edu-meta-item"><i class="fa-solid fa-calendar"></i> 2023 — 2027 (Ongoing Undergrad)</span>
+              <span class="edu-meta-item"><i class="fa-solid fa-code-branch"></i> Computer Science & Engineering</span>
+              <span class="edu-meta-item"><i class="fa-solid fa-location-dot"></i> Punjab, India</span>
+            </div>
+            <p class="edu-note">Solid theoretical foundation in Data Structures, Algorithms, Operating Systems, Database Systems, and Cloud Computing — balanced with self-driven deep learning research, end-to-end Python backend engineering, and active open-source building.</p>
+          </div>
+        </div>
+
+        <div class="edu-certs-row">
+          <div class="glass-card edu-cert-card nptel-highlight">
+            <div class="cert-badge"><i class="fa-solid fa-cloud"></i></div>
+            <h4 class="cert-title">Cloud Computing (NPTEL Online Certification)</h4>
+            <p class="cert-issuer">IIT Kharagpur · Ministry of Education, Govt. of India</p>
+            <p class="cert-detail">12-Week Rigorous Course (Jul-Oct 2025) · <strong>Consolidated Score: 53%</strong> (Assignments: 22.81/25, Proctored Exam: 30/75) · Roll No: <code>NPTEL25CS107S1458701039</code></p>
+          </div>
+          <div class="glass-card edu-cert-card">
+            <div class="cert-badge"><i class="fa-solid fa-brain"></i></div>
+            <h4 class="cert-title">Deep Learning Specialization</h4>
+            <p class="cert-issuer">deeplearning.ai / Coursera</p>
+            <p class="cert-detail">Andrew Ng's 5-course deep learning series covering backpropagation, regularization, optimization algorithms, and modern neural network architectures.</p>
+          </div>
+          <div class="glass-card edu-cert-card">
+            <div class="cert-badge"><i class="fa-solid fa-chart-line"></i></div>
+            <h4 class="cert-title">Machine Learning with Python</h4>
+            <p class="cert-issuer">IBM / Coursera</p>
+            <p class="cert-detail">Supervised and unsupervised learning, exploratory data analysis, Scikit-Learn pipelines, and model evaluation metrics.</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Featured Projects Grid -->
-    <section class="section-container" id="projects">
+    <section class="section-container" id="projects" data-num="05">
       <div class="section-header">
-        <span class="section-tag">// DEPLOYED SYSTEMS</span>
-        <h2 class="section-title">Production Models & AI Architectures</h2>
-        <p class="section-subtitle">Real-world AI platforms with end-to-end forecasting, explainability, and hardware-accelerated interfaces.</p>
+        <span class="section-tag-warm">Selected Systems & Code</span>
+        <h2 class="section-title">Projects & Systems</h2>
+        <p class="section-subtitle">Real-world software built during my B.Tech at LPU — spanning deep learning backends, statistical data science, and responsive user interfaces.</p>
       </div>
 
       <div class="projects-grid">
-        <!-- Project 1 -->
+        <!-- Project 1: Flagship AI Platform — Featured Full-Width -->
         <article class="glass-card project-card featured">
-          <div class="card-glow"></div>
-          <div class="project-header">
-            <span class="project-badge">FLAGSHIP AI</span>
-            <div class="project-actions">
-              <a href="https://github.com/Gavisingh12/ai-decision-intelligence-platform" target="_blank" class="icon-link"><i class="fa-brands fa-github"></i></a>
+          <!-- Left column -->
+          <div>
+            <div class="project-header">
+              <span class="project-badge">FLAGSHIP · AI & RAG</span>
+              <div class="project-actions">
+                <a href="https://github.com/Gavisingh12/ai-decision-intelligence-platform" target="_blank" class="icon-link"><i class="fa-brands fa-github"></i></a>
+              </div>
+            </div>
+            <h3 class="project-title">AI Decision Intelligence Platform</h3>
+            <div class="postit-note project-postit">
+              <span class="postit-pin">📌</span>
+              <span>"RAG pipeline built with custom rerankers & sub-50ms vector retrieval."</span>
+            </div>
+            <div class="tag-list" style="margin-top:auto;">
+              <span class="tech-tag">Python</span>
+              <span class="tech-tag">Deep Learning</span>
+              <span class="tech-tag">RAG Pipeline</span>
+              <span class="tech-tag">FastAPI</span>
+              <span class="tech-tag">Vector DB</span>
+              <span class="tech-tag">PyTorch</span>
             </div>
           </div>
-          <h3 class="project-title">AI Decision Intelligence Platform</h3>
-          <p class="project-summary">High-throughput decision engine integrating predictive forecasting, Retrieval-Augmented Generation (RAG), and explainable model inference with guided clinical & enterprise workflows.</p>
+          <!-- Right column -->
+          <div class="featured-right">
+            <p class="project-summary">A full-stack RAG and neural forecasting engine that processes contextual documents, generates calibrated predictions, and visualizes model explainability. Built with high-throughput FastAPI microservices, vector embeddings, and an interactive frontend dashboard.</p>
+            <a href="https://github.com/Gavisingh12/ai-decision-intelligence-platform" target="_blank" class="card-btn">
+              <span>View on GitHub</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </article>
+
+        <!-- Project 2: SBM ODF Data Science Project -->
+        <article class="glass-card project-card featured-secondary">
+          <div class="postit-note project-postit alt-tape">
+            <span class="postit-pin">🏷️</span>
+            <span>"Real Swachh Bharat district dataset · Z-Score vs IQR outlier comparison."</span>
+          </div>
+          <div class="card-glow"></div>
+          <div class="project-header">
+            <span class="project-badge">DATA SCIENCE & STATS</span>
+            <div class="project-actions">
+              <a href="https://github.com/Gavisingh12/python-project" target="_blank" class="icon-link"><i class="fa-brands fa-github"></i></a>
+            </div>
+          </div>
+          <h3 class="project-title">SBM ODF District Analytics & Statistical Outlier Engine</h3>
+          <p class="project-summary">Data science web application analyzing Swachh Bharat Mission (SBM) Open Defecation Free (ODF) district sanitation datasets across India. Implemented dual outlier detection models using Z-score and Interquartile Range (IQR) techniques with dynamic Matplotlib/Seaborn visual pipelines and a clean Flask UI.</p>
           <div class="tag-list">
             <span class="tech-tag">Python</span>
-            <span class="tech-tag">Deep Learning</span>
-            <span class="tech-tag">RAG</span>
-            <span class="tech-tag">FastAPI</span>
-            <span class="tech-tag">Vector DB</span>
+            <span class="tech-tag">Data Science</span>
+            <span class="tech-tag">Pandas & NumPy</span>
+            <span class="tech-tag">Z-Score & IQR</span>
+            <span class="tech-tag">Seaborn</span>
+            <span class="tech-tag">Flask UI</span>
           </div>
-          <a href="https://github.com/Gavisingh12/ai-decision-intelligence-platform" target="_blank" class="card-btn">
-            <span>Inspect Repository</span>
+          <a href="https://github.com/Gavisingh12/python-project" target="_blank" class="card-btn">
+            <span>View on GitHub</span>
             <i class="fa-solid fa-arrow-right"></i>
           </a>
         </article>
 
-        <!-- Project 2 -->
+        <!-- Project 3: Deep Backend Training Engine -->
         <article class="glass-card project-card">
+          <div class="postit-note project-postit">
+            <span class="postit-pin">⚡</span>
+            <span>"Live WebSocket telemetry streaming VRAM & loss directly to frontend."</span>
+          </div>
           <div class="card-glow"></div>
           <div class="project-header">
-            <span class="project-badge">CORE RESEARCH</span>
+            <span class="project-badge">BACKEND & TRAINING</span>
             <div class="project-actions">
               <a href="https://github.com/Gavisingh12/ai-project" target="_blank" class="icon-link"><i class="fa-brands fa-github"></i></a>
             </div>
           </div>
-          <h3 class="project-title">AI Core Models & Experiments</h3>
-          <p class="project-summary">Modular repository of neural architectures, multi-layered perceptrons, convolutional pipelines, and hyperparameter tuning suites tested against benchmark datasets.</p>
+          <h3 class="project-title">Deep Backend Neural Model Trainer & Telemetry UI</h3>
+          <p class="project-summary">High-performance asynchronous Python backend for orchestrating deep learning training loops and hyperparameter optimization. Features WebSocket telemetry streaming live loss curves, GPU VRAM caching, and a responsive frontend monitoring interface.</p>
           <div class="tag-list">
             <span class="tech-tag">PyTorch</span>
-            <span class="tech-tag">TensorFlow</span>
+            <span class="tech-tag">Python Backend</span>
+            <span class="tech-tag">WebSocket</span>
+            <span class="tech-tag">GPU Monitoring</span>
             <span class="tech-tag">Scikit-Learn</span>
-            <span class="tech-tag">Optuna</span>
           </div>
           <a href="https://github.com/Gavisingh12/ai-project" target="_blank" class="card-btn">
-            <span>Inspect Repository</span>
+            <span>View on GitHub</span>
             <i class="fa-solid fa-arrow-right"></i>
           </a>
         </article>
 
-        <!-- Project 3 -->
+        <!-- Project 4: Smart Energy Tracker -->
         <article class="glass-card project-card">
+          <div class="postit-note project-postit alt-tape">
+            <span class="postit-pin">📊</span>
+            <span>"Trained on hourly consumption series to spot sudden appliance spikes."</span>
+          </div>
           <div class="card-glow"></div>
           <div class="project-header">
             <span class="project-badge">TIME-SERIES ML</span>
@@ -309,39 +529,62 @@
               <a href="https://github.com/Gavisingh12/smart-energy-tracker" target="_blank" class="icon-link"><i class="fa-brands fa-github"></i></a>
             </div>
           </div>
-          <h3 class="project-title">Smart Energy Consumption Tracker</h3>
-          <p class="project-summary">IoT-enabled multivariate time-series forecasting model with anomaly classification to predict peak grid demand and optimize carbon consumption footprints.</p>
+          <h3 class="project-title">Smart Energy Consumption & Anomaly Tracker</h3>
+          <p class="project-summary">Predictive analytics engine for household and IoT energy consumption. Models seasonal electricity usage trends, forecasts future load demand, and detects sudden consumption anomalies using time-series analysis.</p>
           <div class="tag-list">
             <span class="tech-tag">Time Series</span>
             <span class="tech-tag">Anomaly Detection</span>
             <span class="tech-tag">Pandas</span>
-            <span class="tech-tag">IoT Analytics</span>
+            <span class="tech-tag">Predictive ML</span>
           </div>
           <a href="https://github.com/Gavisingh12/smart-energy-tracker" target="_blank" class="card-btn">
-            <span>Inspect Repository</span>
+            <span>View on GitHub</span>
             <i class="fa-solid fa-arrow-right"></i>
           </a>
         </article>
 
-        <!-- Project 4 -->
+        <!-- Project 5: LedgerLens Expense Anomaly Engine -->
         <article class="glass-card project-card">
           <div class="card-glow"></div>
           <div class="project-header">
-            <span class="project-badge">INTERACTIVE 3D</span>
+            <span class="project-badge">FINTECH DATA PIPELINE</span>
+            <div class="project-actions">
+              <a href="https://github.com/Gavisingh12/ledgerlens-expenses" target="_blank" class="icon-link"><i class="fa-brands fa-github"></i></a>
+            </div>
+          </div>
+          <h3 class="project-title">LedgerLens Expense Engine & CSV Anomaly Audit</h3>
+          <p class="project-summary">Data-driven shared expense application with automated CSV import ingestion, algorithmic transaction dispute resolution, and spending anomaly detection reports designed for seamless team/roommate auditing.</p>
+          <div class="tag-list">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">CSV Ingestion</span>
+            <span class="tech-tag">Data Cleaning</span>
+            <span class="tech-tag">Fullstack UI</span>
+          </div>
+          <a href="https://github.com/Gavisingh12/ledgerlens-expenses" target="_blank" class="card-btn">
+            <span>View on GitHub</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </article>
+
+        <!-- Project 6: AirPods Max 3D Motion Showcase -->
+        <article class="glass-card project-card">
+          <div class="card-glow"></div>
+          <div class="project-header">
+            <span class="project-badge">CREATIVE FRONTEND</span>
             <div class="project-actions">
               <a href="https://github.com/Gavisingh12/apple-headphones" target="_blank" class="icon-link"><i class="fa-brands fa-github"></i></a>
             </div>
           </div>
-          <h3 class="project-title">AirPods Max Motion Showcase</h3>
-          <p class="project-summary">Cinematic hardware experience with interactive frame scrubbing, responsive dynamic audio shaders, and frame-by-frame 3D component breakdown.</p>
+          <h3 class="project-title">AirPods Max 3D Motion Showcase</h3>
+          <p class="project-summary">High-performance interactive web showcase demonstrating hardware-accelerated canvas motion scrubbing, spatial audio feedback, and smooth fluid responsiveness without relying on heavy external 3D libraries.</p>
           <div class="tag-list">
+            <span class="tech-tag">HTML5 Canvas</span>
             <span class="tech-tag">Next.js</span>
-            <span class="tech-tag">Framer Motion</span>
-            <span class="tech-tag">WebGL</span>
-            <span class="tech-tag">Tailwind</span>
+            <span class="tech-tag">Web Audio API</span>
+            <span class="tech-tag">Motion UI</span>
           </div>
           <a href="https://github.com/Gavisingh12/apple-headphones" target="_blank" class="card-btn">
-            <span>Inspect Repository</span>
+            <span>View on GitHub</span>
             <i class="fa-solid fa-arrow-right"></i>
           </a>
         </article>
@@ -349,11 +592,11 @@
     </section>
 
     <!-- Skills & Arsenal -->
-    <section class="section-container" id="skills">
+    <section class="section-container" id="skills" data-num="06">
       <div class="section-header">
-        <span class="section-tag">// NEURAL ARSENAL</span>
-        <h2 class="section-title">Frameworks & Technologies</h2>
-        <p class="section-subtitle">Battle-tested tools and frameworks used daily to design, train, and deploy intelligent agents.</p>
+        <span class="section-tag-warm">Tools & Frameworks I Actually Use</span>
+        <h2 class="section-title">Tech Stack</h2>
+        <p class="section-subtitle">Not every tool I've ever heard of — just the ones I actually use and can have a real conversation about.</p>
       </div>
 
       <div class="skills-category-grid">
@@ -406,12 +649,144 @@
       </div>
     </section>
 
+    <!-- Beyond Code / Manhwa Shelf & Passions -->
+    <section class="section-container" id="beyond-code" data-num="07">
+      <div class="section-header">
+        <span class="section-tag-warm">Reading Shelf & Passions</span>
+        <h2 class="section-title">Beyond the Terminal</h2>
+        <p class="section-subtitle">Real interests, languages, and stories that keep life interesting outside model loss curves. I strictly prefer reading over watching anime.</p>
+      </div>
+
+      <!-- Interactive Manhwa / Manga Reading Shelf -->
+      <div class="reading-shelf-container glass-card">
+        <div class="reading-shelf-header">
+          <div class="shelf-title-wrap">
+            <span class="shelf-emoji">📚</span>
+            <div>
+              <h3 class="shelf-heading">My Manhwa & Manga Reading Shelf</h3>
+              <p class="shelf-desc">"Reading lets me digest visual composition, narrative pacing, and panel art at my own rhythm — far more immersive than watching."</p>
+            </div>
+          </div>
+          <div class="shelf-badge">
+            <i class="fa-solid fa-book-bookmark"></i> 500+ Chapters Logged
+          </div>
+        </div>
+
+        <div class="reading-grid">
+          <div class="reading-item">
+            <div class="reading-cover cover-solo">
+              <span class="reading-status status-completed">Completed</span>
+              <div class="cover-art-overlay">
+                <span class="cover-icon">🗡️</span>
+              </div>
+            </div>
+            <div class="reading-info">
+              <h4 class="reading-title">Solo Leveling</h4>
+              <span class="reading-author">Chugong & DUBU (REDICE)</span>
+              <span class="reading-progress"><i class="fa-solid fa-check"></i> Read 179 / 179 Ch. (Read 2x)</span>
+              <p class="reading-comment">Peak visual hype. The shadow army resurrection sequence is unmatched in webtoon history.</p>
+            </div>
+          </div>
+
+          <div class="reading-item">
+            <div class="reading-cover cover-orv">
+              <span class="reading-status status-reading">Caught Up</span>
+              <div class="cover-art-overlay">
+                <span class="cover-icon">📖</span>
+              </div>
+            </div>
+            <div class="reading-info">
+              <h4 class="reading-title">Omniscient Reader's Viewpoint</h4>
+              <span class="reading-author">sing N song & Sleepy-C</span>
+              <span class="reading-progress"><i class="fa-solid fa-bolt"></i> Ch. 220+ · Webtoon</span>
+              <p class="reading-comment">Mind-bending meta-narrative about a sole reader surviving in the novel he read for 10 years.</p>
+            </div>
+          </div>
+
+          <div class="reading-item">
+            <div class="reading-cover cover-tog">
+              <span class="reading-status status-reading">Active</span>
+              <div class="cover-art-overlay">
+                <span class="cover-icon">🏰</span>
+              </div>
+            </div>
+            <div class="reading-info">
+              <h4 class="reading-title">Tower of God</h4>
+              <span class="reading-author">SIU</span>
+              <span class="reading-progress"><i class="fa-solid fa-layer-group"></i> Season 3 · 600+ Ch.</span>
+              <p class="reading-comment">The world-building and complex faction dynamics rival epic high-fantasy literature.</p>
+            </div>
+          </div>
+
+          <div class="reading-item">
+            <div class="reading-cover cover-boxer">
+              <span class="reading-status status-completed">Completed</span>
+              <div class="cover-art-overlay">
+                <span class="cover-icon">🥊</span>
+              </div>
+            </div>
+            <div class="reading-info">
+              <h4 class="reading-title">The Boxer</h4>
+              <span class="reading-author">JH</span>
+              <span class="reading-progress"><i class="fa-solid fa-check"></i> 104 / 104 Ch.</span>
+              <p class="reading-comment">Philosophical masterpiece exploring human trauma, raw talent, light, and redemption.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="funfacts-grid">
+        <div class="glass-card funfact-card">
+          <div class="funfact-emoji">🇫🇷</div>
+          <h4 class="funfact-title">Parlez-vous Français?</h4>
+          <p class="funfact-desc">Fluent in French! Coding in Python, thinking in Hinglish, and speaking French when looking for a fresh perspective or diving into multilingual NLP tokenizer architectures.</p>
+        </div>
+        <div class="glass-card funfact-card">
+          <div class="funfact-emoji">🎙️</div>
+          <h4 class="funfact-title">Voice AI & Speech Models</h4>
+          <p class="funfact-desc">At Alpever AI, I engineer real-time voice agents using ElevenLabs lifelike voice cloning, Gemini Live continuous audio feeds, and Whisper/Deepgram low-latency transcribers.</p>
+        </div>
+        <div class="glass-card funfact-card">
+          <div class="funfact-emoji">🤖</div>
+          <h4 class="funfact-title">LinkedIn Growth Automation</h4>
+          <p class="funfact-desc">Built an automated platform that searches leads, dispatches personalized connection requests, detects when requests are accepted, and triggers customized messages seamlessly.</p>
+        </div>
+        <div class="glass-card funfact-card">
+          <div class="funfact-emoji">☕</div>
+          <h4 class="funfact-title">Chai > Coffee</h4>
+          <p class="funfact-desc">I've debugged more code with masala chai than any debugger tool. My best ideas and neural architectural breakthroughs come at 2 AM with a cup in hand.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- GitHub Activity -->
+    <section class="section-container" id="github-activity">
+      <div class="section-header">
+        <span class="section-tag-warm">Open Source Rhythm</span>
+        <h2 class="section-title">GitHub Activity</h2>
+        <p class="section-subtitle">Real commits, real contributions, real gaps when exams happened. This is my actual coding rhythm.</p>
+      </div>
+
+      <div class="github-stats-grid">
+        <div class="glass-card github-stat-card">
+          <img src="https://github-readme-stats.vercel.app/api?username=Gavisingh12&show_icons=true&theme=transparent&hide_border=true&title_color=6366f1&icon_color=06b6d4&text_color=94a3b8&bg_color=00000000" alt="GitHub Stats" class="github-stat-img" loading="lazy" />
+        </div>
+        <div class="glass-card github-stat-card">
+          <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Gavisingh12&layout=compact&theme=transparent&hide_border=true&title_color=6366f1&text_color=94a3b8&bg_color=00000000" alt="Top Languages" class="github-stat-img" loading="lazy" />
+        </div>
+      </div>
+
+      <div class="glass-card github-streak-card">
+        <img src="https://github-readme-streak-stats.herokuapp.com/?user=Gavisingh12&theme=transparent&hide_border=true&ring=6366f1&fire=06b6d4&currStreakLabel=f8fafc&sideLabels=94a3b8&dates=64748b&background=00000000" alt="GitHub Streak" class="github-streak-img" loading="lazy" />
+      </div>
+    </section>
+
     <!-- Interactive In-Browser ML Terminal -->
     <section class="section-container" id="terminal-section">
       <div class="section-header">
-        <span class="section-tag">// INTERACTIVE SHELL</span>
-        <h2 class="section-title">Live ML Neural Terminal</h2>
-        <p class="section-subtitle">Run commands directly in this simulated AI runtime environment.</p>
+        <span class="section-tag-warm">Playground Terminal</span>
+        <h2 class="section-title">Interactive Terminal</h2>
+        <p class="section-subtitle">Type commands and explore. Try "help" to see what's available, or just click the buttons below.</p>
       </div>
 
       <div class="terminal-window">
@@ -444,32 +819,94 @@
       </div>
     </section>
 
-    <!-- Connect & Footer -->
+    <!-- Contact Form -->
+    <section class="section-container" id="contact">
+      <div class="section-header">
+        <span class="section-tag-warm">Say Hello / Let's Connect</span>
+        <h2 class="section-title">Let's Talk</h2>
+        <p class="section-subtitle">Got an idea? Looking for an AI Solution Engineer or ML intern? Or want to chat about manhwas or French literature? Drop a line.</p>
+      </div>
+
+      <div class="contact-layout">
+        <div class="contact-info">
+          <div class="glass-card contact-card">
+            <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+            <h4>Email</h4>
+            <a href="mailto:gavindersingh164@gmail.com" class="contact-link">gavindersingh164@gmail.com</a>
+          </div>
+          <div class="glass-card contact-card">
+            <div class="contact-icon"><i class="fa-brands fa-github"></i></div>
+            <h4>GitHub</h4>
+            <a href="https://github.com/Gavisingh12" target="_blank" class="contact-link">@Gavisingh12</a>
+          </div>
+          <div class="glass-card contact-card">
+            <div class="contact-icon"><i class="fa-brands fa-linkedin"></i></div>
+            <h4>LinkedIn</h4>
+            <a href="https://www.linkedin.com/in/gavindra-singh/" target="_blank" class="contact-link">Gavindra Singh</a>
+          </div>
+        </div>
+
+        <form class="glass-card contact-form" id="contactForm" action="https://formspree.io/f/xplaceholder" method="POST">
+          <div class="form-group">
+            <label for="contactName" class="form-label">Your Name</label>
+            <input type="text" id="contactName" name="name" class="form-input" placeholder="What should I call you?" required />
+          </div>
+          <div class="form-group">
+            <label for="contactEmail" class="form-label">Email</label>
+            <input type="email" id="contactEmail" name="email" class="form-input" placeholder="Where can I reply?" required />
+          </div>
+          <div class="form-group">
+            <label for="contactMessage" class="form-label">Message</label>
+            <textarea id="contactMessage" name="message" class="form-input form-textarea" placeholder="Tell me what's on your mind..." rows="5" required></textarea>
+          </div>
+          <button type="submit" class="form-submit">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span>Send Message</span>
+          </button>
+          <p class="form-note">I usually reply within 24 hours. Direct inbox: gavindersingh164@gmail.com</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Connect & Footer -->
     <footer class="footer">
       <div class="footer-content">
         <div class="footer-main">
-          <h2>Ready to build state-of-the-art AI?</h2>
-          <p>Let's collaborate on challenging machine learning models, RAG pipelines, and automated intelligence.</p>
+          <h2>Thanks for stopping by 🙏</h2>
+          <p>Whether you're looking for an AI engineer, interested in voice agents, or just love reading manhwa — I'd love to chat.</p>
+          
+          <div class="footer-signature-wrap">
+            <span class="sign-label">Crafted with care by</span>
+            <div class="handwritten-signature">Gavinder Singh</div>
+            <span class="sign-sub">Pre-Final Year B.Tech CSE @ Lovely Professional University · AI Solution Engineer Intern @ Alpever AI</span>
+          </div>
+
           <div class="footer-links">
             <a href="https://github.com/Gavisingh12" target="_blank" class="footer-btn">
               <i class="fa-brands fa-github"></i> GitHub
             </a>
-            <a href="mailto:contact@gavisingh.dev" class="footer-btn">
+            <a href="mailto:gavindersingh164@gmail.com" class="footer-btn">
               <i class="fa-solid fa-envelope"></i> Email Me
             </a>
-            <a href="https://linkedin.com" target="_blank" class="footer-btn">
+            <a href="https://www.linkedin.com/in/gavindra-singh/" target="_blank" class="footer-btn">
               <i class="fa-brands fa-linkedin"></i> LinkedIn
             </a>
           </div>
         </div>
         <div class="footer-bottom">
-          <p>© 2026 Gavinder Singh. Designed with 3D Canvas motion frames & hardware acceleration.</p>
+          <p>© 2026 Gavinder Singh · Built with vanilla JS, CSS & pure HTML5 Canvas math · Zero external framework bloat</p>
         </div>
       </div>
     </footer>
 
-  </main>
+  <!-- Toast Notification Container -->
+  <div class="toast-notification" id="toastNotification">
+    <i class="fa-solid fa-circle-check toast-icon" id="toastIcon"></i>
+    <span class="toast-message" id="toastMessage">Action completed</span>
+  </div>
 
   <script src="script.js"></script>
 </body>
 </html>
+

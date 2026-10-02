@@ -61,28 +61,28 @@
   // --- Stages Meta Data ---
   const STAGES = [
     {
-      phase: '1 / 4 [DATA INGESTION]',
-      tag: 'PHASE 01 // RAW DATA INGESTION',
-      title: 'High-Dimensional Feature Tokenization',
-      desc: 'Raw multi-modal tokens are embedded into high-dimensional vector space. Scrub mouse or use keyboard arrows to initiate transformer layer compilation.'
+      phase: '1 / 4 [RAW UNIVERSE]',
+      tag: 'STAGE 01 · THE RAW UNIVERSE',
+      title: 'Scattered Data & Noise',
+      desc: 'Millions of raw words, sounds, and pixels floating in space — waiting to be given meaning.'
     },
     {
-      phase: '2 / 4 [ATTENTION LAYERS]',
-      tag: 'PHASE 02 // MULTI-HEAD ATTENTION',
-      title: 'Deep Transformer Matrix Projection',
-      desc: 'Q, K, V self-attention matrices calculate token relationships across 32 attention heads with dynamic positional embeddings.'
+      phase: '2 / 4 [ATTENTION]',
+      tag: 'STAGE 02 · MAKING CONNECTIONS',
+      title: 'Connecting the Dots',
+      desc: 'Like constellations forming in the night sky, attention layers discover hidden relationships between every piece of data.'
     },
     {
-      phase: '3 / 4 [BACKPROPAGATION]',
-      tag: 'PHASE 03 // GRADIENT OPTIMIZATION',
-      title: 'Loss Minimization & Weight Updates',
-      desc: 'AdamW optimizer calculates stochastic gradients across billions of parameters. Cross-entropy loss drops rapidly toward convergence.'
+      phase: '3 / 4 [GRAVITATIONAL PULL]',
+      tag: 'STAGE 03 · THE GRAVITATIONAL PULL',
+      title: 'Collapsing the Noise',
+      desc: 'Errors fade away. Random noise disappears. The system continuously refines itself until only pure logic remains.'
     },
     {
-      phase: '4 / 4 [SINGULARITY CORE]',
-      tag: 'PHASE 04 // GRAVITATIONAL CONVERGENCE',
-      title: 'Converged AI Singularity Engine',
-      desc: 'Gravitational collapse complete: billions of latent parameters and stellar tokens coalesce into a singular crystalline intelligence core, benchmarked at 99.4% accuracy.'
+      phase: '4 / 4 [THE SINGULARITY]',
+      tag: 'STAGE 04 · THE SINGULARITY',
+      title: 'The Intelligence Core',
+      desc: 'A universe of chaotic data condensed into a single neural brain — ready to think, speak, and solve real human problems.'
     }
   ];
 
@@ -941,15 +941,17 @@
   const termBtns = document.querySelectorAll('.term-btn');
 
   const COMMANDS = {
-    help: 'Available commands:\n  • train --model <name>  : Launch simulated deep learning training job\n  • status                : Display CUDA GPU memory & compute utilization\n  • projects              : List highlighted production AI platforms\n  • skills                : Print technical framework arsenal\n  • contact               : Display official communication endpoints\n  • clear                 : Clear terminal console buffer',
+    help: 'Available commands:\n  • experience            : Show current role & industry work @ Alpever AI\n  • projects              : List highlighted production AI & data science platforms\n  • skills                : Print technical framework arsenal\n  • status                : Display CUDA GPU memory & compute utilization\n  • train --model <name>  : Launch simulated deep learning training job\n  • contact               : Display official communication endpoints\n  • clear                 : Clear terminal console buffer',
     
+    experience: 'INDUSTRY EXPERIENCE:\n  • Role: AI Solution Engineer Intern\n  • Company: Alpever AI (2025 — Present)\n  • Work: Autonomous Voice AI Agents (ElevenLabs, Gemini Live, Transcribers), LinkedIn Full-Cycle Automation, and Multi-Agent Workflow Pipelines.',
+
     status: 'SYSTEM TELEMETRY [CUDA 12.4]:\n  • Device: NVIDIA GeForce RTX 4090 (24GB VRAM)\n  • Compute Engine: Tensor Cores Active (Mixed Precision FP16)\n  • Host OS: Linux Kernel 6.8 / Docker Containerized\n  • Active Workers: 8 DataLoader threads | NCCL Distributed',
 
-    projects: 'HIGHLIGHTED ARCHITECTURES:\n  1. AI Decision Intelligence Platform  [RAG + Forecasting]\n  2. AI Core Models & Experiments       [PyTorch/TensorFlow]\n  3. Smart Energy Consumption Tracker   [Time-Series Anomaly]\n  4. AirPods Max 3D Motion Showcase     [Next.js + WebGL]',
+    projects: 'HIGHLIGHTED ARCHITECTURES:\n  1. AI Decision Intelligence Platform  [RAG + Forecasting]\n  2. SBM ODF District Analytics Engine  [Data Science & Outlier ML]\n  3. Deep Backend Neural Model Trainer  [Python + WebSocket]\n  4. Smart Energy Consumption Tracker   [Time-Series Anomaly]\n  5. LedgerLens Expense Engine          [CSV Audit & FinTech]\n  6. AirPods Max 3D Motion Showcase     [HTML5 Canvas + Next.js]',
 
-    skills: 'TECHNICAL ARSENAL:\n  • Core: Python, C++, PyTorch, TensorFlow, Scikit-Learn\n  • MLOps: Docker, FastAPI, CUDA, Git, ONNX, MLflow\n  • Domains: Deep Learning, Time-Series, RAG, Computer Vision',
+    skills: 'TECHNICAL ARSENAL:\n  • Core: Python, C++, PyTorch, TensorFlow, Scikit-Learn\n  • Specialized: ElevenLabs, Gemini Live, Whisper, LLMs, Voice AI\n  • MLOps & Web: FastAPI, Docker, Flask, CUDA, Git, WebSockets\n  • Domains: Deep Learning, Data Science, RAG, Automation, Time-Series\n  • Languages: English, Hindi, French (Fluent)',
 
-    contact: 'COMMUNICATION CHANNELS:\n  • GitHub: https://github.com/Gavisingh12\n  • Email: contact@gavisingh.dev\n  • LinkedIn: Gavinder Singh'
+    contact: 'COMMUNICATION CHANNELS:\n  • GitHub: https://github.com/Gavisingh12\n  • Email: gavindersingh164@gmail.com\n  • LinkedIn: https://www.linkedin.com/in/gavindra-singh/'
   };
 
   function addTermLine(text, isOutput = true) {
@@ -1000,497 +1002,166 @@
     });
   });
 
-  // ==========================================
-  // --- LIVE IN-BROWSER AI DIGIT RECOGNIZER ---
-  // ==========================================
-  const drawCanvas = document.getElementById('drawCanvas');
-  if (drawCanvas) {
-    const dCtx = drawCanvas.getContext('2d', { willReadFrequently: true });
-    const padStatus = document.getElementById('padStatus');
-    const topDigitEl = document.getElementById('topDigit');
-    const topConfEl = document.getElementById('topConf');
-    const inferTimeEl = document.getElementById('inferTime');
-    const meterBars = document.getElementById('meterBars');
-    const btnClearPad = document.getElementById('btnClearPad');
-    const btnPresetPad = document.getElementById('btnPresetPad');
-    const brushSizeInput = document.getElementById('brushSize');
+  // --- Toast Notification System ---
+  const toastEl = document.getElementById('toastNotification');
+  const toastMsg = document.getElementById('toastMessage');
+  const toastIcon = document.getElementById('toastIcon');
+  let toastTimer = null;
 
-    let isDrawing = false;
-    let lastX = 0;
-    let lastY = 0;
-    let strokeCount = 0;
-    let inferTimeout = null;
-
-    // Initialize 0 - 9 Probability Meter Bars
-    if (meterBars) {
-      meterBars.innerHTML = '';
-      for (let d = 0; d < 10; d++) {
-        const row = document.createElement('div');
-        row.className = 'meter-row';
-        row.innerHTML = `
-          <div class="meter-label-wrap">
-            <span class="meter-class">CLASS [${d}]</span>
-            <span class="meter-pct" id="pct-${d}">0.0%</span>
-          </div>
-          <div class="meter-track">
-            <div class="meter-fill" id="fill-${d}"></div>
-          </div>
-        `;
-        meterBars.appendChild(row);
-      }
+  function showToast(message, isSuccess = true) {
+    if (!toastEl) return;
+    if (toastMsg) toastMsg.textContent = message;
+    if (toastIcon) {
+      toastIcon.className = isSuccess ? 'fa-solid fa-circle-check toast-icon' : 'fa-solid fa-circle-info toast-icon';
+      toastIcon.style.color = isSuccess ? 'var(--green)' : 'var(--cyan)';
     }
-
-    function initDrawCanvas() {
-      dCtx.fillStyle = '#05070c';
-      dCtx.fillRect(0, 0, drawCanvas.width, drawCanvas.height);
-      dCtx.lineCap = 'round';
-      dCtx.lineJoin = 'round';
-      dCtx.strokeStyle = '#ffffff';
-    }
-    initDrawCanvas();
-
-    function getCanvasCoords(e) {
-      const rect = drawCanvas.getBoundingClientRect();
-      const scaleX = drawCanvas.width / rect.width;
-      const scaleY = drawCanvas.height / rect.height;
-      if (e.touches && e.touches.length > 0) {
-        return {
-          x: (e.touches[0].clientX - rect.left) * scaleX,
-          y: (e.touches[0].clientY - rect.top) * scaleY
-        };
-      }
-      return {
-        x: (e.clientX - rect.left) * scaleX,
-        y: (e.clientY - rect.top) * scaleY
-      };
-    }
-
-    function startDraw(e) {
-      e.preventDefault();
-      isDrawing = true;
-      const coords = getCanvasCoords(e);
-      lastX = coords.x;
-      lastY = coords.y;
-      strokeCount++;
-      if (padStatus) padStatus.textContent = 'INFERRING...';
-    }
-
-    function draw(e) {
-      if (!isDrawing) return;
-      e.preventDefault();
-      const coords = getCanvasCoords(e);
-      const brushSize = brushSizeInput ? parseInt(brushSizeInput.value, 10) : 20;
-
-      dCtx.lineWidth = brushSize;
-      dCtx.beginPath();
-      dCtx.moveTo(lastX, lastY);
-      dCtx.lineTo(coords.x, coords.y);
-      dCtx.stroke();
-
-      lastX = coords.x;
-      lastY = coords.y;
-
-      clearTimeout(inferTimeout);
-      inferTimeout = setTimeout(runInference, 40);
-    }
-
-    function stopDraw(e) {
-      if (!isDrawing) return;
-      isDrawing = false;
-      clearTimeout(inferTimeout);
-      runInference();
-    }
-
-    // Mouse Listeners
-    drawCanvas.addEventListener('mousedown', startDraw);
-    window.addEventListener('mousemove', draw);
-    window.addEventListener('mouseup', stopDraw);
-
-    // Touch Listeners (Mobile & Tablet)
-    drawCanvas.addEventListener('touchstart', startDraw, { passive: false });
-    drawCanvas.addEventListener('touchmove', draw, { passive: false });
-    drawCanvas.addEventListener('touchend', stopDraw, { passive: false });
-
-    // Clear Pad
-    if (btnClearPad) {
-      btnClearPad.addEventListener('click', () => {
-        initDrawCanvas();
-        strokeCount = 0;
-        if (topDigitEl) topDigitEl.textContent = '-';
-        if (topConfEl) topConfEl.textContent = '--%';
-        if (inferTimeEl) inferTimeEl.textContent = '~0.0 ms';
-        if (padStatus) padStatus.textContent = 'READY TO INFER';
-        for (let d = 0; d < 10; d++) {
-          const pct = document.getElementById(`pct-${d}`);
-          const fill = document.getElementById(`fill-${d}`);
-          if (pct) pct.textContent = '0.0%';
-          if (fill) {
-            fill.style.width = '0%';
-            fill.classList.remove('winner');
-          }
-        }
-      });
-    }
-
-    // Preset Digits for Instant Demonstration
-    const PRESETS = [
-      // Digit 3
-      [
-        [{x: 80, y: 70}, {x: 190, y: 70}, {x: 140, y: 135}, {x: 185, y: 175}, {x: 170, y: 225}, {x: 90, y: 220}]
-      ],
-      // Digit 7
-      [
-        [{x: 75, y: 75}, {x: 205, y: 75}, {x: 125, y: 225}]
-      ],
-      // Digit 8
-      [
-        [{x: 140, y: 70}, {x: 100, y: 100}, {x: 140, y: 145}, {x: 185, y: 185}, {x: 140, y: 225}, {x: 95, y: 185}, {x: 140, y: 145}, {x: 180, y: 100}, {x: 140, y: 70}]
-      ],
-      // Digit 0
-      [
-        [{x: 140, y: 70}, {x: 90, y: 110}, {x: 90, y: 180}, {x: 140, y: 225}, {x: 190, y: 180}, {x: 190, y: 110}, {x: 140, y: 70}]
-      ],
-      // Digit 5
-      [
-        [{x: 180, y: 75}, {x: 105, y: 75}, {x: 100, y: 140}, {x: 175, y: 140}, {x: 185, y: 185}, {x: 140, y: 225}, {x: 85, y: 215}]
-      ],
-      // Digit 1
-      [
-        [{x: 110, y: 100}, {x: 145, y: 75}, {x: 145, y: 225}]
-      ],
-      // Digit 4
-      [
-        [{x: 170, y: 65}, {x: 85, y: 165}, {x: 205, y: 165}],
-        [{x: 170, y: 110}, {x: 170, y: 225}]
-      ]
-    ];
-    let presetIdx = 0;
-
-    if (btnPresetPad) {
-      btnPresetPad.addEventListener('click', () => {
-        initDrawCanvas();
-        const strokes = PRESETS[presetIdx % PRESETS.length];
-        presetIdx++;
-
-        dCtx.lineWidth = 20;
-        strokes.forEach(stroke => {
-          if (stroke.length < 2) return;
-          dCtx.beginPath();
-          dCtx.moveTo(stroke[0].x, stroke[0].y);
-          for (let i = 1; i < stroke.length; i++) {
-            dCtx.lineTo(stroke[i].x, stroke[i].y);
-          }
-          dCtx.stroke();
-        });
-
-        runInference();
-      });
-    }
-
-    // --- FEATURE EXTRACTION & NEURAL CLASSIFIER ---
-    function runInference() {
-      const startTime = performance.now();
-
-      // Extract 280x280 image data
-      const imgData = dCtx.getImageData(0, 0, drawCanvas.width, drawCanvas.height);
-      const data = imgData.data;
-
-      // Find bounding box of drawn pixels
-      let minX = drawCanvas.width, maxX = 0;
-      let minY = drawCanvas.height, maxY = 0;
-      let activePixels = 0;
-      let sumX = 0, sumY = 0;
-
-      for (let y = 0; y < drawCanvas.height; y++) {
-        for (let x = 0; x < drawCanvas.width; x++) {
-          const idx = (y * drawCanvas.width + x) * 4;
-          const val = data[idx]; // red channel (grayscale)
-          if (val > 35) {
-            activePixels++;
-            sumX += x;
-            sumY += y;
-            if (x < minX) minX = x;
-            if (x > maxX) maxX = x;
-            if (y < minY) minY = y;
-            if (y > maxY) maxY = y;
-          }
-        }
-      }
-
-      // If nothing drawn, reset
-      if (activePixels < 50) {
-        if (topDigitEl) topDigitEl.textContent = '-';
-        if (topConfEl) topConfEl.textContent = '--%';
-        if (padStatus) padStatus.textContent = 'READY TO INFER';
-        for (let d = 0; d < 10; d++) {
-          const pct = document.getElementById(`pct-${d}`);
-          const fill = document.getElementById(`fill-${d}`);
-          if (pct) pct.textContent = '0.0%';
-          if (fill) {
-            fill.style.width = '0%';
-            fill.classList.remove('winner');
-          }
-        }
-        return;
-      }
-
-      // Center of mass and dimensions
-      const bbW = Math.max(1, maxX - minX + 1);
-      const bbH = Math.max(1, maxY - minY + 1);
-      const aspectRatio = bbW / bbH;
-      const comX = (sumX / activePixels - minX) / bbW; // 0 to 1
-      const comY = (sumY / activePixels - minY) / bbH; // 0 to 1
-
-      // Downsample to normalized 7x7 grid (49 zone features)
-      const grid = new Float32Array(49);
-      for (let gy = 0; gy < 7; gy++) {
-        for (let gx = 0; gx < 7; gx++) {
-          const startX = Math.floor(minX + (gx / 7) * bbW);
-          const endX = Math.floor(minX + ((gx + 1) / 7) * bbW);
-          const startY = Math.floor(minY + (gy / 7) * bbH);
-          const endY = Math.floor(minY + ((gy + 1) / 7) * bbH);
-          let sum = 0, count = 0;
-
-          for (let py = startY; py < endY; py++) {
-            for (let px = startX; px < endX; px++) {
-              if (px >= 0 && px < drawCanvas.width && py >= 0 && py < drawCanvas.height) {
-                const idx = (py * drawCanvas.width + px) * 4;
-                sum += data[idx] > 35 ? 1 : 0;
-                count++;
-              }
-            }
-          }
-          grid[gy * 7 + gx] = count > 0 ? sum / count : 0;
-        }
-      }
-
-      // Geometric indicators
-      const topHalfWeight = (grid.slice(0, 21).reduce((a, b) => a + b, 0)) / (activePixels / 100 + 1);
-      const bottomHalfWeight = (grid.slice(28, 49).reduce((a, b) => a + b, 0)) / (activePixels / 100 + 1);
-      const centerDensity = grid[3 * 7 + 3];
-      const middleRowDensity = (grid[3*7+1] + grid[3*7+2] + grid[3*7+3] + grid[3*7+4] + grid[3*7+5]) / 5;
-
-      // Count horizontal crossings across middle vertical axis (helps distinguish 1, 0, 8, 3, etc.)
-      let crossingsMidX = 0;
-      let inStroke = false;
-      const midXCoord = Math.floor(minX + bbW * 0.5);
-      for (let y = minY; y <= maxY; y++) {
-        const idx = (y * drawCanvas.width + midXCoord) * 4;
-        const isSet = data[idx] > 35;
-        if (isSet && !inStroke) {
-          crossingsMidX++;
-          inStroke = true;
-        } else if (!isSet) {
-          inStroke = false;
-        }
-      }
-
-      // Check hole in top half and hole in bottom half (0 has central hole, 8 has 2 holes, 6 has bottom hole, 9 has top hole)
-      const topHole = (grid[1*7+3] < 0.25 && grid[1*7+2] > 0.4 && grid[1*7+4] > 0.4 && grid[0*7+3] > 0.4);
-      const botHole = (grid[5*7+3] < 0.25 && grid[5*7+2] > 0.4 && grid[5*7+4] > 0.4 && grid[6*7+3] > 0.4);
-      const centerHole = (grid[3*7+3] < 0.2 && grid[3*7+1] > 0.4 && grid[3*7+5] > 0.4);
-
-      // Archetypal Spatial Prototypes for 0 - 9 (7x7)
-      const PROTOTYPES = [
-        // 0: hollow center, strong perimeter
-        [
-          0,1,1,1,1,1,0,
-          1,1,0,0,0,1,1,
-          1,0,0,0,0,0,1,
-          1,0,0,0,0,0,1,
-          1,0,0,0,0,0,1,
-          1,1,0,0,0,1,1,
-          0,1,1,1,1,1,0
-        ],
-        // 1: tall, narrow, centered vertical line
-        [
-          0,0,1,1,0,0,0,
-          0,1,1,1,0,0,0,
-          0,0,1,1,0,0,0,
-          0,0,1,1,0,0,0,
-          0,0,1,1,0,0,0,
-          0,0,1,1,0,0,0,
-          0,1,1,1,1,0,0
-        ],
-        // 2: top curve, diagonal down-left, flat bottom base
-        [
-          0,1,1,1,1,0,0,
-          1,1,0,0,1,1,0,
-          0,0,0,1,1,0,0,
-          0,0,1,1,0,0,0,
-          0,1,1,0,0,0,0,
-          1,1,0,0,0,1,0,
-          1,1,1,1,1,1,1
-        ],
-        // 3: top bar/curve, middle pinch, bottom curve
-        [
-          0,1,1,1,1,1,0,
-          1,0,0,0,0,1,1,
-          0,0,0,1,1,1,0,
-          0,0,1,1,1,1,0,
-          0,0,0,0,0,1,1,
-          1,0,0,0,0,1,1,
-          0,1,1,1,1,1,0
-        ],
-        // 4: left vertical down, horizontal cross, main vertical stalk
-        [
-          0,0,0,1,1,0,0,
-          0,0,1,1,1,0,0,
-          0,1,0,1,1,0,0,
-          1,0,0,1,1,0,0,
-          1,1,1,1,1,1,1,
-          0,0,0,1,1,0,0,
-          0,0,0,1,1,0,0
-        ],
-        // 5: top horizontal bar, vertical left, middle curve, bottom loop
-        [
-          1,1,1,1,1,1,0,
-          1,1,0,0,0,0,0,
-          1,1,1,1,1,0,0,
-          0,0,0,0,1,1,0,
-          0,0,0,0,0,1,1,
-          1,0,0,0,0,1,1,
-          0,1,1,1,1,1,0
-        ],
-        // 6: smooth sweep down, closed bottom circle
-        [
-          0,0,1,1,1,0,0,
-          0,1,1,0,0,0,0,
-          1,1,0,0,0,0,0,
-          1,1,1,1,1,0,0,
-          1,1,0,0,1,1,0,
-          1,1,0,0,1,1,0,
-          0,1,1,1,1,0,0
-        ],
-        // 7: top horizontal line, sharp diagonal descending left
-        [
-          1,1,1,1,1,1,1,
-          0,0,0,0,0,1,1,
-          0,0,0,0,1,1,0,
-          0,0,0,1,1,0,0,
-          0,0,1,1,0,0,0,
-          0,1,1,0,0,0,0,
-          0,1,1,0,0,0,0
-        ],
-        // 8: top loop, pinch waist, bottom loop
-        [
-          0,1,1,1,1,0,0,
-          1,1,0,0,1,1,0,
-          1,1,0,0,1,1,0,
-          0,1,1,1,1,0,0,
-          1,1,0,0,1,1,0,
-          1,1,0,0,1,1,0,
-          0,1,1,1,1,0,0
-        ],
-        // 9: top closed loop, stem descending on right
-        [
-          0,1,1,1,1,0,0,
-          1,1,0,0,1,1,0,
-          1,1,0,0,1,1,0,
-          0,1,1,1,1,1,0,
-          0,0,0,0,1,1,0,
-          0,0,0,1,1,0,0,
-          0,1,1,1,0,0,0
-        ]
-      ];
-
-      // Calculate Cosine Similarity & Topological Boosting for each digit
-      const logits = new Float32Array(10);
-      for (let d = 0; d < 10; d++) {
-        const proto = PROTOTYPES[d];
-        let dot = 0, magA = 0, magB = 0;
-        for (let i = 0; i < 49; i++) {
-          dot += grid[i] * proto[i];
-          magA += grid[i] * grid[i];
-          magB += proto[i] * proto[i];
-        }
-        const sim = (magA > 0 && magB > 0) ? dot / (Math.sqrt(magA) * Math.sqrt(magB)) : 0;
-        logits[d] = sim * 5.0; // Base score scaled
-
-        // Structural Feature Boosting
-        if (d === 1) {
-          if (aspectRatio < 0.45) logits[1] += 2.5;
-          if (aspectRatio > 0.75) logits[1] -= 3.0;
-        }
-        if (d === 0) {
-          if (centerHole) logits[0] += 2.2;
-          if (crossingsMidX === 2 && aspectRatio > 0.5) logits[0] += 1.5;
-          if (centerDensity > 0.5) logits[0] -= 2.5;
-        }
-        if (d === 8) {
-          if (crossingsMidX >= 3) logits[8] += 2.4;
-          if (topHole && botHole) logits[8] += 3.0;
-        }
-        if (d === 7) {
-          if (grid[0] > 0.4 && grid[6] > 0.4 && grid[48] < 0.2) logits[7] += 2.0;
-          if (aspectRatio > 0.5 && bottomHalfWeight < topHalfWeight) logits[7] += 1.2;
-        }
-        if (d === 4) {
-          if (middleRowDensity > 0.4 && grid[4*7+3] > 0.4) logits[4] += 1.8;
-        }
-        if (d === 3) {
-          if (crossingsMidX >= 2 && grid[3*7+6] > 0.3) logits[3] += 1.5;
-        }
-        if (d === 6) {
-          if (botHole && !topHole) logits[6] += 2.2;
-        }
-        if (d === 9) {
-          if (topHole && !botHole) logits[9] += 2.2;
-        }
-      }
-
-      // Softmax with temperature scaling
-      const temperature = 1.3;
-      let maxLogit = -Infinity;
-      for (let d = 0; d < 10; d++) {
-        if (logits[d] > maxLogit) maxLogit = logits[d];
-      }
-
-      let sumExp = 0;
-      const probs = new Float32Array(10);
-      for (let d = 0; d < 10; d++) {
-        probs[d] = Math.exp((logits[d] - maxLogit) / temperature);
-        sumExp += probs[d];
-      }
-
-      let topDigit = 0;
-      let topConfidence = 0;
-      for (let d = 0; d < 10; d++) {
-        probs[d] = probs[d] / sumExp;
-        if (probs[d] > topConfidence) {
-          topConfidence = probs[d];
-          topDigit = d;
-        }
-      }
-
-      const inferenceDuration = (performance.now() - startTime).toFixed(1);
-
-      // Update UI Telemetry
-      if (topDigitEl) topDigitEl.textContent = topDigit;
-      if (topConfEl) topConfEl.textContent = (topConfidence * 100).toFixed(1) + '%';
-      if (inferTimeEl) inferTimeEl.textContent = `~${inferenceDuration} ms`;
-      if (padStatus) padStatus.textContent = 'INFERENCE COMPLETE';
-
-      // Update Meter Bars
-      for (let d = 0; d < 10; d++) {
-        const pctEl = document.getElementById(`pct-${d}`);
-        const fillEl = document.getElementById(`fill-${d}`);
-        const pctVal = (probs[d] * 100).toFixed(1);
-        if (pctEl) pctEl.textContent = `${pctVal}%`;
-        if (fillEl) {
-          fillEl.style.width = `${pctVal}%`;
-          if (d === topDigit) {
-            fillEl.classList.add('winner');
-          } else {
-            fillEl.classList.remove('winner');
-          }
-        }
-      }
-    }
+    toastEl.classList.add('active');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toastEl.classList.remove('active');
+    }, 3800);
   }
+
+  // Quick Copy Email
+  const quickCopyEmail = document.getElementById('quickCopyEmail');
+  if (quickCopyEmail) {
+    quickCopyEmail.addEventListener('click', () => {
+      const email = quickCopyEmail.getAttribute('data-email') || 'gavindersingh164@gmail.com';
+      navigator.clipboard.writeText(email).then(() => {
+        showToast('Email copied to clipboard (gavindersingh164@gmail.com)', true);
+      }).catch(() => {
+        showToast('Direct contact: gavindersingh164@gmail.com', false);
+      });
+    });
+  }
+
+  // Interactive Contact Form Handling
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      const action = contactForm.getAttribute('action');
+      if (action && action.includes('xplaceholder')) {
+        e.preventDefault();
+        const nameVal = document.getElementById('contactName')?.value || 'Friend';
+        showToast(`Thank you, ${nameVal}! Message received. I'll get back to you shortly.`, true);
+        contactForm.reset();
+      }
+    });
+  }
+
+  // Number Counter Animations on Scroll
+  const statNumbers = document.querySelectorAll('.stat-number');
+  if ('IntersectionObserver' in window && statNumbers.length > 0) {
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const text = el.textContent.trim();
+          const match = text.match(/^(\d+)(\+?)$/);
+          if (match) {
+            const targetNum = parseInt(match[1], 10);
+            const suffix = match[2] || '';
+            let current = 0;
+            const step = Math.max(1, Math.floor(targetNum / 20));
+            const timer = setInterval(() => {
+              current += step;
+              if (current >= targetNum) {
+                el.textContent = `${targetNum}${suffix}`;
+                clearInterval(timer);
+              } else {
+                el.textContent = `${current}${suffix}`;
+              }
+            }, 30);
+          }
+          obs.unobserve(el);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    statNumbers.forEach(num => observer.observe(num));
+  }
+
+  // Interactive 3D Card Hover Tilt for Project Cards & Glass Cards
+  const tiltCards = document.querySelectorAll('.project-card, .funfact-card, .timeline-content');
+  tiltCards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotX = ((y - centerY) / centerY) * -4;
+      const rotY = ((x - centerX) / centerX) * 4;
+      card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-2px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
 
   // Start Rendering
   updateScrollProgress();
   requestAnimationFrame(render);
+
+  /* -----------------------------------------------------------------------
+     THEME TOGGLE — Light / Dark mode with localStorage persistence
+  ----------------------------------------------------------------------- */
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIcon   = document.getElementById('themeIcon');
+  const themeLabel  = document.getElementById('themeLabel');
+
+  function applyTheme(isLight) {
+    if (isLight) {
+      document.body.classList.add('light-mode');
+      document.body.classList.remove('dark-mode');
+      if (themeIcon)  themeIcon.className  = 'fa-solid fa-moon';
+      if (themeLabel) themeLabel.textContent = 'DARK';
+    } else {
+      document.body.classList.remove('light-mode');
+      document.body.classList.add('dark-mode');
+      if (themeIcon)  themeIcon.className  = 'fa-solid fa-sun';
+      if (themeLabel) themeLabel.textContent = 'LIGHT';
+    }
+  }
+
+  // Restore saved preference
+  const savedTheme = localStorage.getItem('gs-theme');
+  applyTheme(savedTheme === 'light');
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const nowLight = !document.body.classList.contains('light-mode');
+      applyTheme(nowLight);
+      localStorage.setItem('gs-theme', nowLight ? 'light' : 'dark');
+    });
+  }
+
+  /* -----------------------------------------------------------------------
+     LANGUAGE TOGGLE — English / French bio swap
+  ----------------------------------------------------------------------- */
+  const btnEn = document.getElementById('btnLangEn');
+  const btnFr = document.getElementById('btnLangFr');
+  const bioEn = document.getElementById('bioEn');
+  const bioFr = document.getElementById('bioFr');
+
+  function showBio(lang) {
+    if (!bioEn || !bioFr) return;
+    if (lang === 'fr') {
+      bioEn.style.display = 'none';
+      bioFr.style.display = '';
+      if (btnEn) btnEn.classList.remove('active');
+      if (btnFr) btnFr.classList.add('active');
+    } else {
+      bioFr.style.display = 'none';
+      bioEn.style.display = '';
+      if (btnFr) btnFr.classList.remove('active');
+      if (btnEn) btnEn.classList.add('active');
+    }
+  }
+
+  if (btnEn) btnEn.addEventListener('click', () => showBio('en'));
+  if (btnFr) btnFr.addEventListener('click', () => showBio('fr'));
+  // Set initial state
+  showBio('en');
 
 })();
