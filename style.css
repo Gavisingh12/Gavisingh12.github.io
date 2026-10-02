@@ -1570,8 +1570,8 @@ a   { color: inherit; text-decoration: none; }
 /* ─── Contact Section ────────────────────────────────────────────────────── */
 .contact-layout {
   display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 3rem;
+  grid-template-columns: minmax(290px, 320px) 1fr;
+  gap: 2.5rem;
   align-items: start;
 }
 
@@ -1583,10 +1583,11 @@ a   { color: inherit; text-decoration: none; }
   box-shadow: none;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.1rem;
   border: 1px solid var(--border);
   background: var(--bg-2);
   transition: background 0.18s;
+  overflow: hidden;
 }
 
 .contact-card:first-child { border-radius: 3px 3px 0 0; }
@@ -1607,16 +1608,30 @@ a   { color: inherit; text-decoration: none; }
   flex-shrink: 0;
 }
 
+.contact-details {
+  min-width: 0;
+  flex: 1;
+}
+
 .contact-card h4 {
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   font-weight: 700;
   color: var(--t2);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: 0.1rem;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.12rem;
 }
 
-.contact-link { font-size: 0.855rem; color: var(--t1); transition: color 0.18s; }
+.contact-link {
+  font-size: 0.855rem;
+  color: var(--t1);
+  transition: color 0.18s;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
 .contact-link:hover { color: var(--amber); }
 
 /* Contact form */

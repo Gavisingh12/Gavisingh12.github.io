@@ -831,22 +831,33 @@
         <div class="contact-info">
           <div class="glass-card contact-card">
             <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
-            <h4>Email</h4>
-            <a href="mailto:gavindersingh164@gmail.com" class="contact-link">gavindersingh164@gmail.com</a>
+            <div class="contact-details">
+              <h4>Email</h4>
+              <a href="mailto:gavindersingh164@gmail.com" class="contact-link" title="gavindersingh164@gmail.com">gavindersingh164@gmail.com</a>
+            </div>
           </div>
           <div class="glass-card contact-card">
             <div class="contact-icon"><i class="fa-brands fa-github"></i></div>
-            <h4>GitHub</h4>
-            <a href="https://github.com/Gavisingh12" target="_blank" class="contact-link">@Gavisingh12</a>
+            <div class="contact-details">
+              <h4>GitHub</h4>
+              <a href="https://github.com/Gavisingh12" target="_blank" rel="noopener noreferrer" class="contact-link">@Gavisingh12</a>
+            </div>
           </div>
           <div class="glass-card contact-card">
             <div class="contact-icon"><i class="fa-brands fa-linkedin"></i></div>
-            <h4>LinkedIn</h4>
-            <a href="https://www.linkedin.com/in/gavindra-singh/" target="_blank" class="contact-link">Gavindra Singh</a>
+            <div class="contact-details">
+              <h4>LinkedIn</h4>
+              <a href="https://www.linkedin.com/in/gavindra-singh/" target="_blank" rel="noopener noreferrer" class="contact-link">Gavindra Singh</a>
+            </div>
           </div>
         </div>
 
-        <form class="glass-card contact-form" id="contactForm" action="https://formspree.io/f/xplaceholder" method="POST">
+        <form class="glass-card contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="ebaaeea4-5fbd-43f5-9b7b-cca5c9aa7366" />
+          <input type="hidden" name="subject" value="New Message from Portfolio (Gavinder.AI)" />
+          <input type="hidden" name="from_name" value="Portfolio Contact Form" />
+          <input type="checkbox" name="botcheck" class="hidden" style="display: none;" />
+
           <div class="form-group">
             <label for="contactName" class="form-label">Your Name</label>
             <input type="text" id="contactName" name="name" class="form-input" placeholder="What should I call you?" required />

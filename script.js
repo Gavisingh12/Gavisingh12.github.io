@@ -1035,16 +1035,42 @@
     });
   }
 
-  // Interactive Contact Form Handling
+  // Interactive Contact Form Handling via Web3Forms
   const contactForm = document.getElementById('contactForm');
   if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-      const action = contactForm.getAttribute('action');
-      if (action && action.includes('xplaceholder')) {
-        e.preventDefault();
-        const nameVal = document.getElementById('contactName')?.value || 'Friend';
-        showToast(`Thank you, ${nameVal}! Message received. I'll get back to you shortly.`, true);
-        contactForm.reset();
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = contactForm.querySelector('button[type="submit"]');
+      const originalHTML = submitBtn ? submitBtn.innerHTML : '<span>Send Message</span>';
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Sending...</span>';
+      }
+
+      const formData = new FormData(contactForm);
+
+      try {
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: formData
+        });
+        const result = await response.json();
+
+        if (result.success) {
+          const nameVal = document.getElementById('contactName')?.value || 'Friend';
+          showToast(`Thank you, ${nameVal}! Message sent directly to Gavinder's inbox.`, true);
+          contactForm.reset();
+        } else {
+          showToast(result.message || 'Something went wrong. Direct inbox: gavindersingh164@gmail.com', false);
+        }
+      } catch (err) {
+        showToast('Direct email: gavindersingh164@gmail.com', false);
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalHTML;
+        }
       }
     });
   }
