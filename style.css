@@ -507,10 +507,12 @@ a   { color: inherit; text-decoration: none; }
   grid-template-columns: 280px 1fr;
   gap: 3.5rem;
   align-items: start;
-  padding: 0;
-  background: none;
-  border: none;
-  box-shadow: none;
+  padding: 2.5rem;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.18);
+  position: relative;
 }
 
 .about-avatar-wrap {
@@ -721,13 +723,18 @@ a   { color: inherit; text-decoration: none; }
 .lang-toggle-btn.active { background: var(--amber-dim); border-color: var(--amber); color: var(--amber); }
 
 /* ─── Experience Section ─────────────────────────────────────────────────── */
-/* No box. Left amber border stripe. Clean editorial layout */
 .experience-card {
-  background: none;
-  border: none;
-  box-shadow: none;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
   border-left: 3px solid var(--amber);
-  padding: 0 0 0 2rem;
+  border-radius: var(--card-radius);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.18);
+  padding: 2.5rem;
+  position: relative;
+}
+
+.experience-card .tag-list {
+  margin-top: 1.5rem;
 }
 
 .exp-header {
@@ -1934,7 +1941,8 @@ body.light-mode .progress-track { background: rgba(255,255,255,0.08); }
   .nav-links { display: none; }
   .content-wrapper { padding: 0 1.25rem; }
 
-  .about-hero-card  { grid-template-columns: 1fr; gap: 2rem; }
+  .about-hero-card  { grid-template-columns: 1fr; gap: 2rem; padding: 1.5rem; }
+  .experience-card  { padding: 1.5rem; }
   .contact-layout   { grid-template-columns: 1fr; }
   .funfacts-grid    { grid-template-columns: 1fr; }
   .funfact-card     { border-right: none; }
