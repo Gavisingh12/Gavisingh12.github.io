@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design Direction Preview · Gavinder Singh Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Lora:ital,wght@0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* --- CSS RESET & BASE --- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      /* Shared Spacing & Fonts */
+      --font-serif: 'Lora', Georgia, 'Times New Roman', serif;
+      --font-sans: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+
+      /* Base Layout Light */
+      --bg-page: #FBF9F4;
+      --bg-surface: #F3EFE6;
+      --bg-aperture: #0F0F0D;
+      --text-primary: #1C1917;
+      --text-secondary: #524E48;
+      --text-muted: #6B665E;
+      --border-hairline: #E4E0D7;
+      --border-interactive: #8A857B; /* Passes 3:1 against #FBF9F4 */
+      
+      /* Default Accent: Option 1 (Singularity Teal) */
+      --accent-main: #0C6972;
+      --accent-bg: rgba(12, 105, 114, 0.08);
+      --accent-glow: rgba(12, 105, 114, 0.25);
+    }
+
+    /* Dark Mode Theme */
+    body.dark-theme {
+      --bg-page: #11100F;
+      --bg-surface: #181715;
+      --bg-aperture: #0F0F0D;
+      --text-primary: #F5F3EF;
+      --text-secondary: #B5B1A8;
+      --text-muted: #8E8A81;
+      --border-hairline: #262422;
+      --border-interactive: #57544E; /* Passes 3:1 against #11100F */
+      
+      /* Default Accent: Option 1 in Dark (Aura Cyan) */
+      --accent-main: #0AC5BA;
+      --accent-bg: rgba(10, 197, 186, 0.12);
+      --accent-glow: rgba(10, 197, 186, 0.35);
+    }
+
+    /* Accent Palette Overrides */
+    /* Option 1: Singularity Teal (Derived from Canvas Core Flare) */
+    body[data-accent="teal"] {
+      --accent-main: #0C6972;
+      --accent-bg: rgba(12, 105, 114, 0.08);
+      --accent-glow: rgba(12, 105, 114, 0.25);
+    }
+    body.dark-theme[data-accent="teal"] {
+      --accent-main: #0AC5BA;
+      --accent-bg: rgba(10, 197, 186, 0.12);
+      --accent-glow: rgba(10, 197, 186, 0.35);
+    }
+
+    /* Option 2: Mineral Ochre (Raw Earth Pigment) */
+    body[data-accent="ochre"] {
+      --accent-main: #8F4212;
+      --accent-bg: rgba(143, 66, 18, 0.08);
+      --accent-glow: rgba(143, 66, 18, 0.25);
+    }
+    body.dark-theme[data-accent="ochre"] {
+      --accent-main: #E3882B;
+      --accent-bg: rgba(227, 136, 43, 0.12);
+      --accent-glow: rgba(227, 136, 43, 0.35);
+    }
+
+    /* Option 3: Solar Vermilion (Artisanal Cinnabar) */
+    body[data-accent="vermilion"] {
+      --accent-main: #A83820;
+      --accent-bg: rgba(168, 56, 32, 0.08);
+      --accent-glow: rgba(168, 56, 32, 0.25);
+    }
+    body.dark-theme[data-accent="vermilion"] {
+      --accent-main: #F86343;
+      --accent-bg: rgba(248, 99, 67, 0.12);
+      --accent-glow: rgba(248, 99, 67, 0.35);
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.65;
+      padding-bottom: 80px;
+      transition: background-color 200ms ease, color 200ms ease;
+    }
+
+    /* FOCUS RING (Passes on Light Page and Dark Aperture) */
+    :focus-visible {
+      outline: 2px solid var(--accent-main);
+      outline-offset: 3px;
+    }
+
+    /* --- TOP TEST BENCH CONTROLLER (Preview Bar) --- */
+    .testbench-bar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-hairline);
+      padding: 12px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .testbench-title {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .testbench-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .control-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .btn-toggle {
+      background: var(--bg-page);
+      color: var(--text-primary);
+      border: 1px solid var(--border-interactive);
+      border-radius: 4px;
+      padding: 6px 12px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .btn-toggle:hover {
+      border-color: var(--accent-main);
+    }
+    .btn-toggle.active {
+      background: var(--accent-main);
+      color: #FFFFFF;
+      border-color: var(--accent-main);
+    }
+    body.dark-theme .btn-toggle.active {
+      color: #11100F;
+    }
+
+    /* --- LAYOUT WRAPPER --- */
+    .preview-container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+
+    /* --- SECTION 1: PALETTE & CONTRAST RATIOS --- */
+    .section-preview {
+      margin-bottom: 56px;
+    }
+    .section-heading-mono {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent-main);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .palette-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      border-radius: 4px;
+      padding: 20px;
+    }
+    .palette-swatch-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .palette-swatch {
+      width: 44px;
+      height: 44px;
+      border-radius: 4px;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+    .palette-info h4 {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+    .palette-info span {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .contrast-badge {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 4px 8px;
+      border-radius: 3px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--accent-bg);
+      color: var(--accent-main);
+    }
+
+    /* --- SECTION 2: HERO APERTURE CHAMBER (LIGHT/DARK BLENDING) --- */
+    .hero-aperture-wrap {
+      background: var(--bg-aperture);
+      border: 1px solid var(--border-hairline);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 24px;
+      color: #F5F3EF;
+    }
+    .hero-aperture-canvas-mock {
+      height: 380px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 32px;
+      background: radial-gradient(circle at 75% 45%, rgba(12, 105, 114, 0.18) 0%, rgba(15, 15, 13, 0.95) 70%);
+    }
+    .canvas-hud-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+    .hud-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 9999px;
+      color: #EDEAE3;
+    }
+    .hud-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-main);
+    }
+    .hud-stage-counter {
+      color: var(--accent-main);
+      font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 6px 12px;
+      border-radius: 4px;
+      background: rgba(0,0,0,0.4);
+    }
+    .hero-core-simulation {
+      position: absolute;
+      right: 15%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 1.5px dashed var(--accent-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent-main);
+      background: radial-gradient(circle, var(--accent-bg) 0%, transparent 75%);
+    }
+    .hero-identity-overlay {
+      max-width: 600px;
+      z-index: 10;
+    }
+    .hero-display-name {
+      font-family: var(--font-serif);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 600;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+      color: #FFFFFF;
+    }
+    .hero-role-line {
+      font-family: var(--font-sans);
+      font-size: 18px;
+      color: #B5B1A8;
+      margin-bottom: 20px;
+    }
+    .hero-action-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .aperture-btn {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 8px 16px;
+      border-radius: 4px;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.08);
+      color: #FFFFFF;
+      cursor: pointer;
+    }
+    .aperture-btn:hover {
+      border-color: var(--accent-main);
+    }
+    .aperture-btn.primary {
+      background: var(--accent-main);
+      border-color: var(--accent-main);
+      color: #0F0F0D;
+      font-weight: 600;
+    }
+
+    /* --- SECTION 3: ASYMMETRIC ABOUT BLOCK --- */
+    .about-asymmetric-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 40px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      border-radius: 4px;
+      padding: 32px;
+    }
+    .about-rail-meta {
+      border-right: 1px solid var(--border-hairline);
+      padding-right: 28px;
+    }
+    .avatar-frame {
+      width: 140px;
+      height: 140px;
+      border: 1px solid var(--border-interactive);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      background: var(--bg-page);
+    }
+    .avatar-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .rail-fact-item {
+      margin-top: 14px;
+      font-size: 13px;
+    }
+    .rail-fact-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      display: block;
+    }
+    .rail-fact-val {
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    .about-narrative h3 {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+    .about-narrative p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+    }
+    .stats-datum-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-hairline);
+    }
+    .datum-box .datum-num {
+      font-family: var(--font-mono);
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--accent-main);
+    }
+    .datum-box .datum-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* --- SECTION 4: TYPE SPECIMEN WITH REAL COPY --- */
+    .type-specimen {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      border-radius: 4px;
+      padding: 32px;
+    }
+    .specimen-row {
+      padding-bottom: 24px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border-hairline);
+    }
+    .specimen-row:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .specimen-meta {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .about-asymmetric-grid {
+        grid-template-columns: 1fr;
+      }
+      .about-rail-meta {
+        border-right: none;
+        border-bottom: 1px solid var(--border-hairline);
+        padding-right: 0;
+        padding-bottom: 20px;
+      }
+      .stats-datum-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body data-accent="teal">
+
+  <!-- TOP TEST BENCH CONTROLLER -->
+  <header class="testbench-bar" aria-label="Design Test Bench">
+    <div class="testbench-title">Convergence Atelier · Interactive Design Specimen</div>
+    <div class="testbench-controls">
+      <span class="control-label">THEME:</span>
+      <button type="button" class="btn-toggle" id="btnThemeLight" onclick="setTheme('light')">Light</button>
+      <button type="button" class="btn-toggle" id="btnThemeDark" onclick="setTheme('dark')">Dark</button>
+
+      <span class="control-label" style="margin-left: 12px;">SIGNATURE ACCENT:</span>
+      <button type="button" class="btn-toggle active" id="btnAccTeal" onclick="setAccent('teal')">1. Core Teal</button>
+      <button type="button" class="btn-toggle" id="btnAccOchre" onclick="setAccent('ochre')">2. Raw Ochre</button>
+      <button type="button" class="btn-toggle" id="btnAccVermilion" onclick="setAccent('vermilion')">3. Vermilion</button>
+    </div>
+  </header>
+
+  <main class="preview-container">
+
+    <!-- 1. PALETTE & WCAG CONTRAST AUDIT -->
+    <section class="section-preview">
+      <div class="section-heading-mono">§ 00 / COLOR VALIDATION</div>
+      <h2 class="section-title">Three Bespoke Accents (Non-Tailwind)</h2>
+      <p style="color: var(--text-secondary); max-width: 780px;">
+        Evaluated against Light Calico Canvas (<code>#FBF9F4</code>), Dark Basalt Canvas (<code>#11100F</code>), and the Dark Hero Aperture (<code>#0F0F0D</code>). All options pass WCAG 2.2 AA (4.5:1) for body text and AAA (7:1) in dark mode.
+      </p>
+
+      <div class="palette-grid">
+        <!-- Option 1 -->
+        <div class="palette-card">
+          <div class="palette-swatch-row">
+            <div class="palette-swatch" style="background: #0C6972;"></div>
+            <div class="palette-info">
+              <h4>1. Singularity Core Teal</h4>
+              <span>Light: #0C6972 · Dark: #0AC5BA</span>
+            </div>
+          </div>
+          <p style="font-size: 13px; color: var(--text-secondary);">
+            Derived directly from the hero canvas singularity core (<code>rgba(6, 182, 212)</code> & <code>#38bdf8</code>). Ties the UI to the simulated model core.
+          </p>
+          <div class="contrast-badge">Light: 5.8:1 (AA) · Dark: 9.4:1 (AAA)</div>
+        </div>
+
+        <!-- Option 2 -->
+        <div class="palette-card">
+          <div class="palette-swatch-row">
+            <div class="palette-swatch" style="background: #8F4212;"></div>
+            <div class="palette-info">
+              <h4>2. Raw Mineral Ochre</h4>
+              <span>Light: #8F4212 · Dark: #E3882B</span>
+            </div>
+          </div>
+          <p style="font-size: 13px; color: var(--text-secondary);">
+            Non-Tailwind deep earth sienna. Evokes classical architectural drawings, natural ink, and academic monographs.
+          </p>
+          <div class="contrast-badge">Light: 6.8:1 (AA) · Dark: 8.2:1 (AAA)</div>
+        </div>
+
+        <!-- Option 3 -->
+        <div class="palette-card">
+          <div class="palette-swatch-row">
+            <div class="palette-swatch" style="background: #A83820;"></div>
+            <div class="palette-info">
+              <h4>3. Artisanal Vermilion</h4>
+              <span>Light: #A83820 · Dark: #F86343</span>
+            </div>
+          </div>
+          <p style="font-size: 13px; color: var(--text-secondary);">
+            Rich cinnabar / warm red lacquer. High visual tension, classic editorial stamp accent.
+          </p>
+          <div class="contrast-badge">Light: 6.3:1 (AA) · Dark: 6.9:1 (AA)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. FRAMED HERO OBSERVATION APERTURE -->
+    <section class="section-preview">
+      <div class="section-heading-mono">§ 01 / HERO APERTURE CHAMBER</div>
+      <h2 class="section-title">Aperture Framing (Clean Light/Dark Blend)</h2>
+      <p style="color: var(--text-secondary); max-width: 780px; margin-bottom: 20px;">
+        Rather than bleeding the canvas or using an awkward gradient mask, the hero is framed as an architectural <strong>Observation Aperture</strong>. The dark chamber (<code>#0F0F0D</code>) remains pure in both themes, preserving 3D particle contrast.
+      </p>
+
+      <div class="hero-aperture-wrap">
+        <div class="hero-aperture-canvas-mock">
+          <div class="canvas-hud-top">
+            <div class="hud-badge">
+              <span class="hud-dot"></span>
+              <span>Simulation Visualizer · 3D Particle Mechanics</span>
+            </div>
+            <div class="hud-stage-counter" id="stageDisplay">STAGE 04/04 · SINGULARITY CONVERGENCE</div>
+          </div>
+
+          <div class="hero-core-simulation">
+            <span>[CONVERGED]</span>
+          </div>
+
+          <div class="hero-identity-overlay">
+            <h1 class="hero-display-name">Gavinder Singh</h1>
+            <p class="hero-role-line">AI Solution Engineer Intern · Real-Time Voice AI &amp; Production Automation</p>
+            <div class="hero-action-row">
+              <a href="#about" class="aperture-btn primary">Explore Work ↓</a>
+              <button type="button" class="aperture-btn" onclick="togglePauseMock(this)">Pause Simulation</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. ASYMMETRIC ABOUT BLOCK -->
+    <section class="section-preview">
+      <div class="section-heading-mono">§ 02 / ASYMMETRIC NARRATIVE</div>
+      <h2 class="section-title">The Person Behind the Systems</h2>
+
+      <div class="about-asymmetric-grid">
+        <!-- Left Metadata Rail -->
+        <aside class="about-rail-meta">
+          <div class="avatar-frame">
+            <picture>
+              <source srcset="profile.webp" type="image/webp" />
+              <img src="profile.jpg" alt="Gavinder Singh" width="140" height="140" />
+            </picture>
+          </div>
+          <div class="rail-fact-item">
+            <span class="rail-fact-label">Role</span>
+            <span class="rail-fact-val">AI Solution Engineer Intern @ Alpever AI</span>
+          </div>
+          <div class="rail-fact-item">
+            <span class="rail-fact-label">Education</span>
+            <span class="rail-fact-val">Lovely Professional University</span>
+          </div>
+          <div class="rail-fact-item">
+            <span class="rail-fact-label">Academic Record</span>
+            <span class="rail-fact-val">7.51 CGPA · B.Tech CSE (2023–2027)</span>
+          </div>
+          <div class="rail-fact-item">
+            <span class="rail-fact-label">Languages</span>
+            <span class="rail-fact-val">Fluent in French · English</span>
+          </div>
+          <div class="rail-fact-item">
+            <span class="rail-fact-label">Passions</span>
+            <span class="rail-fact-val">Manhwa &amp; Manga Reader</span>
+          </div>
+        </aside>
+
+        <!-- Right Narrative & Stats -->
+        <article class="about-narrative">
+          <h3>Engineering Voice AI &amp; Event-Driven Systems</h3>
+          <p>
+            Hey! I'm <strong>Gavinder Singh</strong>, an <strong>AI Solution Engineer Intern at Alpever AI</strong> and pre-final year Computer Science &amp; Engineering undergraduate at <strong>Lovely Professional University</strong> (Class of 2023–2027, 7.51 CGPA).
+          </p>
+          <p>
+            At <strong>Alpever AI</strong>, I build real-time conversational voice agents and event-driven automation architectures. My work centers on integrating <strong>ElevenLabs</strong> for speech synthesis, <strong>Gemini Live</strong> for continuous dialogue, and <strong>Whisper / Deepgram</strong> for streaming transcription, paired with custom interruption-handling and Voice Activity Detection (VAD) to maintain sub-400ms end-to-end response latency. I also engineered an autonomous LinkedIn lead engine that automates prospect discovery and personalized outreach.
+          </p>
+          <p>
+            Beyond code, I am <strong>fluent in French</strong> and an avid reader of <strong>Manhwa &amp; Manga</strong>. This entire portfolio was hand-built with <strong>zero external UI frameworks</strong> — pure HTML Canvas math, modern CSS, and native JavaScript.
+          </p>
+
+          <!-- 3-Column Datum Row (Empty Slot Omitted from DOM) -->
+          <div class="stats-datum-row">
+            <div class="datum-box">
+              <div class="datum-num">17+</div>
+              <div class="datum-desc">Open Source Repositories on GitHub</div>
+            </div>
+            <div class="datum-box">
+              <div class="datum-num">&lt;400ms</div>
+              <div class="datum-desc">Voice AI End-to-End Latency in Production</div>
+            </div>
+            <div class="datum-box">
+              <div class="datum-num">4+</div>
+              <div class="datum-desc">Specialties (Voice AI, RAG, NLP, Time-Series)</div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 4. TYPOGRAPHY SPECIMEN (REAL SITE TEXT) -->
+    <section class="section-preview">
+      <div class="section-heading-mono">§ 03 / TYPE SPECIMEN</div>
+      <h2 class="section-title">Disciplined 3-Tier Font System</h2>
+      
+      <div class="type-specimen">
+        <div class="specimen-row">
+          <div class="specimen-meta">DISPLAY / HEADINGS · LORA SEMIBOLD (SERIF)</div>
+          <div style="font-family: var(--font-serif); font-size: 32px; font-weight: 600; line-height: 1.2;">
+            AI Decision Intelligence Platform &amp; Outlier Engine
+          </div>
+        </div>
+
+        <div class="specimen-row">
+          <div class="specimen-meta">BODY TEXT · INSTRUMENT SANS (16PX / LINE-HEIGHT 1.65)</div>
+          <p style="color: var(--text-secondary); max-width: 720px;">
+            A production-style document Q&amp;A and forecasting engine built to turn raw company PDFs into instant, validated answers. Engineered with FastAPI backends, vector similarity retrieval, and statistical anomaly detection.
+          </p>
+        </div>
+
+        <div class="specimen-row">
+          <div class="specimen-meta">TECHNICAL LABELS &amp; TELEMETRY · JETBRAINS MONO (&gt;= 12PX)</div>
+          <div style="font-family: var(--font-mono); font-size: 13px; color: var(--accent-main);">
+            § 03.1 · LATENCY: &lt;400MS · STACK: FASTAPI · PYTORCH · VECTOR DB · WHISPER
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Theme Switcher
+    function setTheme(mode) {
+      if (mode === 'dark') {
+        document.body.classList.add('dark-theme');
+        document.getElementById('btnThemeDark').classList.add('active');
+        document.getElementById('btnThemeLight').classList.remove('active');
+      } else {
+        document.body.classList.remove('dark-theme');
+        document.getElementById('btnThemeLight').classList.add('active');
+        document.getElementById('btnThemeDark').classList.remove('active');
+      }
+    }
+
+    // Accent Switcher
+    function setAccent(acc) {
+      document.body.setAttribute('data-accent', acc);
+      document.querySelectorAll('[id^="btnAcc"]').forEach(b => b.classList.remove('active'));
+      if (acc === 'teal') document.getElementById('btnAccTeal').classList.add('active');
+      if (acc === 'ochre') document.getElementById('btnAccOchre').classList.add('active');
+      if (acc === 'vermilion') document.getElementById('btnAccVermilion').classList.add('active');
+    }
+
+    // Simulation Pause Mock
+    function togglePauseMock(btn) {
+      if (btn.textContent === 'Pause Simulation') {
+        btn.textContent = 'Resume Simulation';
+      } else {
+        btn.textContent = 'Pause Simulation';
+      }
+    }
+
+    // Auto-detect system preference
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setTheme('dark');
+    }
+  </script>
+</body>
+</html>

@@ -84,8 +84,8 @@
       desc: 'Errors fade away. Random noise disappears. The system continuously refines itself until only pure logic remains.'
     },
     {
-      phase: '4 / 4 [THE SINGULARITY]',
-      tag: 'STAGE 04 · THE SINGULARITY',
+      phase: '4 / 4 [CONVERGENCE]',
+      tag: 'STAGE 04 · SINGULARITY CONVERGENCE',
       title: 'The Intelligence Core',
       desc: 'A universe of chaotic data condensed into a single neural brain — ready to think, speak, and solve real human problems.'
     }
@@ -495,6 +495,16 @@
       }
     }
 
+    // Stage 4 Convergence State Moment (Progress >= 0.95)
+    const isConverged = currentProgress >= 0.95;
+    if (stickyViewport) {
+      if (isConverged && !stickyViewport.classList.contains('is-converged')) {
+        stickyViewport.classList.add('is-converged');
+      } else if (!isConverged && stickyViewport.classList.contains('is-converged')) {
+        stickyViewport.classList.remove('is-converged');
+      }
+    }
+
     // Clear Canvas
     ctx.clearRect(0, 0, width, height);
 
@@ -801,12 +811,19 @@
     if (autoPlay) {
       targetProgress = (targetProgress + 0.002) % 1;
     }
-    currentProgress += (targetProgress - currentProgress) * 0.12;
 
-    rotY += (targetRotY - rotY) * 0.08;
-    rotX += (targetRotX - rotX) * 0.08;
-    rotY += Math.sin(time * 0.35) * 0.0012;
-    rotX += Math.cos(time * 0.28) * 0.0006;
+    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) {
+      currentProgress = targetProgress;
+      rotY = targetRotY;
+      rotX = targetRotX;
+    } else {
+      currentProgress += (targetProgress - currentProgress) * 0.12;
+      rotY += (targetRotY - rotY) * 0.08;
+      rotX += (targetRotX - rotX) * 0.08;
+      rotY += Math.sin(time * 0.35) * 0.0012;
+      rotX += Math.cos(time * 0.28) * 0.0006;
+    }
 
     drawFrame();
 
@@ -991,28 +1008,103 @@
 
   function applyTheme(isLight) {
     if (isLight) {
-      document.body.classList.add('light-mode');
-      document.body.classList.remove('dark-mode');
+      document.documentElement.classList.add('light-mode');
+      document.documentElement.classList.remove('dark-mode');
+      document.documentElement.style.colorScheme = 'light';
+      if (document.body) {
+        document.body.classList.add('light-mode');
+        document.body.classList.remove('dark-mode');
+      }
       if (themeIcon)  themeIcon.className  = 'fa-solid fa-moon';
       if (themeLabel) themeLabel.textContent = 'DARK';
     } else {
-      document.body.classList.remove('light-mode');
-      document.body.classList.add('dark-mode');
+      document.documentElement.classList.remove('light-mode');
+      document.documentElement.classList.add('dark-mode');
+      document.documentElement.style.colorScheme = 'dark';
+      if (document.body) {
+        document.body.classList.remove('light-mode');
+        document.body.classList.add('dark-mode');
+      }
       if (themeIcon)  themeIcon.className  = 'fa-solid fa-sun';
       if (themeLabel) themeLabel.textContent = 'LIGHT';
     }
     renderOnce();
   }
 
-  // Restore saved preference
-  const savedTheme = localStorage.getItem('gs-theme');
-  applyTheme(savedTheme === 'light');
+  // Restore saved preference with try/catch and fallback to prefers-color-scheme
+  try {
+    const savedTheme = localStorage.getItem('gs-theme');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isLight = savedTheme ? (savedTheme === 'light') : !prefersDark;
+    applyTheme(isLight);
+  } catch (e) {
+    applyTheme(false);
+  }
 
   if (themeToggle) {
     themeToggle.addEventListener('click', () => {
-      const nowLight = !document.body.classList.contains('light-mode');
+      const nowLight = !document.documentElement.classList.contains('light-mode');
       applyTheme(nowLight);
-      localStorage.setItem('gs-theme', nowLight ? 'light' : 'dark');
+      try {
+        localStorage.setItem('gs-theme', nowLight ? 'light' : 'dark');
+      } catch (e) {}
+    });
+  }
+
+  /* -----------------------------------------------------------------------
+     MOBILE NAVIGATION DRAWER
+  ----------------------------------------------------------------------- */
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenuIcon = document.getElementById('mobileMenuIcon');
+  const navLinks = document.getElementById('navLinks');
+
+  function closeMobileMenu() {
+    if (!navLinks) return;
+    navLinks.classList.remove('mobile-open');
+    if (mobileMenuBtn) {
+      mobileMenuBtn.setAttribute('aria-expanded', 'false');
+      mobileMenuBtn.focus();
+    }
+    if (mobileMenuIcon) {
+      mobileMenuIcon.className = 'fa-solid fa-bars';
+    }
+  }
+
+  function toggleMobileMenu() {
+    if (!navLinks) return;
+    const isOpen = navLinks.classList.contains('mobile-open');
+    if (isOpen) {
+      navLinks.classList.remove('mobile-open');
+      if (mobileMenuBtn) mobileMenuBtn.setAttribute('aria-expanded', 'false');
+      if (mobileMenuIcon) mobileMenuIcon.className = 'fa-solid fa-bars';
+    } else {
+      navLinks.classList.add('mobile-open');
+      if (mobileMenuBtn) mobileMenuBtn.setAttribute('aria-expanded', 'true');
+      if (mobileMenuIcon) mobileMenuIcon.className = 'fa-solid fa-xmark';
+    }
+  }
+
+  if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+  }
+
+  // Keyboard navigation: Escape key closes menu and returns focus to toggle button
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navLinks && navLinks.classList.contains('mobile-open')) {
+      closeMobileMenu();
+    }
+  });
+
+  // Close menu when any nav link is clicked
+  if (navLinks) {
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (navLinks.classList.contains('mobile-open')) {
+          navLinks.classList.remove('mobile-open');
+          if (mobileMenuBtn) mobileMenuBtn.setAttribute('aria-expanded', 'false');
+          if (mobileMenuIcon) mobileMenuIcon.className = 'fa-solid fa-bars';
+        }
+      });
     });
   }
 
@@ -1045,3 +1137,4 @@
   showBio('en');
 
 })();
+

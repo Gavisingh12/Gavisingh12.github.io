@@ -3,23 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gavinder Singh | Machine Learning Engineer & AI Systems</title>
-  <meta name="description" content="Interactive 3D AI & Machine Learning Portfolio of Gavinder Singh. Scrub through deep neural network architectures and model training phases." />
+  <title>Gavinder Singh | AI Solution Engineer Intern</title>
+  <meta name="description" content="Interactive 3D simulation portfolio of Gavinder Singh, AI Solution Engineer Intern at Alpever AI specializing in real-time voice agents and production automation." />
   
-  <!-- Google Fonts: Lora (serif display), Plus Jakarta Sans, JetBrains Mono, Caveat -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;0,700;1,400&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
+  <!-- Early Theme Boot (Zero FOUC, supports gs-theme and system preference) -->
+  <script>
+    (function() {
+      try {
+        var saved = localStorage.getItem('gs-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var isDark = saved ? (saved === 'dark') : prefersDark;
+        if (isDark) {
+          document.documentElement.classList.add('dark-mode');
+          document.documentElement.classList.remove('light-mode');
+          document.documentElement.style.colorScheme = 'dark';
+        } else {
+          document.documentElement.classList.add('light-mode');
+          document.documentElement.classList.remove('dark-mode');
+          document.documentElement.style.colorScheme = 'light';
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Preload Critical Body Font -->
+  <link rel="preload" href="fonts/instrument-sans-400-latin.woff2" as="font" type="font/woff2" crossorigin />
+
   <!-- FontAwesome for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-  <link rel="stylesheet" href="style.css?v=2.2" />
+  <link rel="stylesheet" href="style.css?v=3.0" />
 </head>
 <body class="dark-mode">
 
   <!-- Skip to Content Link -->
-  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <a href="#about" class="skip-link">Skip to main content</a>
 
   <!-- Custom Cursor Glow -->
   <div class="cursor-glow" id="cursorGlow"></div>
@@ -37,7 +55,7 @@
         <span class="logo-text">Gavinder Singh</span>
       </a>
 
-      <div class="nav-links">
+      <div class="nav-links" id="navLinks">
         <a href="#about" class="nav-link">About</a>
         <a href="#experience" class="nav-link highlight-link"><i class="fa-solid fa-briefcase" aria-hidden="true"></i> Experience</a>
         <a href="#projects" class="nav-link">Projects</a>
@@ -48,7 +66,7 @@
       </div>
 
       <div class="nav-actions">
-        <button id="themeToggle" class="cyber-btn-sm" title="Toggle Light / Warm Dark Theme" aria-label="Toggle light or dark theme">
+        <button id="themeToggle" class="cyber-btn-sm" title="Toggle Light / Dark Theme" aria-label="Toggle light or dark theme">
           <i class="fa-solid fa-sun" id="themeIcon" aria-hidden="true"></i>
           <span id="themeLabel">LIGHT</span>
         </button>
@@ -56,6 +74,9 @@
           <i class="fa-brands fa-github" aria-hidden="true"></i>
           <span>@Gavisingh12</span>
         </a>
+        <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+          <i class="fa-solid fa-bars" id="mobileMenuIcon" aria-hidden="true"></i>
+        </button>
       </div>
     </div>
   </nav>
@@ -69,7 +90,7 @@
       <!-- Persistent Hero Identity Block with H1 -->
       <div class="hero-identity-block">
         <h1 class="hero-name">Gavinder Singh</h1>
-        <p class="hero-role">Machine Learning Engineer · PyTorch Model Training, Fine-Tuning &amp; Production AI</p>
+        <p class="hero-role">AI Solution Engineer Intern</p>
         <div class="hero-action-bar">
           <a href="#about" class="skip-intro-btn">
             <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
@@ -85,17 +106,17 @@
       <!-- Off-Screen Live Region for Discrete Stage Announcements -->
       <div id="stageAnnouncer" role="status" aria-live="polite" class="sr-only"></div>
 
-      <!-- Clean Telemetry Overlay (Simplified & Humanized) -->
+      <!-- Clean Telemetry Overlay (Simulation Visualizer) -->
       <div class="hud-top-left" aria-hidden="true">
-        <div class="hud-badge pulse-dot">
+        <div class="hud-badge">
           <span class="live-dot"></span>
-          <span>Cosmic Metaphor · 3D Particle Simulation</span>
+          <span>Simulation Visualizer · 3D Particle Mechanics</span>
         </div>
         <div class="hud-metaphor-quote">
           "Like gravity pulling stardust into stars, data collapses into intelligence."
         </div>
         <div class="hud-metric-row">
-          <span class="metric-label">STAGE:</span>
+          <span class="metric-label">SIM STAGE:</span>
           <span class="metric-value accent-purple" id="hudPhase">1 / 4 [Raw Universe]</span>
         </div>
         <div class="hud-metric-row">
@@ -170,6 +191,14 @@
 
     <!-- About / Human Story Section -->
     <section class="section-container" id="about" data-num="01">
+      <div class="atelier-grid">
+        <aside class="marginalia-rail" aria-hidden="true">
+          <div class="marginalia-sticky">
+            <span class="section-index">§ 01</span>
+            <span class="section-label">Profile</span>
+          </div>
+        </aside>
+        <div class="content-field">
       <div class="section-header">
         <span class="section-tag-warm">A Little About Me</span>
         <h2 class="section-title">The Person Behind the Models</h2>
@@ -274,10 +303,21 @@
           <div class="stat-text">Voice AI End-to-End Latency in Production</div>
         </div>
       </div>
+    
+        </div>
+      </div>
     </section>
 
     <!-- Work Experience Section -->
     <section class="section-container" id="experience" data-num="02">
+      <div class="atelier-grid">
+        <aside class="marginalia-rail" aria-hidden="true">
+          <div class="marginalia-sticky">
+            <span class="section-index">§ 02</span>
+            <span class="section-label">Industry</span>
+          </div>
+        </aside>
+        <div class="content-field">
       <div class="section-header">
         <span class="section-tag-warm">Work & Industry Impact</span>
         <h2 class="section-title">Where I'm Working</h2>
@@ -328,10 +368,21 @@
           </div>
         </div>
       </div>
+    
+        </div>
+      </div>
     </section>
 
     <!-- Featured Projects Grid -->
     <section class="section-container" id="projects" data-num="03">
+      <div class="atelier-grid">
+        <aside class="marginalia-rail" aria-hidden="true">
+          <div class="marginalia-sticky">
+            <span class="section-index">§ 03</span>
+            <span class="section-label">Systems</span>
+          </div>
+        </aside>
+        <div class="content-field">
       <div class="section-header">
         <span class="section-tag-warm">Selected Systems & Code</span>
         <h2 class="section-title">Projects & Systems</h2>
@@ -350,7 +401,7 @@
               </div>
             </div>
             <h3 class="project-title">AI Decision Intelligence Platform</h3>
-            <p class="project-summary">A production-style document Q&amp;A and forecasting engine built to turn raw company PDFs into instant, verified answers.</p>
+            <p class="project-summary">A production-style document Q&amp;A and forecasting engine built to turn raw company PDFs into instant, validated answers.</p>
             <div class="tag-list" style="margin-top:auto;">
               <span class="tech-tag">Python</span>
               <span class="tech-tag">FastAPI</span>
@@ -477,10 +528,21 @@
           </a>
         </article>
       </div>
+    
+        </div>
+      </div>
     </section>
 
     <!-- Education -->
     <section class="section-container" id="education" data-num="04">
+      <div class="atelier-grid">
+        <aside class="marginalia-rail" aria-hidden="true">
+          <div class="marginalia-sticky">
+            <span class="section-index">§ 04</span>
+            <span class="section-label">Academics</span>
+          </div>
+        </aside>
+        <div class="content-field">
       <div class="section-header">
         <span class="section-tag-warm">Academics & Formal Credentials</span>
         <h2 class="section-title">Education & Certifications</h2>
@@ -528,10 +590,21 @@
           </div>
         </div>
       </div>
+    
+        </div>
+      </div>
     </section>
 
     <!-- Skills & Arsenal -->
     <section class="section-container" id="skills" data-num="05">
+      <div class="atelier-grid">
+        <aside class="marginalia-rail" aria-hidden="true">
+          <div class="marginalia-sticky">
+            <span class="section-index">§ 05</span>
+            <span class="section-label">Capabilities</span>
+          </div>
+        </aside>
+        <div class="content-field">
       <div class="section-header">
         <span class="section-tag-warm">Tools & Frameworks I Actually Use</span>
         <h2 class="section-title">Tech Stack</h2>
@@ -586,10 +659,21 @@
           </div>
         </div>
       </div>
+    
+        </div>
+      </div>
     </section>
 
     <!-- Beyond Code / Manhwa Shelf & Passions -->
     <section class="section-container" id="beyond-code" data-num="06">
+      <div class="atelier-grid">
+        <aside class="marginalia-rail" aria-hidden="true">
+          <div class="marginalia-sticky">
+            <span class="section-index">§ 06</span>
+            <span class="section-label">Perspectives</span>
+          </div>
+        </aside>
+        <div class="content-field">
       <div class="section-header">
         <span class="section-tag-warm">Reading Shelf & Passions</span>
         <h2 class="section-title">Beyond Code</h2>
@@ -696,10 +780,21 @@
           <p class="funfact-desc">I've debugged more code with masala chai than any debugger tool. My best ideas and neural architectural breakthroughs come at 2 AM with a cup in hand.</p>
         </div>
       </div>
+    
+        </div>
+      </div>
     </section>
 
     <!-- Contact Form -->
     <section class="section-container" id="contact" data-num="07">
+      <div class="atelier-grid">
+        <aside class="marginalia-rail" aria-hidden="true">
+          <div class="marginalia-sticky">
+            <span class="section-index">§ 07</span>
+            <span class="section-label">Inquiry</span>
+          </div>
+        </aside>
+        <div class="content-field">
       <div class="section-header">
         <span class="section-tag-warm">Say Hello / Let's Connect</span>
         <h2 class="section-title">Let's Talk</h2>
@@ -735,7 +830,7 @@
           <input type="hidden" name="access_key" value="ebaaeea4-5fbd-43f5-9b7b-cca5c9aa7366" />
           <input type="hidden" name="subject" value="New Message from Portfolio (Gavinder.AI)" />
           <input type="hidden" name="from_name" value="Portfolio Contact Form" />
-          <input type="checkbox" name="botcheck" class="hidden" style="display: none;" />
+          <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" aria-hidden="true" autocomplete="off" style="display: none;" />
 
           <div class="form-group">
             <label for="contactName" class="form-label">Your Name</label>
@@ -755,6 +850,9 @@
           </button>
           <p class="form-note">I usually reply within 24 hours. Direct inbox: gavindersingh164@gmail.com</p>
         </form>
+      </div>
+    
+        </div>
       </div>
     </section>
   </main>
