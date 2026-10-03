@@ -18,6 +18,9 @@
 </head>
 <body class="dark-mode">
 
+  <!-- Skip to Content Link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
   <!-- Custom Cursor Glow -->
   <div class="cursor-glow" id="cursorGlow"></div>
 
@@ -27,16 +30,16 @@
   <div class="ambient-grid"></div>
 
   <!-- Navigation Bar -->
-  <nav class="navbar" id="navbar">
+  <nav class="navbar" id="navbar" aria-label="Main Navigation">
     <div class="nav-container">
-      <a href="#about" class="nav-logo">
-        <span class="logo-symbol">&lt;GS/&gt;</span>
+      <a href="#about" class="nav-logo" aria-label="Gavinder Singh Home">
+        <span class="logo-symbol" aria-hidden="true">&lt;GS/&gt;</span>
         <span class="logo-text">Gavinder Singh</span>
       </a>
 
       <div class="nav-links">
         <a href="#about" class="nav-link">About</a>
-        <a href="#experience" class="nav-link highlight-link"><i class="fa-solid fa-briefcase"></i> Experience</a>
+        <a href="#experience" class="nav-link highlight-link"><i class="fa-solid fa-briefcase" aria-hidden="true"></i> Experience</a>
         <a href="#projects" class="nav-link">Projects</a>
         <a href="#education" class="nav-link">Education</a>
         <a href="#skills" class="nav-link">Stack</a>
@@ -45,12 +48,12 @@
       </div>
 
       <div class="nav-actions">
-        <button id="themeToggle" class="cyber-btn-sm" title="Toggle Light / Warm Dark Theme">
-          <i class="fa-solid fa-sun" id="themeIcon"></i>
+        <button id="themeToggle" class="cyber-btn-sm" title="Toggle Light / Warm Dark Theme" aria-label="Toggle light or dark theme">
+          <i class="fa-solid fa-sun" id="themeIcon" aria-hidden="true"></i>
           <span id="themeLabel">LIGHT</span>
         </button>
-        <a href="https://github.com/Gavisingh12" target="_blank" rel="noopener noreferrer" class="github-pill">
-          <i class="fa-brands fa-github"></i>
+        <a href="https://github.com/Gavisingh12" target="_blank" rel="noopener noreferrer" class="github-pill" aria-label="GitHub profile @Gavisingh12">
+          <i class="fa-brands fa-github" aria-hidden="true"></i>
           <span>@Gavisingh12</span>
         </a>
       </div>
@@ -58,13 +61,28 @@
   </nav>
 
   <!-- Sticky Frame Motion Scroller Section -->
-  <section class="scroller-container" id="scroller">
+  <section class="scroller-container" id="scroller" aria-label="Neural model training simulation scroller">
     <!-- Sticky Canvas Viewport -->
     <div class="sticky-viewport">
-      <canvas id="neuralCanvas"></canvas>
+      <canvas id="neuralCanvas" role="img" aria-label="3D interactive particle simulation demonstrating neural model training from data pointclouds into an intelligence core"></canvas>
+
+      <!-- Persistent Hero Identity Block with H1 -->
+      <div class="hero-identity-block">
+        <h1 class="hero-name">Gavinder Singh</h1>
+        <p class="hero-role">AI Solution Engineer Intern · Real-Time Voice Agents &amp; Production-Style RAG</p>
+        <div class="hero-action-bar">
+          <a href="#about" class="skip-intro-btn">
+            <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+            <span>Skip intro</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Off-Screen Live Region for Discrete Stage Announcements -->
+      <div id="stageAnnouncer" role="status" aria-live="polite" class="sr-only"></div>
 
       <!-- Clean Telemetry Overlay (Simplified & Humanized) -->
-      <div class="hud-top-left">
+      <div class="hud-top-left" aria-hidden="true">
         <div class="hud-badge pulse-dot">
           <span class="live-dot"></span>
           <span>Cosmic Metaphor · 3D Particle Simulation</span>
@@ -82,7 +100,7 @@
         </div>
       </div>
 
-      <div class="hud-top-right">
+      <div class="hud-top-right" aria-hidden="true">
         <div class="hud-card">
           <div class="hud-stat">
             <span class="hud-label">EPOCH</span>
@@ -100,14 +118,14 @@
       </div>
 
       <!-- Center Dynamic Annotation based on Scroll Frame -->
-      <div class="frame-annotation" id="frameAnnotation">
+      <div class="frame-annotation" id="frameAnnotation" aria-hidden="true">
         <div class="annotation-tag" id="annotTag">STAGE 01 · THE RAW UNIVERSE</div>
         <h2 class="annotation-title" id="annotTitle">Scattered Data &amp; Noise</h2>
         <p class="annotation-desc" id="annotDesc">Millions of raw words, sounds, and pixels floating in space — waiting to be given meaning.</p>
       </div>
 
       <!-- Keyboard & Mouse Interactive Controls Hint -->
-      <div class="controls-hint">
+      <div class="controls-hint" aria-hidden="true">
         <div class="key-badge-group">
           <span class="key-cap">▲</span>
           <span class="key-cap">▼</span>
@@ -124,8 +142,14 @@
         </div>
       </div>
 
+      <!-- Scroll cue -->
+      <div class="hero-scroll-cue" aria-hidden="true">
+        <span class="scroll-cue-dot"></span>
+        <span>Scroll to explore stages</span>
+      </div>
+
       <!-- Scroller Progress Bar -->
-      <div class="progress-track">
+      <div class="progress-track" aria-hidden="true">
         <div class="progress-bar-fill" id="progressBar"></div>
       </div>
     </div>
@@ -138,7 +162,7 @@
   </section>
 
   <!-- Main Content Showcase -->
-  <main class="content-wrapper">
+  <main class="content-wrapper" id="main-content" tabindex="-1">
 
     <!-- About / Human Story Section -->
     <section class="section-container" id="about" data-num="01">
@@ -169,13 +193,13 @@
         <div class="about-bio-content">
           <!-- Language Switcher Bar -->
           <div class="bio-lang-bar">
-            <span class="bio-lang-label"><i class="fa-solid fa-earth-europe"></i> Read In:</span>
-            <button type="button" class="lang-toggle-btn active" id="btnLangEn">English</button>
-            <button type="button" class="lang-toggle-btn" id="btnLangFr">Français 🇫🇷</button>
+            <span class="bio-lang-label"><i class="fa-solid fa-earth-europe" aria-hidden="true"></i> Bio: EN | FR</span>
+            <button type="button" class="lang-toggle-btn active" id="btnLangEn" aria-label="Read bio in English">English</button>
+            <button type="button" class="lang-toggle-btn" id="btnLangFr" aria-label="Lire la biographie en français">Français <span aria-hidden="true">🇫🇷</span></button>
           </div>
 
           <!-- English Bio Block -->
-          <div class="bio-block" id="bioEn">
+          <div class="bio-block" id="bioEn" lang="en">
             <p class="bio-p">
               Hey! I'm <strong>Gavinder Singh</strong>, an <strong>AI Solution Engineer Intern at Alpever AI</strong> and pre-final year Computer Science &amp; Engineering undergraduate at <strong>Lovely Professional University</strong> (Class of 2023–2027, 7.51 CGPA).
             </p>
@@ -188,7 +212,7 @@
           </div>
 
           <!-- French Bio Block (Hidden by Default) -->
-          <div class="bio-block" id="bioFr" style="display: none;">
+          <div class="bio-block" id="bioFr" lang="fr" style="display: none;">
             <p class="bio-p">
               Salut ! Je m'appelle <strong>Gavinder Singh</strong>, stagiaire en ingénierie de solutions d'IA chez <strong>Alpever AI</strong> et étudiant en informatique à <strong>Lovely Professional University</strong> (Promotion 2023–2027, moyenne de 7.51 CGPA).
             </p>
@@ -569,14 +593,14 @@
       <div class="reading-shelf-container glass-card">
         <div class="reading-shelf-header">
           <div class="shelf-title-wrap">
-            <span class="shelf-emoji">📚</span>
+            <span class="shelf-emoji" aria-hidden="true">📚</span>
             <div>
               <h3 class="shelf-heading">My Manhwa & Manga Reading Shelf</h3>
               <p class="shelf-desc">"Reading lets me digest visual composition, narrative pacing, and panel art at my own rhythm — far more immersive than watching."</p>
             </div>
           </div>
           <div class="shelf-badge">
-            <i class="fa-solid fa-book-bookmark"></i> 500+ Chapters Logged
+            <i class="fa-solid fa-book-bookmark" aria-hidden="true"></i> 500+ Chapters Logged
           </div>
         </div>
 
@@ -585,13 +609,13 @@
             <div class="reading-cover cover-solo">
               <span class="reading-status status-completed">Completed</span>
               <div class="cover-art-overlay">
-                <span class="cover-icon">🗡️</span>
+                <span class="cover-icon" aria-hidden="true">🗡️</span>
               </div>
             </div>
             <div class="reading-info">
               <h4 class="reading-title">Solo Leveling</h4>
               <span class="reading-author">Chugong & DUBU (REDICE)</span>
-              <span class="reading-progress"><i class="fa-solid fa-check"></i> Read 179 / 179 Ch. (Read 2x)</span>
+              <span class="reading-progress"><i class="fa-solid fa-check" aria-hidden="true"></i> Read 179 / 179 Ch. (Read 2x)</span>
               <p class="reading-comment">Peak visual hype. The shadow army resurrection sequence is unmatched in webtoon history.</p>
             </div>
           </div>
@@ -600,13 +624,13 @@
             <div class="reading-cover cover-orv">
               <span class="reading-status status-reading">Caught Up</span>
               <div class="cover-art-overlay">
-                <span class="cover-icon">📖</span>
+                <span class="cover-icon" aria-hidden="true">📖</span>
               </div>
             </div>
             <div class="reading-info">
               <h4 class="reading-title">Omniscient Reader's Viewpoint</h4>
               <span class="reading-author">sing N song & Sleepy-C</span>
-              <span class="reading-progress"><i class="fa-solid fa-bolt"></i> Ch. 220+ · Webtoon</span>
+              <span class="reading-progress"><i class="fa-solid fa-bolt" aria-hidden="true"></i> Ch. 220+ · Webtoon</span>
               <p class="reading-comment">Mind-bending meta-narrative about a sole reader surviving in the novel he read for 10 years.</p>
             </div>
           </div>
@@ -615,13 +639,13 @@
             <div class="reading-cover cover-tog">
               <span class="reading-status status-reading">Active</span>
               <div class="cover-art-overlay">
-                <span class="cover-icon">🏰</span>
+                <span class="cover-icon" aria-hidden="true">🏰</span>
               </div>
             </div>
             <div class="reading-info">
               <h4 class="reading-title">Tower of God</h4>
               <span class="reading-author">SIU</span>
-              <span class="reading-progress"><i class="fa-solid fa-layer-group"></i> Season 3 · 600+ Ch.</span>
+              <span class="reading-progress"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> Season 3 · 600+ Ch.</span>
               <p class="reading-comment">The world-building and complex faction dynamics rival epic high-fantasy literature.</p>
             </div>
           </div>
@@ -630,13 +654,13 @@
             <div class="reading-cover cover-boxer">
               <span class="reading-status status-completed">Completed</span>
               <div class="cover-art-overlay">
-                <span class="cover-icon">🥊</span>
+                <span class="cover-icon" aria-hidden="true">🥊</span>
               </div>
             </div>
             <div class="reading-info">
               <h4 class="reading-title">The Boxer</h4>
               <span class="reading-author">JH</span>
-              <span class="reading-progress"><i class="fa-solid fa-check"></i> 104 / 104 Ch.</span>
+              <span class="reading-progress"><i class="fa-solid fa-check" aria-hidden="true"></i> 104 / 104 Ch.</span>
               <p class="reading-comment">Philosophical masterpiece exploring human trauma, raw talent, light, and redemption.</p>
             </div>
           </div>
@@ -645,22 +669,22 @@
 
       <div class="funfacts-grid">
         <div class="glass-card funfact-card">
-          <div class="funfact-emoji">🇫🇷</div>
+          <div class="funfact-emoji" aria-hidden="true">🇫🇷</div>
           <h4 class="funfact-title">Parlez-vous Français?</h4>
           <p class="funfact-desc">Fluent in French! Coding in Python, thinking in Hinglish, and speaking French when looking for a fresh perspective or diving into multilingual NLP tokenizer architectures.</p>
         </div>
         <div class="glass-card funfact-card">
-          <div class="funfact-emoji">🎙️</div>
+          <div class="funfact-emoji" aria-hidden="true">🎙️</div>
           <h4 class="funfact-title">Voice AI & Speech Models</h4>
           <p class="funfact-desc">At Alpever AI, I engineer real-time voice agents using ElevenLabs lifelike voice cloning, Gemini Live continuous audio feeds, and Whisper/Deepgram low-latency transcribers.</p>
         </div>
         <div class="glass-card funfact-card">
-          <div class="funfact-emoji">🤖</div>
+          <div class="funfact-emoji" aria-hidden="true">🤖</div>
           <h4 class="funfact-title">LinkedIn Growth Automation</h4>
           <p class="funfact-desc">Built an automated platform that searches leads, dispatches personalized connection requests, detects when requests are accepted, and triggers customized messages seamlessly.</p>
         </div>
         <div class="glass-card funfact-card">
-          <div class="funfact-emoji">☕</div>
+          <div class="funfact-emoji" aria-hidden="true">☕</div>
           <h4 class="funfact-title">Chai > Coffee</h4>
           <p class="funfact-desc">I've debugged more code with masala chai than any debugger tool. My best ideas and neural architectural breakthroughs come at 2 AM with a cup in hand.</p>
         </div>
@@ -732,7 +756,7 @@
     <footer class="footer">
       <div class="footer-content">
         <div class="footer-main">
-          <h2>Thanks for stopping by 🙏</h2>
+          <h2>Thanks for stopping by <span aria-hidden="true">🙏</span></h2>
           <p>Whether you're looking for an AI engineer, interested in voice agents, or just love reading manhwa — I'd love to chat.</p>
           
           <div class="footer-signature-wrap">

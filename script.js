@@ -26,6 +26,8 @@
   const frameAnnotation = document.getElementById('frameAnnotation');
   const cursorGlow = document.getElementById('cursorGlow');
   const scroller = document.getElementById('scroller');
+  const stageAnnouncer = document.getElementById('stageAnnouncer');
+  let lastAnnouncedStageIdx = -1;
 
   // --- Dimensions & Canvas Sizing ---
   let width = (canvas.width = window.innerWidth);
@@ -422,6 +424,13 @@
     annotTag.textContent = stage.tag;
     annotTitle.textContent = stage.title;
     annotDesc.textContent = stage.desc;
+
+    if (stageIdx !== lastAnnouncedStageIdx) {
+      lastAnnouncedStageIdx = stageIdx;
+      if (stageAnnouncer) {
+        stageAnnouncer.textContent = `${stage.tag} — ${stage.title}`;
+      }
+    }
 
     // Smooth responsive camera rotation tracking cursor + gentle auto-sway
     rotY += (targetRotY - rotY) * 0.08;

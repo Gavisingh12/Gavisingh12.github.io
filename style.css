@@ -75,6 +75,42 @@ body {
 img { max-width: 100%; display: block; }
 a   { color: inherit; text-decoration: none; }
 
+/* ─── Accessibility & Screen Reader Utilities ────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -120px;
+  left: 1.5rem;
+  background: var(--bg-2);
+  color: var(--amber);
+  border: 1px solid var(--amber-border);
+  padding: 0.65rem 1.25rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  z-index: 10000;
+  text-decoration: none;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* ─── Background Texture ─────────────────────────────────────────────────── */
 /* Subtle warm noise grid — much less "AI matrix" than the old version */
 .ambient-grid {
@@ -189,13 +225,16 @@ a   { color: inherit; text-decoration: none; }
   background: transparent;
   border: 1px solid var(--border-soft);
   color: var(--t2);
-  padding: 0.35rem 0.7rem;
+  padding: 0.35rem 0.75rem;
+  min-height: 44px;
+  min-width: 44px;
   border-radius: 3px;
   cursor: pointer;
   font-family: var(--mono);
   font-size: 0.72rem;
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.35rem;
   transition: all 0.18s;
   letter-spacing: 0.04em;
@@ -204,13 +243,15 @@ a   { color: inherit; text-decoration: none; }
 .cyber-btn-sm:hover { border-color: var(--amber); color: var(--amber); }
 
 .github-pill {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.45rem;
   background: var(--bg-3);
   border: 1px solid var(--border-soft);
   color: var(--t1);
   padding: 0.35rem 0.85rem;
+  min-height: 44px;
   border-radius: 3px;
   font-size: 0.82rem;
   font-weight: 600;
@@ -237,6 +278,92 @@ a   { color: inherit; text-decoration: none; }
   align-items: center;
   justify-content: center;
   background-color: #0f0f0d; /* Always dark — canvas only works on dark */
+}
+
+/* Hero Identity Overlay (Accessible persistent block with pointer-events: none) */
+.hero-identity-block {
+  position: absolute;
+  top: 4.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 6;
+  pointer-events: none;
+  max-width: 720px;
+  width: calc(100% - 2rem);
+  padding: 0 1rem;
+}
+
+.hero-name {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  color: var(--t1);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.35rem;
+}
+
+.hero-role {
+  font-size: clamp(0.85rem, 1.8vw, 1rem);
+  color: var(--amber);
+  font-weight: 500;
+  line-height: 1.4;
+  margin-bottom: 0.85rem;
+}
+
+.hero-action-bar {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.skip-intro-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(26, 25, 22, 0.85);
+  border: 1px solid var(--border-soft);
+  color: var(--t1);
+  padding: 0.45rem 1.1rem;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  min-height: 44px;
+  min-width: 44px;
+  backdrop-filter: blur(8px);
+  transition: all 0.18s;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.skip-intro-btn:hover {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+
+.hero-scroll-cue {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--t2);
+  letter-spacing: 0.05em;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.scroll-cue-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--amber);
+  animation: pulse-dot 2s ease infinite;
 }
 
 #neuralCanvas {
