@@ -660,12 +660,23 @@ body.light-mode .sticky-viewport {
 .hud-metaphor-quote {
   font-family: var(--serif);
   font-style: italic;
-  font-size: 0.76rem;
-  color: var(--text-secondary);
-  max-width: 280px;
-  line-height: 1.45;
-  margin: 0.2rem 0 0.35rem 0;
-  opacity: 0.88;
+  font-size: 0.95rem;
+  color: var(--t1, #f5f3ef);
+  max-width: 340px;
+  line-height: 1.5;
+  margin: 0.45rem 0 0.55rem 0;
+  padding: 0.4rem 0 0.4rem 0.75rem;
+  border-left: 2.5px solid var(--accent-converged, #f86343);
+  background: rgba(18, 17, 15, 0.55);
+  backdrop-filter: blur(8px);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  opacity: 0.95;
+}
+
+.hud-metaphor-quote .quote-highlight {
+  color: var(--accent-converged, #f86343);
+  font-weight: 600;
+  font-style: normal;
 }
 
 @media (max-width: 600px) {
@@ -1158,7 +1169,7 @@ body.light-mode .sticky-viewport {
 /* Stats — editorial large numbers */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 0;
   margin-top: 4rem;
   border: 1px solid var(--border);
