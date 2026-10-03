@@ -36,6 +36,7 @@
   window.addEventListener('resize', () => {
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
+    renderOnce();
   });
 
   // Prevent browser from restoring scroll to middle on refresh
@@ -166,9 +167,10 @@
   buildSynapses(l3, l4, 0.32);
 
   // --- 3D Realistic Cosmic Galaxy (4 Spiral Arms, Volumetric Nebula Gas, Stellar Bulge) ---
-  const NUM_GALAXY_STARS = 450;
+  const isMobileTier = window.innerWidth < 768 || (typeof navigator !== 'undefined' && typeof navigator.deviceMemory === 'number' && navigator.deviceMemory < 4);
+  const NUM_GALAXY_STARS = isMobileTier ? 180 : 450;
   const galaxyStars = [];
-  const NUM_NEBULA_CLOUDS = 18;
+  const NUM_NEBULA_CLOUDS = isMobileTier ? 8 : 18;
   const nebulaClouds = [];
 
   // 1. Generate Volumetric Cosmic Gas & Dust Clouds
@@ -279,7 +281,12 @@
     targetProgress = progress;
   }
 
-  window.addEventListener('scroll', updateScrollProgress, { passive: true });
+  window.addEventListener('scroll', () => {
+    updateScrollProgress();
+    if (!shouldAnimate()) {
+      renderOnce();
+    }
+  }, { passive: true });
 
   // --- Viewport Scoped Key Handling (1-4 only when sticky viewport has focus) ---
   const stickyViewport = document.querySelector('.sticky-viewport');
@@ -309,6 +316,12 @@
       canvasPauseBtn.setAttribute('aria-label', isUserPaused ? 'Resume neural animation' : 'Pause neural animation');
       if (canvasPauseIcon) canvasPauseIcon.className = isUserPaused ? 'fa-solid fa-play' : 'fa-solid fa-pause';
       if (canvasPauseLabel) canvasPauseLabel.textContent = isUserPaused ? 'Play Motion' : 'Pause Motion';
+    }
+    if (isUserPaused) {
+      stopIdleLoop();
+      renderOnce();
+    } else if (shouldAnimate()) {
+      startIdleLoop();
     }
   }
 
@@ -348,6 +361,9 @@
       targetRotX += deltaY * 0.006;
       lastMouseX = e.clientX;
       lastMouseY = e.clientY;
+      if (!shouldAnimate()) {
+        renderOnce();
+      }
     } else {
       // Direct, buttery-smooth 3D parallax tilt following cursor
       const normX = (e.clientX / window.innerWidth - 0.5) * 2;
@@ -386,40 +402,91 @@
     return { x: projX, y: projY, scale, z: z2 };
   }
 
-  // --- Main Animation Loop (60 FPS) ---
+  // --- Render Architecture & Gating ---
+  let isHeroInViewport = true;
+  let animId = null;
+
+  function shouldAnimate() {
+    if (document.hidden) return false;
+    if (!isHeroInViewport) return false;
+    if (isUserPaused) return false;
+    if (prefersReducedMotion) return false;
+    return true;
+  }
+
+  function startIdleLoop() {
+    if (!animId && shouldAnimate()) {
+      animId = requestAnimationFrame(render);
+    }
+  }
+
+  function stopIdleLoop() {
+    if (animId) {
+      cancelAnimationFrame(animId);
+      animId = null;
+    }
+  }
+
+  // Telemetry Cache to prevent DOM thrashing
+  let lastHudProgress = '';
+  let lastHudEpoch = '';
+  let lastHudLoss = '';
+  let lastHudAcc = '';
+  let lastHudPhase = '';
+  let lastAnnotTag = '';
+  let lastAnnotTitle = '';
+  let lastAnnotDesc = '';
+
   let time = 0;
 
-  function render() {
-    time += 0.016;
-
-    // Smooth lerp of progress
-    if (autoPlay) {
-      targetProgress = (targetProgress + 0.002) % 1;
-    }
-    currentProgress += (targetProgress - currentProgress) * 0.12;
-
-    // Update Progress Bar & HUD
+  function drawFrame() {
+    // Update Progress Bar & HUD (only mutate DOM when string changes)
     const progPercent = (currentProgress * 100).toFixed(1);
-    progressBar.style.width = `${progPercent}%`;
-    hudProgress.textContent = `${progPercent}%`;
+    const progStr = `${progPercent}%`;
+    progressBar.style.width = progStr;
+    if (lastHudProgress !== progStr) {
+      hudProgress.textContent = progStr;
+      lastHudProgress = progStr;
+    }
 
-    // Calculate dynamic telemetry
     const epochNum = Math.min(100, Math.floor(currentProgress * 99) + 1);
-    hudEpoch.textContent = `${epochNum < 10 ? '0' + epochNum : epochNum} / 100`;
+    const epochStr = `${epochNum < 10 ? '0' + epochNum : epochNum} / 100`;
+    if (lastHudEpoch !== epochStr) {
+      hudEpoch.textContent = epochStr;
+      lastHudEpoch = epochStr;
+    }
 
     const lossVal = (2.418 * Math.exp(-currentProgress * 4.2) + 0.012).toFixed(3);
-    hudLoss.textContent = lossVal;
+    if (lastHudLoss !== lossVal) {
+      hudLoss.textContent = lossVal;
+      lastHudLoss = lossVal;
+    }
 
-    const accVal = (41.2 + currentProgress * 58.2).toFixed(1);
-    hudAcc.textContent = `${accVal}%`;
+    const accVal = `${(41.2 + currentProgress * 58.2).toFixed(1)}%`;
+    if (lastHudAcc !== accVal) {
+      hudAcc.textContent = accVal;
+      lastHudAcc = accVal;
+    }
 
     // Active Stage Index
     const stageIdx = Math.min(3, Math.floor(currentProgress * 4));
     const stage = STAGES[stageIdx];
-    hudPhase.textContent = stage.phase;
-    annotTag.textContent = stage.tag;
-    annotTitle.textContent = stage.title;
-    annotDesc.textContent = stage.desc;
+    if (lastHudPhase !== stage.phase) {
+      hudPhase.textContent = stage.phase;
+      lastHudPhase = stage.phase;
+    }
+    if (lastAnnotTag !== stage.tag) {
+      annotTag.textContent = stage.tag;
+      lastAnnotTag = stage.tag;
+    }
+    if (lastAnnotTitle !== stage.title) {
+      annotTitle.textContent = stage.title;
+      lastAnnotTitle = stage.title;
+    }
+    if (lastAnnotDesc !== stage.desc) {
+      annotDesc.textContent = stage.desc;
+      lastAnnotDesc = stage.desc;
+    }
 
     if (stageIdx !== lastAnnouncedStageIdx) {
       lastAnnouncedStageIdx = stageIdx;
@@ -427,12 +494,6 @@
         stageAnnouncer.textContent = `${stage.tag} — ${stage.title}`;
       }
     }
-
-    // Smooth responsive camera rotation tracking cursor + gentle auto-sway
-    rotY += (targetRotY - rotY) * 0.08;
-    rotX += (targetRotX - rotX) * 0.08;
-    rotY += Math.sin(time * 0.35) * 0.0012;
-    rotX += Math.cos(time * 0.28) * 0.0006;
 
     // Clear Canvas
     ctx.clearRect(0, 0, width, height);
@@ -718,8 +779,38 @@
         ctx.restore();
       }
     }
+  }
 
-    requestAnimationFrame(render);
+  function renderOnce() {
+    if (!shouldAnimate()) {
+      currentProgress = targetProgress;
+      rotY = targetRotY;
+      rotX = targetRotX;
+    }
+    drawFrame();
+  }
+
+  function render() {
+    if (!shouldAnimate()) {
+      animId = null;
+      return;
+    }
+
+    time += 0.016;
+
+    if (autoPlay) {
+      targetProgress = (targetProgress + 0.002) % 1;
+    }
+    currentProgress += (targetProgress - currentProgress) * 0.12;
+
+    rotY += (targetRotY - rotY) * 0.08;
+    rotX += (targetRotX - rotX) * 0.08;
+    rotY += Math.sin(time * 0.35) * 0.0012;
+    rotX += Math.cos(time * 0.28) * 0.0006;
+
+    drawFrame();
+
+    animId = requestAnimationFrame(render);
   }
 
   // --- Toast Notification System ---
@@ -854,9 +945,42 @@
     }
   });
 
+  // --- Viewport & Visibility Observers ---
+  if ('IntersectionObserver' in window && scroller) {
+    const heroObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const wasInViewport = isHeroInViewport;
+        isHeroInViewport = entry.isIntersecting;
+        if (isHeroInViewport) {
+          renderOnce();
+          if (!wasInViewport && shouldAnimate()) {
+            startIdleLoop();
+          }
+        } else {
+          stopIdleLoop();
+        }
+      });
+    }, { threshold: 0 });
+    heroObserver.observe(scroller);
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && isHeroInViewport) {
+      renderOnce();
+      if (shouldAnimate()) {
+        startIdleLoop();
+      }
+    } else {
+      stopIdleLoop();
+    }
+  });
+
   // Start Rendering
   updateScrollProgress();
-  requestAnimationFrame(render);
+  renderOnce();
+  if (shouldAnimate()) {
+    startIdleLoop();
+  }
 
   /* -----------------------------------------------------------------------
      THEME TOGGLE — Light / Dark mode with localStorage persistence
@@ -877,6 +1001,7 @@
       if (themeIcon)  themeIcon.className  = 'fa-solid fa-sun';
       if (themeLabel) themeLabel.textContent = 'LIGHT';
     }
+    renderOnce();
   }
 
   // Restore saved preference
