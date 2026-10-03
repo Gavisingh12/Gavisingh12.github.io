@@ -278,6 +278,7 @@ a   { color: inherit; text-decoration: none; }
   align-items: center;
   justify-content: center;
   background-color: #0f0f0d; /* Always dark — canvas only works on dark */
+  touch-action: pan-y;
 }
 
 /* Hero Identity Overlay (Accessible persistent block with pointer-events: none) */
@@ -395,6 +396,7 @@ a   { color: inherit; text-decoration: none; }
   inset: 0;
   width: 100%; height: 100%;
   background-color: #0f0f0d; /* Prevents white flash before JS paints */
+  touch-action: pan-y;
 }
 
 /* HUD — minimal, warm, not sci-fi clutter */
