@@ -2019,30 +2019,47 @@ body.light-mode .sticky-viewport {
   padding: 0 2.5rem;
 }
 
-.footer-main { margin-bottom: 3rem; }
+.footer-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
 
 .footer-main h2 {
   font-family: var(--serif);
-  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
   font-weight: 700;
   color: var(--t1);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  text-align: center;
 }
 
-.footer-main > p { font-size: 0.9rem; color: var(--t2); margin-bottom: 2rem; max-width: 480px; }
+.footer-main > p {
+  font-size: 0.95rem;
+  color: var(--t2);
+  margin: 0 auto 2.2rem;
+  max-width: 580px;
+  line-height: 1.6;
+  text-align: center;
+}
 
-/* Handwritten signature block */
+/* Handwritten signature block - centered balanced card */
 .footer-signature-wrap {
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 0.25rem;
-  margin-bottom: 2rem;
-  padding: 1.1rem 1.5rem;
+  align-items: center;
+  text-align: center;
+  gap: 0.35rem;
+  margin: 0 auto 2.2rem;
+  padding: 1.25rem 2rem;
   background: var(--bg-2);
   border: 1px solid var(--border);
-  border-left: 3px solid var(--amber);
-  border-radius: 0 3px 3px 0;
+  border-top: 3px solid var(--accent-converged, #f86343);
+  border-radius: var(--radius-card, 4px);
+  max-width: 440px;
+  width: 100%;
 }
 
 .sign-label {
@@ -2050,6 +2067,7 @@ body.light-mode .sticky-viewport {
   color: var(--t3);
   text-transform: uppercase;
   letter-spacing: 0.08em;
+  text-align: center;
 }
 
 .handwritten-signature {
@@ -2057,35 +2075,56 @@ body.light-mode .sticky-viewport {
   font-size: 2.4rem;
   font-weight: 700;
   line-height: 1;
-  color: var(--amber);
+  color: var(--accent-converged, #f86343);
+  text-align: center;
 }
 
-.sign-sub { font-size: 0.72rem; color: var(--t3); max-width: 340px; line-height: 1.45; }
+.sign-sub {
+  font-size: 0.75rem;
+  color: var(--t3);
+  max-width: 380px;
+  line-height: 1.45;
+  text-align: center;
+}
 
-.footer-links { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 0 auto;
+}
 
 .footer-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.5rem;
   background: var(--bg-3);
   border: 1px solid var(--border-soft);
   color: var(--t1);
-  padding: 0.55rem 1.1rem;
-  border-radius: 3px;
-  font-size: 0.82rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
   font-weight: 600;
   transition: all 0.18s;
 }
 
-.footer-btn:hover { border-color: var(--amber); color: var(--amber); }
-
-.footer-bottom {
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--border);
+.footer-btn:hover {
+  border-color: var(--accent-converged, #f86343);
+  color: var(--accent-converged, #f86343);
 }
 
-.footer-bottom p { font-size: 0.75rem; color: var(--t3); }
+.footer-bottom {
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.footer-bottom p {
+  font-size: 0.75rem;
+  color: var(--t3);
+  text-align: center;
+}
 
 /* ─── Toast ──────────────────────────────────────────────────────────────── */
 .toast-notification {
