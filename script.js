@@ -277,47 +277,39 @@
 
   window.addEventListener('scroll', updateScrollProgress, { passive: true });
 
-  // Keyboard navigation & Power Shortcuts
-  window.addEventListener('keydown', (e) => {
-    // Avoid interfering if user is typing in terminal or input
-    if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) return;
+  // --- Viewport Scoped Key Handling (1-4 only when sticky viewport has focus) ---
+  const stickyViewport = document.querySelector('.sticky-viewport');
+  if (stickyViewport) {
+    stickyViewport.addEventListener('keydown', (e) => {
+      if (e.key >= '1' && e.key <= '4') {
+        e.preventDefault();
+        const stageIndex = parseInt(e.key, 10) - 1; // 0, 1, 2, 3
+        const targetFraction = stageIndex / 3; // 0.0, 0.333, 0.667, 1.0
+        const totalHeight = scroller.offsetHeight - window.innerHeight;
+        const newScrollTop = scroller.offsetTop + targetFraction * totalHeight;
+        window.scrollTo({ top: newScrollTop, behavior: 'smooth' });
+      }
+    });
+  }
 
-    if (e.key === 'ArrowDown' || e.key === 'KeyS' || e.key === 'PageDown') {
-      e.preventDefault();
-      targetProgress = Math.min(1, targetProgress + 0.05);
-      syncPageScroll();
-    } else if (e.key === 'ArrowUp' || e.key === 'KeyW' || e.key === 'PageUp') {
-      e.preventDefault();
-      targetProgress = Math.max(0, targetProgress - 0.05);
-      syncPageScroll();
-    } else if (e.key === 'ArrowRight' || e.key === 'KeyD') {
-      rotY += 0.08;
-    } else if (e.key === 'ArrowLeft' || e.key === 'KeyA') {
-      rotY -= 0.08;
-    } else if (e.code === 'Space') {
-      e.preventDefault();
-      autoPlay = !autoPlay;
-    } else if (e.key === '1') {
-      targetProgress = 0.0;
-      syncPageScroll();
-    } else if (e.key === '2') {
-      targetProgress = 0.33;
-      syncPageScroll();
-    } else if (e.key === '3') {
-      targetProgress = 0.66;
-      syncPageScroll();
-    } else if (e.key === '4') {
-      targetProgress = 1.0;
-      syncPageScroll();
-    } else if (e.key === 'p' || e.key === 'P') {
-      document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+  // --- Pause / Play Motion Control ---
+  const canvasPauseBtn = document.getElementById('canvasPauseBtn');
+  const canvasPauseIcon = document.getElementById('canvasPauseIcon');
+  const canvasPauseLabel = document.getElementById('canvasPauseLabel');
+  let isUserPaused = false;
+
+  function toggleUserPause() {
+    isUserPaused = !isUserPaused;
+    autoPlay = false; // stop auto-drive on manual toggle
+    if (canvasPauseBtn) {
+      canvasPauseBtn.setAttribute('aria-label', isUserPaused ? 'Resume neural animation' : 'Pause neural animation');
+      if (canvasPauseIcon) canvasPauseIcon.className = isUserPaused ? 'fa-solid fa-play' : 'fa-solid fa-pause';
+      if (canvasPauseLabel) canvasPauseLabel.textContent = isUserPaused ? 'Play Motion' : 'Pause Motion';
     }
-  });
+  }
 
-  function syncPageScroll() {
-    const totalHeight = scroller.offsetHeight - window.innerHeight;
-    const newScrollTop = scroller.offsetTop + targetProgress * totalHeight;
-    window.scrollTo({ top: newScrollTop });
+  if (canvasPauseBtn) {
+    canvasPauseBtn.addEventListener('click', toggleUserPause);
   }
 
   // Mouse drag for 3D Camera Orbit & Hover Physics

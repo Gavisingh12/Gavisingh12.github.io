@@ -63,7 +63,7 @@
   <!-- Sticky Frame Motion Scroller Section -->
   <section class="scroller-container" id="scroller" aria-label="Neural model training simulation scroller">
     <!-- Sticky Canvas Viewport -->
-    <div class="sticky-viewport">
+    <div class="sticky-viewport" tabindex="0" role="region" aria-label="Interactive 3D Neural Network Simulation. Press keys 1 to 4 to jump to training stages.">
       <canvas id="neuralCanvas" role="img" aria-label="3D interactive particle simulation demonstrating neural model training from data pointclouds into an intelligence core"></canvas>
 
       <!-- Persistent Hero Identity Block with H1 -->
@@ -75,6 +75,10 @@
             <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
             <span>Skip intro</span>
           </a>
+          <button type="button" class="canvas-pause-btn" id="canvasPauseBtn" aria-label="Pause neural animation">
+            <i class="fa-solid fa-pause" id="canvasPauseIcon" aria-hidden="true"></i>
+            <span id="canvasPauseLabel">Pause Motion</span>
+          </button>
         </div>
       </div>
 
