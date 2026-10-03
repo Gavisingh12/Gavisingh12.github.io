@@ -131,7 +131,7 @@
         layer: layerType,
         pulseOffset: Math.random() * Math.PI * 2,
         flash: 0.0, // Bioluminescent action potential flash
-        color: layerType === 0 ? '#38bdf8' : layerType === 1 ? '#818cf8' : layerType === 2 ? '#c084fc' : '#34d399'
+        color: layerType === 0 ? '#E6E2D8' : layerType === 1 ? '#D4AF7A' : layerType === 2 ? '#E88554' : '#F86343'
       };
       nodes.push(node);
       layerNodes.push(node);
@@ -186,9 +186,9 @@
     const z = Math.sin(theta) * Math.cos(phi) * radius;
 
     const gasColors = [
-      { core: 'rgba(56, 189, 248, 0.18)', mid: 'rgba(99, 102, 241, 0.08)', outer: 'transparent' }, // Cyan-Indigo Gas
-      { core: 'rgba(217, 70, 239, 0.16)', mid: 'rgba(168, 85, 247, 0.07)', outer: 'transparent' }, // Magenta-Purple H-II
-      { core: 'rgba(251, 191, 36, 0.14)', mid: 'rgba(244, 63, 94, 0.06)', outer: 'transparent' }   // Golden-Amber Dust
+      { core: 'rgba(248, 99, 67, 0.07)', mid: 'rgba(230, 161, 92, 0.03)', outer: 'transparent' }, // Warm Vermilion Ember
+      { core: 'rgba(180, 175, 165, 0.05)', mid: 'rgba(110, 105, 98, 0.02)', outer: 'transparent' }, // Graphite Cosmic Matter
+      { core: 'rgba(232, 133, 84, 0.06)', mid: 'rgba(168, 120, 80, 0.02)', outer: 'transparent' }   // Amber Latent Dust
     ];
 
     nebulaClouds.push({
@@ -218,7 +218,7 @@
       glow = 'rgba(255, 255, 255, 0.35)';
       baseAlpha = 0.5 + Math.random() * 0.4;
       size = 1.0 + Math.random() * 1.4;
-      hasFlare = Math.random() < 0.10;
+      hasFlare = false;
     } else {
       // 4-Arm Logarithmic Spiral Density (Orbiting around the neural cortex)
       const armIdx = i % 4;
@@ -228,23 +228,26 @@
       phi = (Math.random() - 0.5) * 0.28;
 
       const roll = Math.random();
-      if (roll < 0.45) {
-        color = '#00f0ff'; // Hot young cyan stars
-        glow = 'rgba(0, 240, 255, 0.45)';
-      } else if (roll < 0.75) {
-        color = '#f472b6'; // Neon pink/magenta
-        glow = 'rgba(244, 114, 182, 0.45)';
-      } else if (roll < 0.90) {
-        color = '#fbbf24'; // Warm gold
-        glow = 'rgba(251, 191, 36, 0.45)';
+      if (roll < 0.50) {
+        color = '#f5f3ef'; // Pearl bone white
+        glow = 'rgba(245, 243, 239, 0.28)';
+        size = 0.9 + Math.random() * 1.1;
+      } else if (roll < 0.78) {
+        color = '#c2beb5'; // Warm silver titanium
+        glow = 'rgba(194, 190, 181, 0.20)';
+        size = 0.8 + Math.random() * 1.0;
+      } else if (roll < 0.92) {
+        color = '#f5a642'; // Latent amber spark
+        glow = 'rgba(245, 166, 66, 0.32)';
+        size = 1.0 + Math.random() * 1.2;
       } else {
-        color = '#ffffff'; // Diamond white
-        glow = 'rgba(255, 255, 255, 0.5)';
+        color = '#f86343'; // Active Vermilion token
+        glow = 'rgba(248, 99, 67, 0.38)';
+        size = 1.1 + Math.random() * 1.4;
       }
 
-      baseAlpha = 0.65 + Math.random() * 0.35;
-      size = 1.2 + Math.random() * 1.8;
-      hasFlare = Math.random() < 0.15;
+      baseAlpha = 0.45 + Math.random() * 0.45;
+      hasFlare = false;
     }
 
     const x = Math.cos(theta) * Math.cos(phi) * radius;
@@ -567,16 +570,21 @@
       const proj = project(curX, curY, curZ);
       if (proj.scale <= 0) return;
 
-      const twinkle = (Math.sin(time * star.twinkleSpeed + star.twinkleOffset) * 0.22 + 0.78) * star.baseAlpha;
-      const finalAlpha = Math.min(1, twinkle + gravityPull * 0.3);
-      const starRadius = Math.max(1.0, star.size * proj.scale * (1 + gravityPull * 0.6));
+      // Depth of Field calculation: sharp near focal plane, subtle in distance
+      const distFromFocus = Math.abs(proj.z);
+      const dofFactor = Math.max(0.25, 1 - distFromFocus / 650);
+      const twinkle = (Math.sin(time * star.twinkleSpeed + star.twinkleOffset) * 0.2 + 0.8) * star.baseAlpha * dofFactor;
+      const finalAlpha = Math.min(0.92, twinkle + gravityPull * 0.3);
+      const starRadius = Math.max(0.8, star.size * proj.scale * (1 + gravityPull * 0.5));
 
-      // Soft glow aura
-      ctx.fillStyle = star.glow;
-      ctx.globalAlpha = finalAlpha * 0.4;
-      ctx.beginPath();
-      ctx.arc(proj.x, proj.y, starRadius * 3.6, 0, Math.PI * 2);
-      ctx.fill();
+      // Delicate glow aura (only for nearer/brighter data points)
+      if (starRadius > 1.1 && finalAlpha > 0.35) {
+        ctx.fillStyle = star.glow;
+        ctx.globalAlpha = finalAlpha * 0.28;
+        ctx.beginPath();
+        ctx.arc(proj.x, proj.y, starRadius * 2.4, 0, Math.PI * 2);
+        ctx.fill();
+      }
 
       // Brilliant Star Core
       ctx.fillStyle = star.color;
@@ -584,20 +592,6 @@
       ctx.beginPath();
       ctx.arc(proj.x, proj.y, starRadius, 0, Math.PI * 2);
       ctx.fill();
-
-      // 4-point sparkle cross flare
-      if (star.hasFlare && starRadius > 1.1) {
-        const flareLen = starRadius * 4.5;
-        ctx.strokeStyle = star.color;
-        ctx.globalAlpha = finalAlpha * 0.6;
-        ctx.lineWidth = 0.8;
-        ctx.beginPath();
-        ctx.moveTo(proj.x - flareLen, proj.y);
-        ctx.lineTo(proj.x + flareLen, proj.y);
-        ctx.moveTo(proj.x, proj.y - flareLen);
-        ctx.lineTo(proj.x, proj.y + flareLen);
-        ctx.stroke();
-      }
     });
 
     ctx.globalAlpha = 1.0;
@@ -611,7 +605,7 @@
       ctx.save();
       ctx.translate(centerProj.x, centerProj.y);
       ctx.rotate(time * 0.8);
-      ctx.strokeStyle = `rgba(56, 189, 248, ${ringAlpha * 0.45})`;
+      ctx.strokeStyle = `rgba(248, 99, 67, ${ringAlpha * 0.55})`;
       ctx.lineWidth = 1.2 * centerProj.scale;
       ctx.beginPath();
       ctx.ellipse(0, 0, 50 * centerProj.scale, 20 * centerProj.scale, Math.PI / 3, 0, Math.PI * 2);
@@ -694,7 +688,7 @@
         const ctrlX = (srcNode.proj.x + tgtNode.proj.x) * 0.5 + conn.curveBend * avgScale;
         const ctrlY = (srcNode.proj.y + tgtNode.proj.y) * 0.5 - Math.abs(conn.curveBend) * 0.5 * avgScale;
 
-        ctx.strokeStyle = p > 0.5 && p < 0.8 ? `rgba(244, 63, 94, ${alpha * 1.2})` : `rgba(129, 140, 248, ${alpha})`;
+        ctx.strokeStyle = p >= 0.75 ? `rgba(248, 99, 67, ${alpha * 1.1})` : p > 0.40 ? `rgba(232, 133, 84, ${alpha * 0.95})` : `rgba(200, 195, 185, ${alpha * 0.75})`;
         ctx.lineWidth = Math.max(0.6, (0.8 + conn.weight * 1.4) * avgScale);
         ctx.beginPath();
         ctx.moveTo(srcNode.proj.x, srcNode.proj.y);
@@ -712,7 +706,7 @@
 
           // Glowing Signal Packet
           const packetRadius = Math.max(1.8, 3.0 * avgScale);
-          ctx.fillStyle = p > 0.5 ? '#fb7185' : '#38bdf8';
+          ctx.fillStyle = p > 0.5 ? '#f86343' : '#f5a642';
           ctx.beginPath();
           ctx.arc(px, py, packetRadius, 0, Math.PI * 2);
           ctx.fill();
@@ -727,21 +721,21 @@
       const baseRadius = (3.5 + Math.sin(time * 2 + node.pulseOffset) * 1.4) * proj.scale;
       const nodeRadius = Math.max(1.5, baseRadius);
 
-      // Clean Colored Neon Glow (Crisp, No White Mist)
-      const grad = ctx.createRadialGradient(proj.x, proj.y, 0, proj.x, proj.y, nodeRadius * 3.5);
-      grad.addColorStop(0, node.color);
-      grad.addColorStop(0.4, 'rgba(99, 102, 241, 0.25)');
+      // Clean Vermilion / Amber Radiant Glow
+      const grad = ctx.createRadialGradient(proj.x, proj.y, 0, proj.x, proj.y, nodeRadius * 2.8);
+      grad.addColorStop(0, p >= 0.90 ? '#f86343' : node.color);
+      grad.addColorStop(0.45, p >= 0.90 ? 'rgba(248, 99, 67, 0.22)' : 'rgba(230, 161, 92, 0.16)');
       grad.addColorStop(1, 'transparent');
 
       ctx.fillStyle = grad;
       ctx.beginPath();
-      ctx.arc(proj.x, proj.y, nodeRadius * 3.5, 0, Math.PI * 2);
+      ctx.arc(proj.x, proj.y, nodeRadius * 2.8, 0, Math.PI * 2);
       ctx.fill();
 
       // Sharp Crisp White Neuron Core
       ctx.fillStyle = '#ffffff';
       ctx.beginPath();
-      ctx.arc(proj.x, proj.y, nodeRadius, 0, Math.PI * 2);
+      ctx.arc(proj.x, proj.y, Math.max(1.2, nodeRadius * 0.85), 0, Math.PI * 2);
       ctx.fill();
     });
 
@@ -755,9 +749,9 @@
           centerProj.x, centerProj.y, 4,
           centerProj.x, centerProj.y, haloRadius
         );
-        singGlow.addColorStop(0, `rgba(6, 182, 212, ${ringAlpha * 0.65})`);
-        singGlow.addColorStop(0.3, `rgba(99, 102, 241, ${ringAlpha * 0.40})`);
-        singGlow.addColorStop(0.7, `rgba(168, 85, 247, ${ringAlpha * 0.20})`);
+        singGlow.addColorStop(0, `rgba(248, 99, 67, ${ringAlpha * 0.65})`);
+        singGlow.addColorStop(0.35, `rgba(245, 166, 66, ${ringAlpha * 0.35})`);
+        singGlow.addColorStop(0.7, `rgba(180, 100, 50, ${ringAlpha * 0.15})`);
         singGlow.addColorStop(1, 'transparent');
 
         ctx.fillStyle = singGlow;
@@ -770,20 +764,20 @@
         ctx.translate(centerProj.x, centerProj.y);
         ctx.rotate(time * 0.65 + rotY * 0.5);
 
-        ctx.strokeStyle = `rgba(6, 182, 212, ${ringAlpha * 0.65})`;
-        ctx.lineWidth = 2.5 * centerProj.scale;
+        ctx.strokeStyle = `rgba(248, 99, 67, ${ringAlpha * 0.65})`;
+        ctx.lineWidth = 2.0 * centerProj.scale;
         ctx.beginPath();
-        ctx.ellipse(0, 0, 250 * centerProj.scale, 85 * centerProj.scale, Math.PI / 4, 0, Math.PI * 2);
+        ctx.ellipse(0, 0, 220 * centerProj.scale, 75 * centerProj.scale, Math.PI / 4, 0, Math.PI * 2);
         ctx.stroke();
 
-        ctx.strokeStyle = `rgba(168, 85, 247, ${ringAlpha * 0.55})`;
+        ctx.strokeStyle = `rgba(245, 166, 66, ${ringAlpha * 0.50})`;
         ctx.beginPath();
-        ctx.ellipse(0, 0, 290 * centerProj.scale, 100 * centerProj.scale, -Math.PI / 4, 0, Math.PI * 2);
+        ctx.ellipse(0, 0, 260 * centerProj.scale, 95 * centerProj.scale, -Math.PI / 5, 0, Math.PI * 2);
         ctx.stroke();
 
-        ctx.strokeStyle = `rgba(251, 191, 36, ${ringAlpha * 0.45})`;
+        ctx.strokeStyle = `rgba(245, 243, 239, ${ringAlpha * 0.38})`;
         ctx.beginPath();
-        ctx.ellipse(0, 0, 330 * centerProj.scale, 115 * centerProj.scale, 0, 0, Math.PI * 2);
+        ctx.ellipse(0, 0, 300 * centerProj.scale, 110 * centerProj.scale, Math.PI / 6, 0, Math.PI * 2);
         ctx.stroke();
 
         ctx.restore();
