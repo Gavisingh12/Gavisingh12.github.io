@@ -44,6 +44,10 @@
   }
   window.scrollTo(0, 0);
 
+  // --- Reduced Motion Preference Detection ---
+  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let prefersReducedMotion = motionQuery.matches;
+
   // --- Motion Frames Timeline State ---
   let targetProgress = 0.0;
   let currentProgress = 0.0;
@@ -827,6 +831,7 @@
   const tiltCards = document.querySelectorAll('.project-card, .funfact-card, .timeline-content');
   tiltCards.forEach(card => {
     card.addEventListener('mousemove', (e) => {
+      if (prefersReducedMotion) return;
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
@@ -839,6 +844,14 @@
     card.addEventListener('mouseleave', () => {
       card.style.transform = '';
     });
+  });
+
+  motionQuery.addEventListener('change', (e) => {
+    prefersReducedMotion = e.matches;
+    if (prefersReducedMotion) {
+      autoPlay = false;
+      tiltCards.forEach(card => { card.style.transform = ''; });
+    }
   });
 
   // Start Rendering

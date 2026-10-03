@@ -1876,3 +1876,27 @@ body.light-mode .progress-track { background: rgba(255,255,255,0.08); }
   .stat-box   { border-right: none; border-bottom: 1px solid var(--border); }
   .handwritten-signature { font-size: 1.9rem; }
 }
+
+/* ─── Accessibility: Reduced Motion ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .live-dot,
+  .scroll-cue-dot {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+
+  .cursor-glow {
+    display: none !important;
+  }
+}
