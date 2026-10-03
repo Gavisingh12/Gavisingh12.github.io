@@ -443,8 +443,8 @@
     // Update Progress Bar & HUD (only mutate DOM when string changes)
     const progPercent = (currentProgress * 100).toFixed(1);
     const progStr = `${progPercent}%`;
-    progressBar.style.width = progStr;
     if (lastHudProgress !== progStr) {
+      progressBar.style.width = progStr;
       hudProgress.textContent = progStr;
       lastHudProgress = progStr;
     }
