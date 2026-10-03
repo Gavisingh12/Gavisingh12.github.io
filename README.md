@@ -1,10 +1,13 @@
-# ✨ Gavinder Singh - Interactive 3D Machine Learning Showcase
+# ✨ Gavinder Singh — AI & Machine Learning Portfolio
 
 Live Site: **[https://gavisingh12.github.io](https://gavisingh12.github.io)**
 
-An ultra-modern, hardware-accelerated interactive Machine Learning & AI Showcase featuring:
-- **3D Neural Network Motion Frames**: Scrub frame-by-frame through 4 stages of AI model lifecycle (Data Ingestion, Multi-Head Attention, Gradient Backprop, Inference Core) via mouse scroll or keyboard keys (`▲` / `▼` / `Space`).
-- **3D Camera Orbit**: Drag mouse or press `◄` / `►` to rotate perspective.
-- **Dynamic Telemetry HUD**: Real-time tracking of training epochs, loss curves, and validation accuracy.
-- **Interactive In-Browser ML Terminal**: Run simulated commands (`train`, `status`, `projects`).
-- **Web Audio API Synthesizer**: Interactive sound feedback when scrubbing frames.
+A zero-framework, hardware-accelerated personal portfolio showcasing AI systems engineering, real-time voice architectures, and production-style RAG pipelines.
+
+## Features
+- **3D Neural Particle Simulation**: Hand-crafted HTML5 Canvas 3D projection engine visualizing model training across 4 stages (Raw Universe pointcloud $\rightarrow$ Attention connections $\rightarrow$ Gravitational collapse $\rightarrow$ The Singularity).
+- **Interactive Scroller**: Scrub through model lifecycle stages via page scroll or stage selector keys (`1`–`4` when focused).
+- **Telemetry HUD**: Real-time telemetry overlay tracking training epochs, loss curves, and validation metrics across lifecycle phases.
+- **Accessible & Performance-Minded**: Zero runtime frameworks or bundlers; respects `prefers-reduced-motion`; halts rendering when off-screen or tab-hidden.
+- **Dual Themes**: Warm Editorial Dark and Cream Light mode toggles.
+- **Bilingual Bio**: Quick English and French bio toggle (`Bio: EN | FR`).
