@@ -91,80 +91,99 @@
     }
   ];
 
-  // --- 3D Neural Nodes & Layers Model Generation (Curved Bio-Cortex Manifold) ---
-  const NUM_INPUT_NODES = 42;
-  const NUM_HIDDEN_1 = 34;
-  const NUM_HIDDEN_2 = 28;
-  const NUM_OUTPUT = 18;
-  
+  // --- 3D Neural Connectome Lattice (Organic 3D Graph Manifold) ---
   const nodes = [];
   const connections = [];
 
-  function createLayer(count, zPos, spreadX, spreadY, layerType) {
-    const layerNodes = [];
-    for (let i = 0; i < count; i++) {
-      const normIdx = count > 1 ? (i / (count - 1)) - 0.5 : 0; // -0.5 to +0.5
-      const arcAngle = normIdx * Math.PI * 0.72; // Cranial arc curve
-      const archRadius = 240 - Math.abs(normIdx) * 55;
+  // Define 5 Interconnected Semantic Clusters (Multi-Modal Intelligence Architecture)
+  const CLUSTERS = [
+    { name: 'Perception',      cx: -140, cy: -30, cz: -60,  radius: 65, color: '#F5F3EF', count: 18 },
+    { name: 'AudioVoice',      cx: -50,  cy: 90,  cz: 50,   radius: 60, color: '#D4AF7A', count: 16 },
+    { name: 'LatentEmbedding', cx: 0,    cy: -50, cz: 80,   radius: 75, color: '#E88554', count: 20 },
+    { name: 'MemoryAttention', cx: 120,  cy: 40,  cz: -40,  radius: 65, color: '#F5A642', count: 18 },
+    { name: 'ActionSynthesis', cx: 60,   cy: -90, cz: -80,  radius: 55, color: '#F86343', count: 16 }
+  ];
 
-      // Realistic curved cortex position
-      const baseX = Math.sin(arcAngle) * archRadius + (Math.random() - 0.5) * 35;
-      const baseY = (normIdx * spreadY) + (Math.random() - 0.5) * 30;
-      const baseZ = zPos + Math.cos(arcAngle) * 95 + (Math.random() - 0.5) * 30;
+  let totalNodeIndex = 0;
+  CLUSTERS.forEach((cluster, cIdx) => {
+    for (let i = 0; i < cluster.count; i++) {
+      // Uniform random distribution within 3D sphere volume
+      const u = Math.random();
+      const r = cluster.radius * Math.cbrt(u);
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
 
-      // Converged core position (for stage 4)
-      const ringAngle = (i / count) * Math.PI * 2;
-      const coreRadius = 85 + (i % 4) * 28;
+      const baseX = cluster.cx + r * Math.sin(phi) * Math.cos(theta);
+      const baseY = cluster.cy + r * Math.sin(phi) * Math.sin(theta);
+      const baseZ = cluster.cz + r * Math.cos(phi);
 
-      const node = {
+      // Convergence Singularity Target (Stage 4 Core Orbit)
+      const ringAngle = (totalNodeIndex / 88) * Math.PI * 2;
+      const coreR = 60 + (totalNodeIndex % 4) * 20;
+
+      nodes.push({
         baseX,
         baseY,
         baseZ,
-        // Disperse position (for stage 1)
-        scatterX: (Math.random() - 0.5) * 1250,
-        scatterY: (Math.random() - 0.5) * 900,
+        clusterIdx: cIdx,
+        // Wide ambient dispersion for Stage 1
+        scatterX: (Math.random() - 0.5) * 1150,
+        scatterY: (Math.random() - 0.5) * 850,
         scatterZ: (Math.random() - 0.5) * 850,
-        // Converged core position
-        coreX: Math.cos(ringAngle) * coreRadius,
-        coreY: Math.sin(ringAngle) * coreRadius,
-        coreZ: ((i % 5) - 2) * 45,
-        layer: layerType,
+        // Converged singularity core for Stage 4
+        coreX: Math.cos(ringAngle) * coreR,
+        coreY: Math.sin(ringAngle) * coreR,
+        coreZ: ((totalNodeIndex % 5) - 2) * 35,
         pulseOffset: Math.random() * Math.PI * 2,
-        flash: 0.0, // Bioluminescent action potential flash
-        color: layerType === 0 ? '#E6E2D8' : layerType === 1 ? '#D4AF7A' : layerType === 2 ? '#E88554' : '#F86343'
-      };
-      nodes.push(node);
-      layerNodes.push(node);
-    }
-    return layerNodes;
-  }
-
-  const l1 = createLayer(NUM_INPUT_NODES, -280, 420, 320, 0);
-  const l2 = createLayer(NUM_HIDDEN_1, -90, 360, 270, 1);
-  const l3 = createLayer(NUM_HIDDEN_2, 90, 300, 220, 2);
-  const l4 = createLayer(NUM_OUTPUT, 270, 200, 170, 3);
-
-  // Connect adjacent layers with curved bezier synapses
-  function buildSynapses(sourceLayer, targetLayer, density = 0.24) {
-    sourceLayer.forEach(src => {
-      targetLayer.forEach(tgt => {
-        if (Math.random() < density) {
-          connections.push({
-            src,
-            tgt,
-            weight: 0.4 + Math.random() * 0.6,
-            pulseSpeed: 1.2 + Math.random() * 2.2,
-            curveBend: (Math.random() - 0.5) * 45,
-            packetT: Math.random()
-          });
-        }
+        color: cluster.color,
+        size: 1.0 + Math.random() * 0.8
       });
-    });
-  }
+      totalNodeIndex++;
+    }
+  });
 
-  buildSynapses(l1, l2, 0.22);
-  buildSynapses(l2, l3, 0.24);
-  buildSynapses(l3, l4, 0.32);
+  // Connect spatially proximate nodes to form a delicate, airy 3D lattice (Zero Broom Effect)
+  for (let i = 0; i < nodes.length; i++) {
+    const src = nodes[i];
+    const neighbors = [];
+
+    for (let j = 0; j < nodes.length; j++) {
+      if (i === j) continue;
+      const tgt = nodes[j];
+      const dx = src.baseX - tgt.baseX;
+      const dy = src.baseY - tgt.baseY;
+      const dz = src.baseZ - tgt.baseZ;
+      const dist = Math.hypot(dx, dy, dz);
+
+      // Connect if within spatial radius threshold
+      if (dist < 115) {
+        neighbors.push({ tgt, dist });
+      }
+    }
+
+    neighbors.sort((a, b) => a.dist - b.dist);
+
+    // Limit to 2-3 closest neighbors per node to ensure crystalline, airy transparency
+    const maxEdges = (i % 3 === 0) ? 3 : 2;
+    for (let k = 0; k < Math.min(neighbors.length, maxEdges); k++) {
+      const { tgt, dist } = neighbors[k];
+      const alreadyConnected = connections.some(c => 
+        (c.src === src && c.tgt === tgt) || (c.src === tgt && c.tgt === src)
+      );
+
+      if (!alreadyConnected) {
+        connections.push({
+          src,
+          tgt,
+          dist,
+          weight: 0.35 + Math.random() * 0.65,
+          pulseSpeed: 1.2 + Math.random() * 1.8,
+          curveBend: (Math.random() - 0.5) * 18,
+          packetT: Math.random()
+        });
+      }
+    }
+  }
 
   // --- 3D Realistic Cosmic Galaxy (4 Spiral Arms, Volumetric Nebula Gas, Stellar Bulge) ---
   const isMobileTier = window.innerWidth < 768 || (typeof navigator !== 'undefined' && typeof navigator.deviceMemory === 'number' && navigator.deviceMemory < 4);
@@ -618,37 +637,39 @@
       let curX, curY, curZ;
 
       if (p < 0.25) {
-        // Stage 1 (0 -> 0.25): Ingestion (Scatter Pointcloud -> Structured Curved Cortex)
+        // Stage 1 (0 -> 0.25): Coalescing (Scattered Noise -> 3D Latent Lattice)
         const t = p / 0.25;
-        const ease = t * t * (3 - 2 * t); // Smooth Hermite interpolation
+        const ease = t * t * (3 - 2 * t);
         curX = node.scatterX + (node.baseX - node.scatterX) * ease;
         curY = node.scatterY + (node.baseY - node.scatterY) * ease;
         curZ = node.scatterZ + (node.baseZ - node.scatterZ) * ease;
       } else if (p < 0.50) {
-        // Stage 2 (0.25 -> 0.50): Attention Matrix Projection (Expand & Multi-Head 3D Layer Separation)
+        // Stage 2 (0.25 -> 0.50): Attention Web Resonance (Harmonic Breathing & Cluster Alignment)
         const t = (p - 0.25) / 0.25;
-        const expandX = 1 + Math.sin(t * Math.PI) * 0.22;
-        const expandY = 1 + Math.sin(t * Math.PI) * 0.16;
-        const wobble = Math.sin(time * 3 + node.pulseOffset) * (6 + t * 6);
-        curX = node.baseX * expandX + wobble;
-        curY = node.baseY * expandY + Math.cos(time * 2.5 + node.pulseOffset) * 4;
-        curZ = node.baseZ + Math.sin(t * Math.PI) * 40;
+        const breathe = 1 + Math.sin(t * Math.PI) * 0.12;
+        const pulse = Math.sin(time * 2.2 + node.pulseOffset) * 5;
+        curX = node.baseX * breathe + pulse * 0.7;
+        curY = node.baseY * breathe + Math.cos(time * 1.8 + node.pulseOffset) * 4;
+        curZ = node.baseZ * breathe + Math.sin(time * 2.0 + node.pulseOffset) * 5;
       } else if (p < 0.75) {
-        // Stage 3 (0.50 -> 0.75): Backpropagation Optimization (Gradient Pulse Wave & Inward Compression)
+        // Stage 3 (0.50 -> 0.75): Gravitational Inward Pull (Organic Swirl & Radial Compression)
         const t = (p - 0.50) / 0.25;
-        const compressX = 1 - t * 0.24;
-        const compressY = 1 - t * 0.14;
-        const backpropWave = Math.sin(time * 3.5 - node.baseZ * 0.012 + t * Math.PI * 2) * (8 + (1 - t) * 6);
-        curX = node.baseX * compressX + backpropWave;
-        curY = node.baseY * compressY + Math.cos(time * 2.8 + node.pulseOffset) * 4;
-        curZ = node.baseZ * (1 - t * 0.18);
+        const compress = 1 - t * 0.42;
+        // Subtle orbital rotation around Y as it collapses inward
+        const angle = t * 0.75;
+        const rotX_node = node.baseX * Math.cos(angle) - node.baseZ * Math.sin(angle);
+        const rotZ_node = node.baseX * Math.sin(angle) + node.baseZ * Math.cos(angle);
+        const inwardWave = Math.sin(time * 3 + node.pulseOffset) * (4 * (1 - t));
+        curX = (rotX_node + inwardWave) * compress;
+        curY = (node.baseY + inwardWave) * compress;
+        curZ = (rotZ_node + inwardWave) * compress;
       } else {
-        // Stage 4 (0.75 -> 1.00): Gravitational Singularity (Converge into Singular Intelligence Core)
+        // Stage 4 (0.75 -> 1.00): Convergence Singularity (Tight Intelligence Core)
         const t = (p - 0.75) / 0.25;
-        const smoothT = Math.pow(t, 1.3);
-        const startX = node.baseX * 0.76;
-        const startY = node.baseY * 0.86;
-        const startZ = node.baseZ * 0.82;
+        const smoothT = Math.pow(t, 1.4);
+        const startX = node.baseX * 0.58;
+        const startY = node.baseY * 0.58;
+        const startZ = node.baseZ * 0.58;
         curX = startX + (node.coreX - startX) * smoothT;
         curY = startY + (node.coreY - startY) * smoothT;
         curZ = startZ + (node.coreZ - startZ) * smoothT;
@@ -675,37 +696,41 @@
     projectedNodes.sort((a, b) => b.z - a.z);
 
     // --- 5. RENDER CURVED BEZIER SYNAPSES & SIGNAL PACKETS ---
+    // --- 5. RENDER DELICATE 3D NEURAL CONNECTOME FILAMENTS ---
     connections.forEach((conn) => {
       const srcNode = projectedNodes.find(n => n.node === conn.src);
       const tgtNode = projectedNodes.find(n => n.node === conn.tgt);
 
       if (srcNode && tgtNode && srcNode.proj.scale > 0 && tgtNode.proj.scale > 0) {
-        const pulse = (Math.sin(time * conn.pulseSpeed + conn.weight * 10) + 1) * 0.5;
-        const alpha = Math.min(0.75, (0.10 + pulse * 0.35) * Math.min(1, p * 1.5));
+        // Filaments materialize as scattered points settle into 3D structure
+        if (p < 0.12) return;
+        const fadeIn = Math.min(1, (p - 0.12) / 0.18);
+        const pulse = (Math.sin(time * conn.pulseSpeed + conn.weight * 6) + 1) * 0.5;
+        const alpha = Math.min(0.60, (0.10 + pulse * 0.28) * fadeIn);
 
-        // Bezier control point with dynamic organic curvature
         const avgScale = (srcNode.proj.scale + tgtNode.proj.scale) * 0.5;
         const ctrlX = (srcNode.proj.x + tgtNode.proj.x) * 0.5 + conn.curveBend * avgScale;
-        const ctrlY = (srcNode.proj.y + tgtNode.proj.y) * 0.5 - Math.abs(conn.curveBend) * 0.5 * avgScale;
+        const ctrlY = (srcNode.proj.y + tgtNode.proj.y) * 0.5 - Math.abs(conn.curveBend) * 0.35 * avgScale;
 
-        ctx.strokeStyle = p >= 0.75 ? `rgba(248, 99, 67, ${alpha * 1.1})` : p > 0.40 ? `rgba(232, 133, 84, ${alpha * 0.95})` : `rgba(200, 195, 185, ${alpha * 0.75})`;
-        ctx.lineWidth = Math.max(0.6, (0.8 + conn.weight * 1.4) * avgScale);
+        ctx.strokeStyle = p >= 0.75 
+          ? `rgba(248, 99, 67, ${alpha * 1.15})` 
+          : p > 0.40 
+            ? `rgba(232, 133, 84, ${alpha * 0.90})` 
+            : `rgba(210, 205, 195, ${alpha * 0.70})`;
+        ctx.lineWidth = Math.max(0.5, (0.55 + conn.weight * 0.7) * avgScale);
         ctx.beginPath();
         ctx.moveTo(srcNode.proj.x, srcNode.proj.y);
         ctx.quadraticCurveTo(ctrlX, ctrlY, tgtNode.proj.x, tgtNode.proj.y);
         ctx.stroke();
 
-        // Animated Synaptic Signal Packet along Bezier Curve
-        if (p > 0.18) {
-          conn.packetT = (conn.packetT + 0.016 * conn.pulseSpeed * 0.6) % 1;
+        // Synaptic Signal Packet along Filament
+        if (p > 0.20) {
+          conn.packetT = (conn.packetT + 0.012 * conn.pulseSpeed) % 1;
           const t = conn.packetT;
-
-          // Quadratic Bezier Formula: B(t) = (1-t)^2 * P0 + 2(1-t)t * P1 + t^2 * P2
           const px = Math.pow(1 - t, 2) * srcNode.proj.x + 2 * (1 - t) * t * ctrlX + Math.pow(t, 2) * tgtNode.proj.x;
           const py = Math.pow(1 - t, 2) * srcNode.proj.y + 2 * (1 - t) * t * ctrlY + Math.pow(t, 2) * tgtNode.proj.y;
 
-          // Glowing Signal Packet
-          const packetRadius = Math.max(1.8, 3.0 * avgScale);
+          const packetRadius = Math.max(1.2, 2.2 * avgScale);
           ctx.fillStyle = p > 0.5 ? '#f86343' : '#f5a642';
           ctx.beginPath();
           ctx.arc(px, py, packetRadius, 0, Math.PI * 2);
