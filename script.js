@@ -223,7 +223,7 @@
 
     sections.forEach((section) => {
       const sectionHeight = section.offsetHeight;
-      const sectionTop = section.offsetTop - 120;
+      const sectionTop = section.offsetTop - 140;
       const sectionId = section.getAttribute('id');
 
       if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
@@ -238,4 +238,88 @@
   }
 
   window.addEventListener('scroll', onScrollSpy, { passive: true });
+
+  // ─── 10. STAGGERED SCROLL REVEAL & CASCADE MOTION ENGINE ──────────────────
+  function initScrollRevealMotion() {
+    // 1. Enable reveal CSS classes on document
+    document.documentElement.classList.add('js-reveal-ready');
+
+    // 2. Identify Section Headers
+    const sectionHeaders = document.querySelectorAll('.section-header');
+    sectionHeaders.forEach((header) => {
+      header.classList.add('reveal-on-scroll');
+    });
+
+    // 3. Configure Stagger Groups and their Children
+    const groupsConfig = [
+      { container: '.services-grid', child: '.service-card' },
+      { container: '.projects-grid', child: '.project-card' },
+      { container: '.experience-timeline', child: '.experience-card' },
+      { container: '.stack-grid', child: '.stack-card' },
+      { container: '.about-clean-card', child: '.about-clean-body, .about-clean-action' },
+      { container: '.contact-hub-wrapper', child: '.contact-channels, .contact-form-card' }
+    ];
+
+    groupsConfig.forEach(({ container, child }) => {
+      const parent = document.querySelector(container);
+      if (parent) {
+        parent.classList.add('stagger-group');
+        const children = parent.querySelectorAll(child);
+        children.forEach((el, index) => {
+          el.classList.add('reveal-child');
+          if (index >= 8) {
+            el.style.transitionDelay = `${0.08 + index * 0.12}s`;
+          }
+        });
+      }
+    });
+
+    // 4. Setup IntersectionObserver
+    const observerOptions = {
+      threshold: 0.08,
+      rootMargin: '0px 0px -40px 0px'
+    };
+
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    // Observe all headers and stagger containers
+    document.querySelectorAll('.reveal-on-scroll, .stagger-group').forEach((el) => {
+      revealObserver.observe(el);
+    });
+
+    // 5. Smooth Nav Link Click Handler
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener('click', function (e) {
+        const targetId = this.getAttribute('href');
+        if (!targetId || targetId === '#' || targetId.length <= 1) return;
+
+        const targetEl = document.querySelector(targetId);
+        if (targetEl) {
+          e.preventDefault();
+          const targetOffset = targetEl.getBoundingClientRect().top + window.pageYOffset - 80;
+          window.scrollTo({
+            top: targetOffset,
+            behavior: 'smooth'
+          });
+          if (history.pushState) {
+            history.pushState(null, null, targetId);
+          }
+        }
+      });
+    });
+  }
+
+  // Initialize immediately or on DOMContentLoaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initScrollRevealMotion);
+  } else {
+    initScrollRevealMotion();
+  }
 })();
