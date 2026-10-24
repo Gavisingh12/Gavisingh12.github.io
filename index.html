@@ -1,888 +1,1061 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="color-scheme: dark;">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gavinder Singh | AI Solution Engineer Intern</title>
-  <meta name="description" content="Interactive 3D simulation portfolio of Gavinder Singh, AI Solution Engineer Intern at Alpever AI specializing in real-time voice agents and production automation." />
-  
-  <!-- Early Theme Boot (Zero FOUC, supports gs-theme and system preference) -->
-  <script>
-    (function() {
-      try {
-        var saved = localStorage.getItem('gs-theme');
-        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        var isDark = saved ? (saved === 'dark') : prefersDark;
-        if (isDark) {
-          document.documentElement.classList.add('dark-mode');
-          document.documentElement.classList.remove('light-mode');
-          document.documentElement.style.colorScheme = 'dark';
-        } else {
-          document.documentElement.classList.add('light-mode');
-          document.documentElement.classList.remove('dark-mode');
-          document.documentElement.style.colorScheme = 'light';
-        }
-      } catch (e) {}
-    })();
-  </script>
+  <title>Gavinder Singh | AI Solution Engineer & Machine Learning Specialist</title>
+  <meta name="description"
+    content="Portfolio of Gavinder Singh, AI Solution Engineer Intern at Alpever AI. Specializing in real-time conversational voice agents (<400ms), custom LLM fine-tuning (LoRA), enterprise RAG, and autonomous systems." />
+  <meta name="keywords"
+    content="Gavinder Singh, AI Solution Engineer, Machine Learning Engineer, Voice AI, Real-time Voice Agents, PyTorch, LoRA Fine-Tuning, RAG, Lovely Professional University, Freelance AI Consultant" />
+  <meta name="author" content="Gavinder Singh" />
 
-  <!-- Preload Critical Body Font -->
-  <link rel="preload" href="fonts/instrument-sans-400-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <!-- Open Graph / Social Cards -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Gavinder Singh | AI Solution Engineer & Machine Learning Specialist" />
+  <meta property="og:description"
+    content="Engineering real-time conversational Voice AI (<400ms latency), LoRA model fine-tuning, and enterprise autonomous systems. Available for select freelance contracts & full-time roles." />
+  <meta property="og:url" content="https://gavisingh12.github.io" />
+  <meta property="og:image" content="https://gavisingh12.github.io/profile.jpg" />
 
-  <!-- FontAwesome for Icons -->
+  <!-- Favicon matching palette #090B0A, #252B27, #42D392 -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23090B0A'/%3E%3Crect x='1' y='1' width='30' height='30' rx='7' fill='none' stroke='%23252B27' stroke-width='1.5'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%2342D392' font-family='sans-serif' font-weight='800' font-size='12'%3EGS%3C/text%3E%3C/svg%3E" />
+
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-  <link rel="stylesheet" href="style.css?v=3.4" />
+  <!-- Primary Stylesheet -->
+  <link rel="stylesheet" href="style.css?v=5.0" />
 </head>
-<body class="dark-mode">
 
-  <!-- Skip to Content Link -->
-  <a href="#about" class="skip-link">Skip to main content</a>
+<body>
 
-  <!-- Custom Cursor Glow -->
-  <div class="cursor-glow" id="cursorGlow"></div>
+  <!-- Skip to Content for Accessibility -->
+  <a href="#overview" class="skip-link">Skip to main content</a>
 
-  <!-- Ambient Background Gradients -->
-  <div class="ambient-glow glow-1"></div>
-  <div class="ambient-glow glow-2"></div>
-  <div class="ambient-grid"></div>
+  <!-- Ambient Glow Backgrounds -->
+  <div class="ambient-glow glow-top" aria-hidden="true"></div>
+  <div class="ambient-glow glow-middle" aria-hidden="true"></div>
+  <div class="ambient-grid-pattern" aria-hidden="true"></div>
 
   <!-- Navigation Bar -->
-  <nav class="navbar" id="navbar" aria-label="Main Navigation">
-    <div class="nav-container">
-      <a href="#about" class="nav-logo" aria-label="Gavinder Singh Home">
-        <span class="logo-symbol" aria-hidden="true">&lt;GS/&gt;</span>
-        <span class="logo-text">Gavinder Singh</span>
-      </a>
+  <header class="site-header" id="navbar">
+    <nav class="nav-container" aria-label="Main Navigation">
+      <div class="brand-group">
+        <a href="#overview" class="brand-logo" aria-label="Gavinder Singh Home">
+          <div class="logo-mark" aria-hidden="true">
+            <i class="fa-solid fa-microchip"></i>
+          </div>
+          <div class="brand-name-group">
+            <span class="brand-name">Gavinder Singh</span>
+            <span class="brand-sub">AI Solution Engineer</span>
+          </div>
+        </a>
+      </div>
 
-      <div class="nav-links" id="navLinks">
+      <!-- Desktop Navigation Links -->
+      <div class="nav-menu" id="navMenu">
+        <a href="#overview" class="nav-link active">Overview</a>
+        <a href="#solutions" class="nav-link">Services</a>
+        <a href="#experience" class="nav-link">Experience</a>
+        <a href="#projects" class="nav-link">Systems</a>
+        <a href="#stack" class="nav-link">Stack</a>
         <a href="#about" class="nav-link">About</a>
-        <a href="#experience" class="nav-link highlight-link"><i class="fa-solid fa-briefcase" aria-hidden="true"></i> Experience</a>
-        <a href="#projects" class="nav-link">Projects</a>
-        <a href="#education" class="nav-link">Education</a>
-        <a href="#skills" class="nav-link">Stack</a>
-        <a href="#beyond-code" class="nav-link">Beyond Code</a>
         <a href="#contact" class="nav-link">Contact</a>
       </div>
 
-      <div class="nav-actions">
-        <button id="themeToggle" class="cyber-btn-sm" title="Toggle Light / Dark Theme" aria-label="Toggle light or dark theme">
-          <i class="fa-solid fa-sun" id="themeIcon" aria-hidden="true"></i>
-          <span id="themeLabel">LIGHT</span>
-        </button>
-        <a href="https://github.com/Gavisingh12" target="_blank" rel="noopener noreferrer" class="github-pill" aria-label="GitHub profile @Gavisingh12">
-          <i class="fa-brands fa-github" aria-hidden="true"></i>
-          <span>@Gavisingh12</span>
+      <!-- Nav Action Buttons -->
+      <div class="nav-controls">
+        <a href="https://github.com/Gavisingh12" target="_blank" rel="noopener noreferrer" class="social-icon-btn"
+          title="GitHub Profile @Gavisingh12" aria-label="GitHub">
+          <i class="fa-brands fa-github"></i>
         </a>
-        <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
-          <i class="fa-solid fa-bars" id="mobileMenuIcon" aria-hidden="true"></i>
+
+        <a href="https://www.linkedin.com/in/gavindra-singh/" target="_blank" rel="noopener noreferrer"
+          class="social-icon-btn" title="LinkedIn Profile" aria-label="LinkedIn">
+          <i class="fa-brands fa-linkedin-in"></i>
+        </a>
+
+        <a href="#contact" class="btn btn-sm btn-primary nav-hire-btn">
+          <span>Let's Talk</span>
+          <i class="fa-solid fa-arrow-trend-up"></i>
+        </a>
+
+        <button type="button" class="mobile-toggle-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu"
+          aria-expanded="false" aria-controls="navMenu">
+          <i class="fa-solid fa-bars" id="mobileMenuIcon"></i>
         </button>
       </div>
-    </div>
-  </nav>
+    </nav>
+  </header>
 
-  <!-- Sticky Frame Motion Scroller Section -->
-  <section class="scroller-container" id="scroller" aria-label="Neural model training simulation scroller">
-    <!-- Sticky Canvas Viewport -->
-    <div class="sticky-viewport" tabindex="0" role="region" aria-label="Interactive 3D Neural Network Simulation. Press keys 1 to 4 to jump to training stages.">
-      <canvas id="neuralCanvas" role="img" aria-label="3D interactive particle simulation demonstrating neural model training from data pointclouds into an intelligence core"></canvas>
+  <!-- Main Content -->
+  <main id="main-content">
 
-      <!-- Persistent Hero Identity Block with H1 -->
-      <div class="hero-identity-block">
-        <h1 class="hero-name">Gavinder Singh</h1>
-        <p class="hero-role">AI Solution Engineer Intern</p>
-        <div class="hero-action-bar">
-          <a href="#about" class="skip-intro-btn">
-            <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
-            <span>Skip intro</span>
-          </a>
-          <button type="button" class="canvas-pause-btn" id="canvasPauseBtn" aria-label="Pause neural animation">
-            <i class="fa-solid fa-pause" id="canvasPauseIcon" aria-hidden="true"></i>
-            <span id="canvasPauseLabel">Pause Motion</span>
-          </button>
-        </div>
-      </div>
+    <!-- =========================================================================
+         SECTION 1: HERO / EXECUTIVE OVERVIEW
+         Designed for instant recruiter comprehension & client trust
+    ========================================================================== -->
+    <section class="hero-section" id="overview" aria-label="Introduction & Overview">
+      <div class="container hero-container">
 
-      <!-- Off-Screen Live Region for Discrete Stage Announcements -->
-      <div id="stageAnnouncer" role="status" aria-live="polite" class="sr-only"></div>
-
-      <!-- Clean Telemetry Overlay (Simulation Visualizer) -->
-      <div class="hud-top-left" aria-hidden="true">
-        <div class="hud-badge">
-          <span class="live-dot"></span>
-          <span>Simulation Visualizer · 3D Particle Mechanics</span>
-        </div>
-        <div class="hud-metaphor-quote">
-          "Like gravity pulling stardust into stars, <span class="quote-highlight">data collapses into intelligence.</span>"
-        </div>
-        <div class="hud-metric-row">
-          <span class="metric-label">SIM STAGE:</span>
-          <span class="metric-value accent-purple" id="hudPhase">1 / 4 [Raw Universe]</span>
-        </div>
-        <div class="hud-metric-row">
-          <span class="metric-label">SCRUB:</span>
-          <span class="metric-value accent-green" id="hudProgress">00.0%</span>
-        </div>
-      </div>
-
-      <div class="hud-top-right" aria-hidden="true">
-        <div class="hud-card">
-          <div class="hud-stat">
-            <span class="hud-label">EPOCH</span>
-            <span class="hud-num" id="hudEpoch">01 / 100</span>
-          </div>
-          <div class="hud-stat">
-            <span class="hud-label">LOSS</span>
-            <span class="hud-num accent-red" id="hudLoss">2.418</span>
-          </div>
-          <div class="hud-stat">
-            <span class="hud-label">ACC</span>
-            <span class="hud-num accent-green" id="hudAcc">41.2%</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Center Dynamic Annotation based on Scroll Frame -->
-      <div class="frame-annotation" id="frameAnnotation" aria-hidden="true">
-        <div class="annotation-tag" id="annotTag">STAGE 01 · THE RAW UNIVERSE</div>
-        <h2 class="annotation-title" id="annotTitle">Scattered Data &amp; Noise</h2>
-        <p class="annotation-desc" id="annotDesc">Millions of raw words, sounds, and pixels floating in space — waiting to be given meaning.</p>
-      </div>
-
-      <!-- Precision Instrument Control Bar (Unified Dock, Zero Collision) -->
-      <div class="hero-instrument-bar" aria-hidden="true">
-        <div class="instrument-pill">
-          <span class="scroll-cue-dot"></span>
-          <span class="instrument-item">Scroll to simulate</span>
-          <span class="instrument-sep">·</span>
-          <span class="key-cap">▲▼</span>
-          <span class="instrument-item">Scrub</span>
-          <span class="instrument-sep">·</span>
-          <span class="key-cap">◄►</span>
-          <span class="instrument-item">Orbit</span>
-          <span class="instrument-sep">·</span>
-          <span class="key-cap">SPACE</span>
-          <span class="instrument-item">Pause</span>
-        </div>
-      </div>
-
-      <!-- Scroller Progress Bar -->
-      <div class="progress-track" aria-hidden="true">
-        <div class="progress-bar-fill" id="progressBar"></div>
-      </div>
-    </div>
-
-    <!-- Virtual Scroll Heights to drive the frame timeline -->
-    <div class="scroll-milestone" data-step="1"></div>
-    <div class="scroll-milestone" data-step="2"></div>
-    <div class="scroll-milestone" data-step="3"></div>
-    <div class="scroll-milestone" data-step="4"></div>
-  </section>
-
-  <!-- Main Content Showcase -->
-  <main class="content-wrapper" id="main-content" tabindex="-1">
-
-    <!-- About / Human Story Section -->
-    <section class="section-container" id="about" data-num="01">
-      <div class="atelier-grid">
-        <aside class="marginalia-rail" aria-hidden="true">
-          <div class="marginalia-sticky">
-            <span class="section-index">§ 01</span>
-            <span class="section-label">Profile</span>
-          </div>
-        </aside>
-        <div class="content-field">
-      <div class="section-header">
-        <span class="section-tag-warm">A Little About Me</span>
-        <h2 class="section-title">The Person Behind the Models</h2>
-        <p class="section-subtitle">AI Solution Engineer Intern @ Alpever AI & Pre-Final Year B.Tech CSE at Lovely Professional University.</p>
-      </div>
-
-      <div class="about-hero-card glass-card">
-        <div class="about-avatar-wrap">
-          <div class="about-avatar">
-            <picture>
-              <source srcset="profile.webp" type="image/webp" />
-              <img src="profile.jpg" alt="Gavinder Singh" class="avatar-photo" width="200" height="200" loading="lazy" decoding="async" />
-            </picture>
-            <span class="status-indicator" title="AI Solution Engineer Intern @ Alpever AI · Open for Roles"></span>
-          </div>
-          <div class="avatar-meta">
-            <h3 class="avatar-name">Gavinder Singh</h3>
-            <span class="avatar-role">AI Solution Engineer Intern @ Alpever AI</span>
-            <span class="avatar-location"><i class="fa-solid fa-graduation-cap"></i> Lovely Professional University</span>
-            <span class="avatar-cgpa"><i class="fa-solid fa-chart-line"></i> 7.51 CGPA · B.Tech CSE (2023–2027)</span>
-            <div class="avatar-badges">
-              <span class="badge-mini"><i class="fa-solid fa-language"></i> Fluent in French</span>
-              <span class="badge-mini"><i class="fa-solid fa-book-open"></i> Manhwa & Manga Reader</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="about-bio-content">
-          <!-- Language Switcher Bar -->
-          <div class="bio-lang-bar">
-            <span class="bio-lang-label"><i class="fa-solid fa-earth-europe" aria-hidden="true"></i> Bio: EN | FR</span>
-            <button type="button" class="lang-toggle-btn active" id="btnLangEn" aria-label="Read bio in English">English</button>
-            <button type="button" class="lang-toggle-btn" id="btnLangFr" aria-label="Lire la biographie en français">Français <span aria-hidden="true">🇫🇷</span></button>
+        <div class="hero-content">
+          <!-- Role & Credibility Pill -->
+          <div class="hero-badge">
+            <span class="status-pulse-dot" aria-hidden="true"></span>
+            <span class="badge-text">AI Solution Engineer</span>
+            <span class="badge-sep">·</span>
+            <span class="badge-sub">Machine Learning &amp; Systems</span>
           </div>
 
-          <!-- English Bio Block -->
-          <div class="bio-block" id="bioEn" lang="en">
-            <p class="bio-p">
-              Hey! I'm <strong>Gavinder Singh</strong>, a <strong>Machine Learning Engineer</strong> and pre-final year Computer Science &amp; Engineering undergraduate at <strong>Lovely Professional University</strong> (Class of 2023–2027, 7.51 CGPA), currently engineering production AI systems as an <strong>AI Solution Engineer Intern at Alpever AI</strong>.
-            </p>
-            <p class="bio-p">
-              At <strong>Alpever AI</strong>, I build low-latency conversational voice architectures and end-to-end model pipelines. My work centers on <strong>PyTorch model fine-tuning (LoRA/PEFT)</strong>, acoustic latency profiling, and streaming inference runtimes. I design production pipelines integrating Voice Activity Detection (VAD), continuous audio chunking, and token-streaming neural synthesis into sub-400ms conversational loops. I also architected an autonomous growth platform featuring semantic candidate classification, schema-enforced structured decoding, and adaptive rate-governed queues.
-            </p>
-            <p class="bio-p">
-              Beyond code, I am <strong>fluent in French</strong> and an avid reader of <strong>Manhwa &amp; Manga</strong>. This entire portfolio was built with <strong>zero external UI frameworks</strong> — pure HTML Canvas math, modern CSS, and native JavaScript.
-            </p>
-          </div>
+          <!-- Bold, Clear, High-Impact Title -->
+          <h1 class="hero-title">
+            Engineering <span class="gradient-text">Intelligent AI</span> &amp; Scalable Systems.
+          </h1>
 
-          <!-- French Bio Block (Hidden by Default) -->
-          <div class="bio-block" id="bioFr" lang="fr" style="display: none;">
-            <p class="bio-p">
-              Salut ! Je m'appelle <strong>Gavinder Singh</strong>, <strong>ingénieur en apprentissage automatique</strong> et étudiant en informatique à <strong>Lovely Professional University</strong> (Promotion 2023–2027, 7.51 CGPA), actuellement en stage d'ingénierie de solutions d'IA chez <strong>Alpever AI</strong>.
-            </p>
-            <p class="bio-p">
-              Chez <strong>Alpever AI</strong>, je développe des architectures vocales conversationnelles à faible latence et des pipelines de modèles de bout en bout. Je travaille sur l'<strong>adaptation de modèles (fine-tuning LoRA/PEFT avec PyTorch)</strong>, la détection d'activité vocale (VAD) et l'inférence audio en continu (&lt;400ms). J'ai également conçu un moteur autonome combinant classification sémantique, décodage structuré contraint et gestionnaires de flux événementiels.
-            </p>
-            <p class="bio-p">
-              En dehors du code, je parle <strong>français couramment</strong> et je suis un grand lecteur de <strong>Manhwas et Mangas</strong>. Ce portfolio a été conçu à la main, avec <strong>zéro framework externe</strong> — uniquement du CSS moderne et du JavaScript natif.
-            </p>
-          </div>
+          <!-- Value Proposition Description -->
+          <p class="hero-description">
+            Passionate about machine learning, practical AI automation, and clean systems architecture. Building reliable, high-performance tools designed for real-world impact.
+          </p>
 
-          <div class="bio-actions">
-            <a href="mailto:gavindersingh164@gmail.com" class="bio-btn primary-bio-btn">
-              <i class="fa-solid fa-envelope"></i>
+          <!-- Core Call to Actions -->
+          <div class="hero-cta-group">
+            <a href="#projects" class="btn btn-primary btn-lg">
+              <i class="fa-solid fa-code"></i>
+              <span>Explore Projects</span>
+            </a>
+            <a href="#contact" class="btn btn-secondary btn-lg">
+              <i class="fa-regular fa-paper-plane"></i>
               <span>Get in Touch</span>
             </a>
-            <a href="#experience" class="bio-btn">
-              <i class="fa-solid fa-briefcase"></i>
-              <span>My Experience</span>
-            </a>
-            <a href="https://www.linkedin.com/in/gavindra-singh/" target="_blank" class="bio-btn">
-              <i class="fa-brands fa-linkedin"></i>
-              <span>LinkedIn</span>
-            </a>
-            <button type="button" class="bio-btn copy-email-btn" id="quickCopyEmail" data-email="gavindersingh164@gmail.com">
-              <i class="fa-regular fa-copy"></i>
-              <span>Copy Email</span>
-            </button>
           </div>
         </div>
-      </div>
 
-      <div class="stats-grid">
-        <div class="glass-card stat-box">
-          <div class="stat-icon"><i class="fa-solid fa-microchip"></i></div>
-          <div class="stat-number">17+</div>
-          <div class="stat-text">Open Source Repositories & Architectures</div>
+        <!-- Hero Visual / 3D Flip Showcase Card -->
+        <div class="hero-visual">
+          <div class="profile-card-flip-container" id="profileFlipCard" tabindex="0" role="region"
+            aria-label="Interactive Profile Card - Hover or click to flip">
+            <div class="profile-card-flipper">
+
+              <!-- FRONT FACE -->
+              <div class="profile-showcase-card profile-card-front">
+
+                <!-- Subtle Ambient Glow -->
+                <div class="showcase-glow" aria-hidden="true"></div>
+
+                <!-- Avatar with Mint Ring -->
+                <div class="showcase-avatar-wrapper">
+                  <div class="showcase-avatar-ring"></div>
+                  <picture>
+                    <source srcset="profile.webp" type="image/webp" />
+                    <img src="profile.jpg" alt="Gavinder Singh" class="showcase-avatar-img" width="140" height="140"
+                      loading="eager" />
+                  </picture>
+                </div>
+
+                <!-- Identity Header -->
+                <div class="showcase-identity">
+                  <h2 class="showcase-name">
+                    <span>Gavinder Singh</span>
+                    <svg class="showcase-verified-badge" viewBox="0 0 24 24" width="20" height="20" aria-label="Verified">
+                      <path fill="#42D392"
+                        d="m8.6 22.5-1.9-3.2-3.6-.8.4-3.7L1 12l2.5-2.8-.4-3.7 3.6-.8 1.9-3.2L12 2.9l3.4-1.4 1.9 3.2 3.6.8-.4 3.7L23 12l-2.5 2.8.4 3.7-3.6.8-1.9 3.2-3.4-1.4-3.4 1.4z" />
+                      <path fill="#090B0A" d="m10.2 16.2-3.5-3.5 1.4-1.4 2.1 2.1 5.7-5.7 1.4 1.4-7.1 7.1z" />
+                    </svg>
+                  </h2>
+                  <p class="showcase-title">AI Solution Engineer &amp; ML Specialist</p>
+                  <p class="showcase-bio">Building AI solutions that solve real-world problems.</p>
+                </div>
+
+                <!-- Skill / Focus Pills -->
+                <div class="showcase-pills">
+                  <div class="showcase-pill">
+                    <i class="fa-solid fa-brain"></i>
+                    <span>AI/ML</span>
+                  </div>
+                  <div class="showcase-pill">
+                    <i class="fa-solid fa-code"></i>
+                    <span>Full Stack</span>
+                  </div>
+                  <div class="showcase-pill">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <span>Data Scientist</span>
+                  </div>
+                </div>
+
+                <!-- Dotted Divider Line -->
+                <div class="showcase-divider" aria-hidden="true">
+                  <span class="divider-line"></span>
+                  <span class="divider-dot"></span>
+                  <span class="divider-line"></span>
+                </div>
+
+                <!-- Stats Matrix Row -->
+                <div class="showcase-stats-panel">
+                  <div class="showcase-stat-item">
+                    <i class="fa-solid fa-cube stat-icon"></i>
+                    <div class="stat-meta">
+                      <span class="stat-number">4+</span>
+                      <span class="stat-label">Projects</span>
+                    </div>
+                  </div>
+                  <div class="showcase-stat-item">
+                    <i class="fa-solid fa-award stat-icon"></i>
+                    <div class="stat-meta">
+                      <span class="stat-number">3+</span>
+                      <span class="stat-label">Certifications</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Hover Flip Hint (Non-interactive indicator) -->
+                <div class="showcase-flip-hint" aria-hidden="true">
+                  <i class="fa-solid fa-arrows-rotate"></i>
+                  <span>Hover to flip card</span>
+                </div>
+
+              </div>
+
+              <!-- BACK FACE (Matching User's Reference Screenshot) -->
+              <div class="profile-showcase-card profile-card-back">
+
+                <!-- Ambient Glow -->
+                <div class="showcase-glow" aria-hidden="true"></div>
+
+                <!-- 4 Reference Blocks from Image (Fit 100% In One View) -->
+                <div class="card-back-content">
+
+                  <!-- 1. About Me -->
+                  <div class="card-back-box">
+                    <div class="back-box-title-row">
+                      <i class="fa-solid fa-user back-box-icon"></i>
+                      <h3 class="back-box-title">About Me</h3>
+                    </div>
+                    <p class="back-box-text">
+                      Passionate about building practical AI systems, exploring machine learning, and turning real-world ideas into working products.
+                    </p>
+                  </div>
+
+                  <!-- 2. Interests -->
+                  <div class="card-back-box">
+                    <div class="back-box-title-row">
+                      <i class="fa-solid fa-bullseye back-box-icon"></i>
+                      <h3 class="back-box-title">Interests</h3>
+                    </div>
+                    <div class="back-interests-pills">
+                      <span class="back-pill">AI Agents</span>
+                      <span class="back-pill">LLMs</span>
+                      <span class="back-pill">Web Dev</span>
+                      <span class="back-pill">Data Science</span>
+                      <span class="back-pill">Problem Solving</span>
+                    </div>
+                  </div>
+
+                  <!-- 3. Education -->
+                  <div class="card-back-box">
+                    <div class="back-box-title-row">
+                      <i class="fa-solid fa-graduation-cap back-box-icon"></i>
+                      <h3 class="back-box-title">Education</h3>
+                    </div>
+                    <div class="back-edu-details">
+                      <p class="back-edu-degree">B.Tech in Computer Science &amp; Engineering</p>
+                      <p class="back-edu-inst">Lovely Professional University · Batch 2027</p>
+                    </div>
+                  </div>
+
+                  <!-- 4. Highlights -->
+                  <div class="card-back-box">
+                    <div class="back-box-title-row">
+                      <i class="fa-solid fa-trophy back-box-icon"></i>
+                      <h3 class="back-box-title">Highlights</h3>
+                    </div>
+                    <ul class="back-highlights-list">
+                      <li>
+                        <i class="fa-solid fa-circle-check highlight-check"></i>
+                        <span>Built 4+ real-world projects</span>
+                      </li>
+                      <li>
+                        <i class="fa-solid fa-circle-check highlight-check"></i>
+                        <span>3+ industry certifications</span>
+                      </li>
+                      <li>
+                        <i class="fa-solid fa-circle-check highlight-check"></i>
+                        <span>Constantly building &amp; learning new tech</span>
+                      </li>
+                      <li>
+                        <i class="fa-solid fa-circle-check highlight-check"></i>
+                        <span>Open to select contracts &amp; roles</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
         </div>
-        <div class="glass-card stat-box">
-          <div class="stat-icon"><i class="fa-solid fa-brain"></i></div>
-          <div class="stat-number">4+</div>
-          <div class="stat-text">Deep Learning Specialties (Voice AI, RAG, NLP, Time-Series)</div>
-        </div>
-        <div class="glass-card stat-box">
-          <div class="stat-icon"><i class="fa-solid fa-bolt"></i></div>
-          <div class="stat-number">&lt;400ms</div>
-          <div class="stat-text">Voice AI End-to-End Latency in Production</div>
-        </div>
-      </div>
-    
-        </div>
+
       </div>
     </section>
 
-    <!-- Work Experience Section -->
-    <section class="section-container" id="experience" data-num="02">
-      <div class="atelier-grid">
-        <aside class="marginalia-rail" aria-hidden="true">
-          <div class="marginalia-sticky">
-            <span class="section-index">§ 02</span>
-            <span class="section-label">Industry</span>
-          </div>
-        </aside>
-        <div class="content-field">
-      <div class="section-header">
-        <span class="section-tag-warm">Work & Industry Impact</span>
-        <h2 class="section-title">Where I'm Working</h2>
-        <p class="section-subtitle">Production model fine-tuning, sub-400ms streaming voice architectures, and autonomous agentic workflows.</p>
-      </div>
+    <!-- =========================================================================
+         SECTION 2: FREELANCE & CLIENT SOLUTIONS
+    ========================================================================== -->
+    <section class="section" id="solutions" aria-label="Freelance Services & AI Solutions">
+      <div class="container">
 
-      <div class="glass-card experience-card">
-        <div class="exp-header">
-          <div class="exp-company-info">
-            <div class="exp-icon"><i class="fa-solid fa-robot"></i></div>
-            <div>
-              <h3 class="exp-role">AI Solution Engineer Intern</h3>
-              <h4 class="exp-company">Alpever AI <span class="exp-badge">Current Role</span></h4>
-            </div>
+        <div class="section-header text-center">
+          <div class="section-tag">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>Capabilities &amp; Services</span>
           </div>
-          <div class="exp-period">
-            <span class="period-pill"><i class="fa-solid fa-calendar"></i> 2025 — Present</span>
-            <span class="location-pill"><i class="fa-solid fa-location-dot"></i> Voice AI & Automation Platform</span>
-          </div>
-        </div>
-
-        <div class="exp-body">
-          <p class="exp-summary">
-            Engineering production-grade conversational voice architectures, model fine-tuning workflows, and event-driven backend systems from scratch. Specializing in low-latency neural inference pipelines, parameter-efficient model adaptation (PEFT/LoRA), and deterministic agentic execution graphs.
+          <h2 class="section-title">Production AI Systems</h2>
+          <p class="section-subtitle">
+            Engineering benchmarked, high-reliability infrastructure for voice, retrieval, and autonomous execution.
           </p>
-          <ul class="exp-points">
-            <li>
-              <strong>Low-Latency Conversational Voice Pipelines:</strong> Architected real-time, bidirectional voice intelligence pipelines achieving sub-400ms end-to-end latency. Paired fine-tuned domain-specific LLM backends with streaming transcription and neural acoustic speech synthesis. Implemented client/server-side Voice Activity Detection (VAD) with zero-shot interruption handling, token-to-audio streaming buffers, and end-to-end latency profiling.
-            </li>
-            <li>
-              <strong>Model Fine-Tuning &amp; Constrained Agentic Workflows:</strong> Spearheaded parameter-efficient fine-tuning (LoRA / QLoRA) on task-specific conversational corpora in PyTorch to improve tool-calling precision and eliminate hallucinations in execution graphs. Designed stateful multi-agent DAGs with schema-enforced structured decoding (Pydantic/JSON schema validation) and deterministic fallback layers, ensuring reliable tool execution without silent failures.
-            </li>
-            <li>
-              <strong>Event-Driven Growth Engine &amp; Semantic Ingestion:</strong> Architected an automated prospect discovery and communication platform with semantic candidate evaluation and vector similarity filtering. Engineered multi-tier rate-limiting queues and session-rotation handlers to operate safely within platform constraints, coupled with structured context extraction pipelines that synthesize personalized, high-conversion interactions.
-            </li>
-          </ul>
+        </div>
 
-          <div class="tag-list">
-            <span class="tech-tag">PyTorch</span>
-            <span class="tech-tag">Model Fine-Tuning (LoRA/PEFT)</span>
-            <span class="tech-tag">Low-Latency Voice AI (&lt;400ms)</span>
-            <span class="tech-tag">Streaming Audio &amp; VAD</span>
-            <span class="tech-tag">Agentic Workflows (DAGs)</span>
-            <span class="tech-tag">Structured Decoding</span>
-            <span class="tech-tag">Python (FastAPI)</span>
-            <span class="tech-tag">Event-Driven Architecture</span>
-            <span class="tech-tag">Model Telemetry &amp; Eval</span>
+        <div class="services-grid">
+
+          <!-- Solution Card 1: Conversational Voice AI -->
+          <div class="service-card glass-panel">
+            <div class="service-icon-box icon-purple">
+              <i class="fa-solid fa-headset"></i>
+            </div>
+            <div class="service-badge">Flagship Expertise</div>
+            <h3 class="service-title">Real-Time Conversational Voice AI</h3>
+            <p class="service-description">
+              Sub-400ms bidirectional voice pipelines with client-side Silero VAD, streaming STT/TTS, and instant
+              barge-in interruption recovery.
+            </p>
+            <div class="service-footer">
+              <span class="service-tech">FastAPI · WebSockets · Silero · Deepgram · ElevenLabs</span>
+            </div>
           </div>
+
+          <!-- Solution Card 2: Enterprise RAG & Knowledge Intelligence -->
+          <div class="service-card glass-panel">
+            <div class="service-icon-box icon-cyan">
+              <i class="fa-solid fa-database"></i>
+            </div>
+            <div class="service-badge">Zero Hallucination</div>
+            <h3 class="service-title">Enterprise RAG &amp; Document Intelligence</h3>
+            <p class="service-description">
+              Hybrid vector + BM25 keyword retrieval with cross-encoder reranking, sub-50ms search, and auditable
+              paragraph-level source attribution.
+            </p>
+            <div class="service-footer">
+              <span class="service-tech">Qdrant · ChromaDB · LangChain · Cross-Encoders</span>
+            </div>
+          </div>
+
+          <!-- Solution Card 3: Model Fine-Tuning & Quantization -->
+          <div class="service-card glass-panel">
+            <div class="service-icon-box icon-emerald">
+              <i class="fa-solid fa-brain"></i>
+            </div>
+            <div class="service-badge">Deep Tech</div>
+            <h3 class="service-title">Custom LLM Fine-Tuning (LoRA / PEFT)</h3>
+            <p class="service-description">
+              Task-adapted LoRA/QLoRA in PyTorch with strict schema-constrained decoding (Pydantic) to eliminate
+              hallucinations in tool calling.
+            </p>
+            <div class="service-footer">
+              <span class="service-tech">PyTorch · Hugging Face · vLLM · Pydantic</span>
+            </div>
+          </div>
+
+          <!-- Solution Card 4: Autonomous Agent Workflows -->
+          <div class="service-card glass-panel">
+            <div class="service-icon-box icon-amber">
+              <i class="fa-solid fa-diagram-project"></i>
+            </div>
+            <div class="service-badge">Process Automation</div>
+            <h3 class="service-title">Autonomous AI Workflows &amp; Tool Calling</h3>
+            <p class="service-description">
+              Stateful multi-agent execution graphs with automated tool invocation, rate-governed queues, and external
+              CRM/API integrations.
+            </p>
+            <div class="service-footer">
+              <span class="service-tech">LangGraph · AsyncIO · Redis · REST APIs</span>
+            </div>
+          </div>
+
         </div>
-      </div>
-    
-        </div>
+
       </div>
     </section>
 
-    <!-- Featured Projects Grid -->
-    <section class="section-container" id="projects" data-num="03">
-      <div class="atelier-grid">
-        <aside class="marginalia-rail" aria-hidden="true">
-          <div class="marginalia-sticky">
-            <span class="section-index">§ 03</span>
-            <span class="section-label">Systems</span>
-          </div>
-        </aside>
-        <div class="content-field">
-      <div class="section-header">
-        <span class="section-tag-warm">Selected Systems & Code</span>
-        <h2 class="section-title">Projects & Systems</h2>
-        <p class="section-subtitle">Real-world AI and data science platforms built from scratch — spanning deep learning backends, statistical outlier modeling, and high-throughput vector retrieval.</p>
-      </div>
+    <!-- =========================================================================
+         SECTION 3: PRODUCTION EXPERIENCE
+    ========================================================================== -->
+    <section class="section" id="experience" aria-label="Work Experience">
+      <div class="container">
 
-      <div class="projects-grid">
-        <!-- Project 1: Flagship AI Platform — Featured Full-Width -->
-        <article class="glass-card project-card featured">
-          <!-- Left column -->
-          <div>
-            <div class="project-header">
-              <span class="project-badge">FLAGSHIP · AI & RAG</span>
-              <div class="project-actions">
-                <a href="https://github.com/Gavisingh12/ai-decision-intelligence-platform" target="_blank" rel="noopener noreferrer" class="icon-link" title="View Source"><i class="fa-brands fa-github"></i></a>
+        <div class="section-header">
+          <div class="section-tag">
+            <i class="fa-solid fa-briefcase"></i>
+            <span>Track Record</span>
+          </div>
+          <h2 class="section-title">Production Experience</h2>
+          <p class="section-subtitle">
+            Hands-on engineering across low-latency voice infrastructure, model adaptation, and autonomous platforms.
+          </p>
+        </div>
+
+        <div class="experience-timeline">
+
+          <div class="experience-card glass-panel">
+            <div class="exp-header-row">
+              <div class="exp-brand">
+                <div class="company-logo-badge">
+                  <i class="fa-solid fa-robot"></i>
+                </div>
+                <div>
+                  <h3 class="exp-role-title">AI Solution Engineer Intern</h3>
+                  <div class="exp-company-name">
+                    <span>Alpever AI</span>
+                    <span class="status-pill current">Current Role · 2025 – Present</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="exp-meta">
+                <span class="exp-badge-item"><i class="fa-solid fa-location-dot"></i> Voice AI &amp; Automation
+                  Platform</span>
+                <span class="exp-badge-item"><i class="fa-solid fa-clock"></i> Full-Stack AI Pipelines</span>
               </div>
             </div>
-            <h3 class="project-title">AI Decision Intelligence Platform</h3>
-            <p class="project-summary">A production-style document Q&amp;A and forecasting engine built to turn raw company PDFs into instant, validated answers.</p>
-            <div class="tag-list" style="margin-top:auto;">
-              <span class="tech-tag">Python</span>
-              <span class="tech-tag">FastAPI</span>
-              <span class="tech-tag">PyTorch</span>
-              <span class="tech-tag">RAG / Vector DB</span>
+
+            <div class="exp-body">
+              <div class="exp-achievements">
+                <div class="achievement-item">
+                  <div class="achievement-icon"><i class="fa-solid fa-bolt"></i></div>
+                  <div class="achievement-text">
+                    <strong>Sub-400ms Voice Pipelines:</strong> Engineered real-time conversational loops combining
+                    client-side Silero VAD, chunked STT streaming, and neural audio synthesis for seamless interruption
+                    handling.
+                  </div>
+                </div>
+
+                <div class="achievement-item">
+                  <div class="achievement-icon"><i class="fa-solid fa-code-merge"></i></div>
+                  <div class="achievement-text">
+                    <strong>PyTorch Fine-Tuning &amp; Constrained Decoding:</strong> Executed parameter-efficient
+                    LoRA/QLoRA adaptation with Pydantic structured decoding to eliminate hallucinations in tool
+                    execution.
+                  </div>
+                </div>
+
+                <div class="achievement-item">
+                  <div class="achievement-icon"><i class="fa-solid fa-network-wired"></i></div>
+                  <div class="achievement-text">
+                    <strong>Autonomous Growth Platform:</strong> Architected an automated prospect discovery engine with
+                    semantic candidate classification and rate-governed queues for reliable execution.
+                  </div>
+                </div>
+              </div>
+
+              <div class="exp-tags-row">
+                <span class="tech-tag">PyTorch</span>
+                <span class="tech-tag">LoRA / QLoRA</span>
+                <span class="tech-tag">Low-Latency Voice (&lt;400ms)</span>
+                <span class="tech-tag">FastAPI</span>
+                <span class="tech-tag">WebSockets</span>
+                <span class="tech-tag">Deepgram</span>
+                <span class="tech-tag">ElevenLabs</span>
+                <span class="tech-tag">Pydantic</span>
+              </div>
             </div>
           </div>
-          <!-- Right column -->
-          <div class="featured-right">
-            <ul class="project-bullets">
-              <li><strong>Fast Vector Retrieval:</strong> Sub-50ms query latency using custom rerankers and high-dimensional embeddings.</li>
-              <li><strong>Asynchronous Backend:</strong> High-throughput FastAPI microservices handling concurrent document ingestion.</li>
-              <li><strong>Auditable Citations:</strong> Displays exact source paragraph references and model confidence scores for full verification.</li>
-            </ul>
-            <a href="https://github.com/Gavisingh12/ai-decision-intelligence-platform" target="_blank" rel="noopener noreferrer" class="card-btn">
-              <span>View on GitHub</span>
-              <i class="fa-solid fa-arrow-right"></i>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 4: SELECTED PRODUCTION SYSTEMS & PROJECTS
+    ========================================================================== -->
+    <section class="section" id="projects" aria-label="Featured Systems & Projects">
+      <div class="container">
+
+        <div class="section-header text-center">
+          <div class="section-tag">
+            <i class="fa-solid fa-cubes-stacked"></i>
+            <span>Production Systems</span>
+          </div>
+          <h2 class="section-title">Selected Projects &amp; Architectures</h2>
+          <p class="section-subtitle">
+            Open-source systems, data engines, and deep learning backends built with rigorous production standards.
+          </p>
+        </div>
+
+        <div class="projects-grid" id="projectsGrid">
+
+          <!-- Project 1: LeetCode Auto-Streak Keeper (Chrome Extension) -->
+          <article class="project-card glass-panel">
+            <div class="project-card-top">
+              <span class="project-tag-pill flagship">AI AUTOMATION · CHROME EXTENSION</span>
+              <div class="project-links">
+                <a href="https://github.com/Gavisingh12/code_extension" target="_blank"
+                  rel="noopener noreferrer" class="proj-icon-btn" title="View Source on GitHub"
+                  aria-label="GitHub Source">
+                  <i class="fa-brands fa-github"></i>
+                </a>
+              </div>
+            </div>
+
+            <h3 class="project-card-title">LeetCode Auto-Streak Keeper</h3>
+            <p class="project-card-desc">
+              Manifest V3 Chrome Extension powered by Google Gemini 1.5 Flash. Directly hooks into LeetCode's Monaco Editor via main-world execution, solves active problems, self-corrects runtime errors through a 3-attempt feedback loop, and auto-syncs solutions with documentation to GitHub.
+            </p>
+
+            <div class="project-metric-pill">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              <span>Gemini 1.5 Flash · Monaco Injection · GitHub Sync</span>
+            </div>
+
+            <div class="project-card-bottom">
+              <div class="project-tech-tags">
+                <span class="tag">JavaScript</span>
+                <span class="tag">Chrome Ext (MV3)</span>
+                <span class="tag">Gemini API</span>
+                <span class="tag">GraphQL</span>
+                <span class="tag">GitHub API</span>
+              </div>
+              <a href="https://github.com/Gavisingh12/code_extension" target="_blank"
+                rel="noopener noreferrer" class="btn btn-sm btn-outline">
+                <span>View Code</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+          </article>
+
+          <!-- Project 2: LPU Cafe & Shop ML WhatsApp Order Bot -->
+          <article class="project-card glass-panel">
+            <div class="project-card-top">
+              <span class="project-tag-pill flagship">CONVERSATIONAL AI · NLP</span>
+              <div class="project-links">
+                <a href="https://github.com/Gavisingh12/chatwhatsapp" target="_blank"
+                  rel="noopener noreferrer" class="proj-icon-btn" title="View Source on GitHub"
+                  aria-label="GitHub Source">
+                  <i class="fa-brands fa-github"></i>
+                </a>
+              </div>
+            </div>
+
+            <h3 class="project-card-title">LPU Campus WhatsApp ML Order Bot</h3>
+            <p class="project-card-desc">
+              Production Machine Learning conversational ordering system covering 3,300+ dishes across 54 campus shops in 13 blocks. Features 99.50% intent accuracy using TF-IDF &amp; Multinomial Naive Bayes, fuzzy typo matching, cosine similarity search, and automated WhatsApp ordering.
+            </p>
+
+            <div class="project-metric-pill">
+              <i class="fa-solid fa-comments"></i>
+              <span>99.50% Accuracy · 3,300+ Dishes · Fuzzy Matching</span>
+            </div>
+
+            <div class="project-card-bottom">
+              <div class="project-tech-tags">
+                <span class="tag">Python</span>
+                <span class="tag">TF-IDF &amp; Naive Bayes</span>
+                <span class="tag">NLP</span>
+                <span class="tag">Twilio API</span>
+                <span class="tag">SQLite</span>
+              </div>
+              <a href="https://github.com/Gavisingh12/chatwhatsapp" target="_blank"
+                rel="noopener noreferrer" class="btn btn-sm btn-outline">
+                <span>View Code</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+          </article>
+
+          <!-- Project 3: Distributed OS File System & Node Cluster -->
+          <article class="project-card glass-panel">
+            <div class="project-card-top">
+              <span class="project-tag-pill flagship">DISTRIBUTED SYSTEMS · OS</span>
+              <div class="project-links">
+                <a href="https://github.com/Gavisingh12/os-project" target="_blank"
+                  rel="noopener noreferrer" class="proj-icon-btn" title="View Source on GitHub"
+                  aria-label="GitHub Source">
+                  <i class="fa-brands fa-github"></i>
+                </a>
+              </div>
+            </div>
+
+            <h3 class="project-card-title">Distributed OS File System &amp; Cluster</h3>
+            <p class="project-card-desc">
+              Interactive distributed operating system storage node simulator. Features virtual cluster node lifecycle management, heartbeat monitoring, dynamic file chunk partitioning, automated replication across nodes, and real-time state synchronization with Supabase.
+            </p>
+
+            <div class="project-metric-pill">
+              <i class="fa-solid fa-hard-drive"></i>
+              <span>Node Clustering · Chunk Replication · Realtime DB</span>
+            </div>
+
+            <div class="project-card-bottom">
+              <div class="project-tech-tags">
+                <span class="tag">TypeScript</span>
+                <span class="tag">React</span>
+                <span class="tag">Vite</span>
+                <span class="tag">Supabase Realtime</span>
+                <span class="tag">Tailwind</span>
+              </div>
+              <a href="https://github.com/Gavisingh12/os-project" target="_blank"
+                rel="noopener noreferrer" class="btn btn-sm btn-outline">
+                <span>View Code</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 6: TECH STACK & PRODUCTION ARSENAL
+    ========================================================================== -->
+    <section class="section" id="stack" aria-label="Technical Skills & Stack">
+      <div class="container">
+
+        <div class="section-header text-center">
+          <div class="section-tag">
+            <i class="fa-solid fa-layer-group"></i>
+            <span>Production Arsenal</span>
+          </div>
+          <h2 class="section-title">Tools &amp; Frameworks I Rely On</h2>
+          <p class="section-subtitle">
+            Not a laundry list of buzzwords — only the technologies I use daily to build, fine-tune, and ship production
+            systems.
+          </p>
+        </div>
+
+        <div class="stack-grid">
+
+          <!-- Category 1: Deep Learning & AI -->
+          <div class="stack-card glass-panel">
+            <div class="stack-header">
+              <div class="stack-icon icon-purple"><i class="fa-solid fa-brain"></i></div>
+              <h3 class="stack-cat-title">Deep Learning &amp; Fine-Tuning</h3>
+            </div>
+            <div class="stack-pills">
+              <span class="pill-chip">PyTorch 2.x</span>
+              <span class="pill-chip">Hugging Face Transformers</span>
+              <span class="pill-chip">LoRA / QLoRA / PEFT</span>
+              <span class="pill-chip">TensorFlow &amp; Keras</span>
+              <span class="pill-chip">Scikit-Learn</span>
+              <span class="pill-chip">TorchVision</span>
+              <span class="pill-chip">OpenCV</span>
+            </div>
+          </div>
+
+          <!-- Category 2: Speech & Real-Time Audio -->
+          <div class="stack-card glass-panel">
+            <div class="stack-header">
+              <div class="stack-icon icon-cyan"><i class="fa-solid fa-microphone-lines"></i></div>
+              <h3 class="stack-cat-title">Speech &amp; Real-Time Voice AI</h3>
+            </div>
+            <div class="stack-pills">
+              <span class="pill-chip">ElevenLabs API</span>
+              <span class="pill-chip">Deepgram Nova-2</span>
+              <span class="pill-chip">Whisper Large-v3</span>
+              <span class="pill-chip">Silero VAD</span>
+              <span class="pill-chip">Gemini Live Audio</span>
+              <span class="pill-chip">WebSockets Stream</span>
+              <span class="pill-chip">Audio Chunking &amp; Buffers</span>
+            </div>
+          </div>
+
+          <!-- Category 3: Backend & MLOps -->
+          <div class="stack-card glass-panel">
+            <div class="stack-header">
+              <div class="stack-icon icon-emerald"><i class="fa-solid fa-server"></i></div>
+              <h3 class="stack-cat-title">Backend &amp; MLOps Infrastructure</h3>
+            </div>
+            <div class="stack-pills">
+              <span class="pill-chip">Python 3.12 (AsyncIO)</span>
+              <span class="pill-chip">FastAPI</span>
+              <span class="pill-chip">Docker Containers</span>
+              <span class="pill-chip">CUDA GPU Acceleration</span>
+              <span class="pill-chip">vLLM / ONNX Runtime</span>
+              <span class="pill-chip">Git &amp; GitHub Actions</span>
+              <span class="pill-chip">Linux Administration</span>
+            </div>
+          </div>
+
+          <!-- Category 4: Data Engineering & RAG -->
+          <div class="stack-card glass-panel">
+            <div class="stack-header">
+              <div class="stack-icon icon-amber"><i class="fa-solid fa-database"></i></div>
+              <h3 class="stack-cat-title">Data Engineering &amp; Vector Stores</h3>
+            </div>
+            <div class="stack-pills">
+              <span class="pill-chip">ChromaDB / Qdrant</span>
+              <span class="pill-chip">NumPy &amp; Pandas</span>
+              <span class="pill-chip">SciPy</span>
+              <span class="pill-chip">LangChain &amp; LlamaIndex</span>
+              <span class="pill-chip">Cross-Encoder Rerankers</span>
+              <span class="pill-chip">Matplotlib &amp; Seaborn</span>
+              <span class="pill-chip">Jupyter Lab</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 7: ACADEMICS & FORMAL CREDENTIALS
+    ========================================================================== -->
+    <section class="section" id="education" aria-label="Education & Certifications">
+      <div class="container">
+
+        <div class="section-header">
+          <div class="section-tag">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>Academic Rigor</span>
+          </div>
+          <h2 class="section-title">Education &amp; Credentials</h2>
+          <p class="section-subtitle">
+            Solid foundations in Computer Science paired with specialized government and deep learning certifications.
+          </p>
+        </div>
+
+        <div class="education-layout">
+          <!-- Main Degree Card -->
+          <div class="edu-main-card glass-panel">
+            <div class="edu-top">
+              <div class="edu-badge-icon">
+                <i class="fa-solid fa-graduation-cap"></i>
+              </div>
+              <div class="edu-title-group">
+                <h3 class="degree-title">Bachelor of Technology (B.Tech) in Computer Science &amp; Engineering</h3>
+                <div class="university-name">Lovely Professional University (LPU), Punjab, India</div>
+              </div>
+              <div class="cgpa-badge">
+                <i class="fa-solid fa-award"></i>
+                <span>7.51 CGPA</span>
+              </div>
+            </div>
+            <p class="edu-desc">
+              Rigorous foundations in Data Structures, Algorithms, Distributed Systems, and Operating Systems paired
+              with practical deep learning research and production internship delivery.
+            </p>
+            <div class="edu-timeline-pill">
+              <i class="fa-solid fa-calendar"></i>
+              <span>2023 — 2027 (Pre-Final Year Undergraduate)</span>
+            </div>
+          </div>
+
+          <!-- Certifications Column -->
+          <div class="certs-column">
+
+            <div class="cert-card glass-panel nptel">
+              <div class="cert-icon-wrap"><i class="fa-solid fa-cloud"></i></div>
+              <div class="cert-content">
+                <span class="cert-authority">IIT Kharagpur · Ministry of Education, Govt. of India</span>
+                <h4 class="cert-name">Cloud Computing (NPTEL Online Certification)</h4>
+                <p class="cert-summary">12-week intensive certification covering distributed systems, virtualization,
+                  container orchestration, and cloud architectures.</p>
+              </div>
+            </div>
+
+            <div class="cert-card glass-panel">
+              <div class="cert-icon-wrap"><i class="fa-solid fa-brain"></i></div>
+              <div class="cert-content">
+                <span class="cert-authority">deeplearning.ai / Coursera</span>
+                <h4 class="cert-name">Deep Learning Specialization (Andrew Ng)</h4>
+                <p class="cert-summary">Comprehensive 5-course series covering backpropagation, hyperparameter tuning,
+                  CNNs, sequence models, and attention mechanisms.</p>
+              </div>
+            </div>
+
+            <div class="cert-card glass-panel">
+              <div class="cert-icon-wrap"><i class="fa-solid fa-chart-line"></i></div>
+              <div class="cert-content">
+                <span class="cert-authority">IBM / Coursera</span>
+                <h4 class="cert-name">Machine Learning with Python</h4>
+                <p class="cert-summary">Supervised &amp; unsupervised learning pipelines, feature engineering,
+                  Scikit-Learn workflows, and model evaluation metrics.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 5: ENGINEERING PHILOSOPHY & ABOUT
+    ========================================================================== -->
+    <section class="section" id="about" aria-label="About Gavinder Singh">
+      <div class="container">
+
+        <div class="about-clean-card glass-panel">
+          <div class="about-clean-top">
+            <div class="section-tag-inline">
+              <i class="fa-solid fa-compass"></i>
+              <span>Engineering Philosophy</span>
+            </div>
+            <div class="about-lang-chip">
+              <i class="fa-solid fa-globe"></i>
+              <span>English &amp; French · Global Async Collaboration</span>
+            </div>
+          </div>
+
+          <h3 class="about-clean-title">
+            Bridging Deep Learning Research to Deterministic Production Reality.
+          </h3>
+
+          <div class="about-clean-body">
+            <p>
+              I build AI systems that move beyond experimental notebooks into low-latency production infrastructure. My
+              core engineering centers on <strong>sub-400ms conversational voice pipelines</strong>,
+              <strong>parameter-efficient model adaptations (LoRA/PEFT)</strong> in PyTorch, and
+              <strong>zero-hallucination enterprise retrieval engines</strong> with strict schema guardrails.
+            </p>
+            <p>
+              Currently engineering AI solutions at <strong>Alpever AI</strong> while completing my B.Tech in Computer
+              Science at Lovely Professional University. Available for high-impact AI/ML engineering roles and select
+              client sprints.
+            </p>
+          </div>
+
+          <div class="about-clean-action">
+            <a href="#contact" class="btn btn-primary">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>Let's Discuss Opportunities</span>
+            </a>
+            <a href="https://github.com/Gavisingh12" target="_blank" rel="noopener noreferrer"
+              class="btn btn-secondary">
+              <i class="fa-brands fa-github"></i>
+              <span>Explore GitHub Repositories</span>
             </a>
           </div>
-        </article>
-
-        <!-- Project 2: SBM ODF Data Science Project -->
-        <article class="glass-card project-card featured-secondary">
-          <div class="project-header">
-            <span class="project-badge">DATA SCIENCE & STATS</span>
-            <div class="project-actions">
-              <a href="https://github.com/Gavisingh12/python-project" target="_blank" rel="noopener noreferrer" class="icon-link" title="View Source"><i class="fa-brands fa-github"></i></a>
-            </div>
-          </div>
-          <h3 class="project-title">India Sanitation Data & Statistical Outlier Engine</h3>
-          <p class="project-summary">Data science web app analyzing Swachh Bharat district reports to detect data reporting anomalies and discrepancies.</p>
-          <ul class="project-bullets">
-            <li><strong>Dual Detection Models:</strong> Compares Z-score vs. Interquartile Range (IQR) methods to flag suspect district data entries.</li>
-            <li><strong>Automated Visuals:</strong> Generates Seaborn & Matplotlib distribution charts for non-technical government auditors.</li>
-            <li><strong>Interactive UI:</strong> Lightweight Flask app for real-time district filtering and clean CSV export.</li>
-          </ul>
-          <div class="tag-list">
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">Pandas & NumPy</span>
-            <span class="tech-tag">Statistical Modeling</span>
-            <span class="tech-tag">Flask UI</span>
-          </div>
-          <a href="https://github.com/Gavisingh12/python-project" target="_blank" rel="noopener noreferrer" class="card-btn">
-            <span>View on GitHub</span>
-            <i class="fa-solid fa-arrow-right"></i>
-          </a>
-        </article>
-
-        <!-- Project 3: Deep Backend Training Engine -->
-        <article class="glass-card project-card">
-          <div class="project-header">
-            <span class="project-badge">BACKEND & TRAINING</span>
-            <div class="project-actions">
-              <a href="https://github.com/Gavisingh12/ai-project" target="_blank" rel="noopener noreferrer" class="icon-link" title="View Source"><i class="fa-brands fa-github"></i></a>
-            </div>
-          </div>
-          <h3 class="project-title">Neural Training Engine & Live Telemetry</h3>
-          <p class="project-summary">A lightweight monitoring dashboard to track PyTorch models training on remote machines in real time.</p>
-          <ul class="project-bullets">
-            <li><strong>Live WebSocket Streams:</strong> Real-time loss curves, GPU VRAM caching, and learning rates without page reloads.</li>
-            <li><strong>Automated Checkpoints:</strong> Early stopping triggers when validation loss plateaus to save compute hours.</li>
-          </ul>
-          <div class="tag-list">
-            <span class="tech-tag">PyTorch</span>
-            <span class="tech-tag">Python (AsyncIO)</span>
-            <span class="tech-tag">WebSockets</span>
-            <span class="tech-tag">Monitoring UI</span>
-          </div>
-          <a href="https://github.com/Gavisingh12/ai-project" target="_blank" rel="noopener noreferrer" class="card-btn">
-            <span>View on GitHub</span>
-            <i class="fa-solid fa-arrow-right"></i>
-          </a>
-        </article>
-
-        <!-- Project 4: Smart Energy Tracker -->
-        <article class="glass-card project-card">
-          <div class="project-header">
-            <span class="project-badge">TIME-SERIES ML</span>
-            <div class="project-actions">
-              <a href="https://github.com/Gavisingh12/smart-energy-tracker" target="_blank" rel="noopener noreferrer" class="icon-link" title="View Source"><i class="fa-brands fa-github"></i></a>
-            </div>
-          </div>
-          <h3 class="project-title">IoT Energy Consumption & Spike Forecaster</h3>
-          <p class="project-summary">Time-series machine learning model forecasting household power demand and flagging abnormal appliance spikes.</p>
-          <ul class="project-bullets">
-            <li><strong>Load Forecasting:</strong> Trained on hourly consumption history to predict next-day peak energy demands.</li>
-            <li><strong>Surge Detection:</strong> Flags unusual power draw to pinpoint malfunctioning appliances or vampire power drain.</li>
-          </ul>
-          <div class="tag-list">
-            <span class="tech-tag">Time Series</span>
-            <span class="tech-tag">Anomaly Detection</span>
-            <span class="tech-tag">Pandas</span>
-            <span class="tech-tag">Scikit-Learn</span>
-          </div>
-          <a href="https://github.com/Gavisingh12/smart-energy-tracker" target="_blank" rel="noopener noreferrer" class="card-btn">
-            <span>View on GitHub</span>
-            <i class="fa-solid fa-arrow-right"></i>
-          </a>
-        </article>
-
-        <!-- Project 5: LedgerLens Expense Anomaly Engine -->
-        <article class="glass-card project-card">
-          <div class="project-header">
-            <span class="project-badge">FINTECH DATA PIPELINE</span>
-            <div class="project-actions">
-              <a href="https://github.com/Gavisingh12/ledgerlens-expenses" target="_blank" rel="noopener noreferrer" class="icon-link" title="View Source"><i class="fa-brands fa-github"></i></a>
-            </div>
-          </div>
-          <h3 class="project-title">LedgerLens Expense Engine & Audit Pipeline</h3>
-          <p class="project-summary">Automated expense auditor that reconciles bank and UPI CSV statements to identify duplicate or split billing discrepancies.</p>
-          <ul class="project-bullets">
-            <li><strong>Automated Ingestion:</strong> Normalizes heterogeneous bank/UPI CSV exports into standard ledger formats.</li>
-            <li><strong>Dispute Resolution:</strong> Algorithmic split calculation for shared team and flat expenses.</li>
-          </ul>
-          <div class="tag-list">
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">CSV Ingestion</span>
-            <span class="tech-tag">Data Cleaning</span>
-            <span class="tech-tag">Fullstack UI</span>
-          </div>
-          <a href="https://github.com/Gavisingh12/ledgerlens-expenses" target="_blank" rel="noopener noreferrer" class="card-btn">
-            <span>View on GitHub</span>
-            <i class="fa-solid fa-arrow-right"></i>
-          </a>
-        </article>
-      </div>
-    
         </div>
+
       </div>
     </section>
 
-    <!-- Education -->
-    <section class="section-container" id="education" data-num="04">
-      <div class="atelier-grid">
-        <aside class="marginalia-rail" aria-hidden="true">
-          <div class="marginalia-sticky">
-            <span class="section-index">§ 04</span>
-            <span class="section-label">Academics</span>
-          </div>
-        </aside>
-        <div class="content-field">
-      <div class="section-header">
-        <span class="section-tag-warm">Academics & Formal Credentials</span>
-        <h2 class="section-title">Education & Certifications</h2>
-        <p class="section-subtitle">Rigorous undergraduate engineering at Lovely Professional University paired with specialized credentials in Cloud Computing & Deep Learning.</p>
-      </div>
+    <!-- =========================================================================
+         SECTION 6: CONTACT & INQUIRY HUB
+    ========================================================================== -->
+    <section class="section" id="contact" aria-label="Contact & Hire Gavinder">
+      <div class="container">
 
-      <div class="education-grid">
-        <div class="glass-card edu-card edu-main">
-          <div class="edu-icon-wrap">
-            <i class="fa-solid fa-graduation-cap"></i>
+        <div class="section-header text-center">
+          <div class="section-tag">
+            <i class="fa-solid fa-handshake"></i>
+            <span>Initiate Collaboration</span>
           </div>
-          <div class="edu-details">
-            <div class="edu-header-badge">
-              <h3 class="edu-degree">Bachelor of Technology (B.Tech)</h3>
-              <span class="cgpa-pill"><i class="fa-solid fa-award"></i> 7.51 CGPA</span>
+          <h2 class="section-title">Let's Build Something Exceptional</h2>
+          <p class="section-subtitle">
+            Whether you're looking to hire an AI Solution Engineer or want to accelerate a client voice/RAG prototype,
+            my inbox is open.
+          </p>
+        </div>
+
+        <div class="contact-hub-wrapper glass-panel">
+
+          <!-- Contact Left: Channels & Quick Info -->
+          <div class="contact-channels">
+            <div class="channel-header">
+              <h3 class="channel-title">Direct Connection</h3>
+              <p class="channel-desc">Guaranteed reply within 24 hours. Available for both worldwide remote roles and
+                select freelance engagements.</p>
             </div>
-            <p class="edu-school"><i class="fa-solid fa-university"></i> Lovely Professional University (LPU)</p>
-            <div class="edu-meta">
-              <span class="edu-meta-item"><i class="fa-solid fa-calendar"></i> 2023 — 2027 (Ongoing Undergrad)</span>
-              <span class="edu-meta-item"><i class="fa-solid fa-code-branch"></i> Computer Science & Engineering</span>
-              <span class="edu-meta-item"><i class="fa-solid fa-location-dot"></i> Punjab, India</span>
-            </div>
-            <p class="edu-note">Solid theoretical foundation in Data Structures, Algorithms, Operating Systems, Database Systems, and Cloud Computing — balanced with self-driven deep learning research, end-to-end Python backend engineering, and active open-source building.</p>
-          </div>
-        </div>
 
-        <div class="edu-certs-row">
-          <div class="glass-card edu-cert-card nptel-highlight">
-            <div class="cert-badge"><i class="fa-solid fa-cloud"></i></div>
-            <h4 class="cert-title">Cloud Computing (NPTEL Online Certification)</h4>
-            <p class="cert-issuer">IIT Kharagpur · Ministry of Education, Govt. of India</p>
-            <p class="cert-detail">12-Week Rigorous Certification on distributed systems, virtualization, container orchestration, and cloud backend architecture.</p>
-          </div>
-          <div class="glass-card edu-cert-card">
-            <div class="cert-badge"><i class="fa-solid fa-brain"></i></div>
-            <h4 class="cert-title">Deep Learning Specialization</h4>
-            <p class="cert-issuer">deeplearning.ai / Coursera</p>
-            <p class="cert-detail">Andrew Ng's 5-course deep learning series covering backpropagation, regularization, optimization algorithms, and modern neural network architectures.</p>
-          </div>
-          <div class="glass-card edu-cert-card">
-            <div class="cert-badge"><i class="fa-solid fa-chart-line"></i></div>
-            <h4 class="cert-title">Machine Learning with Python</h4>
-            <p class="cert-issuer">IBM / Coursera</p>
-            <p class="cert-detail">Supervised and unsupervised learning, exploratory data analysis, Scikit-Learn pipelines, and model evaluation metrics.</p>
-          </div>
-        </div>
-      </div>
-    
-        </div>
-      </div>
-    </section>
+            <div class="channel-items-list">
 
-    <!-- Skills & Arsenal -->
-    <section class="section-container" id="skills" data-num="05">
-      <div class="atelier-grid">
-        <aside class="marginalia-rail" aria-hidden="true">
-          <div class="marginalia-sticky">
-            <span class="section-index">§ 05</span>
-            <span class="section-label">Capabilities</span>
-          </div>
-        </aside>
-        <div class="content-field">
-      <div class="section-header">
-        <span class="section-tag-warm">Tools & Frameworks I Actually Use</span>
-        <h2 class="section-title">Tech Stack</h2>
-        <p class="section-subtitle">Not every tool I've ever heard of — just the ones I actually use and can have a real conversation about.</p>
-      </div>
-
-      <div class="skills-category-grid">
-        <div class="glass-card skill-cat">
-          <div class="cat-header">
-            <i class="fa-solid fa-brain accent-purple"></i>
-            <h3>Deep Learning & Frameworks</h3>
-          </div>
-          <div class="skill-chips">
-            <span class="chip">PyTorch</span>
-            <span class="chip">TensorFlow</span>
-            <span class="chip">Keras</span>
-            <span class="chip">Hugging Face Transformers</span>
-            <span class="chip">Scikit-Learn</span>
-            <span class="chip">OpenCV</span>
-            <span class="chip">TorchVision</span>
-          </div>
-        </div>
-
-        <div class="glass-card skill-cat">
-          <div class="cat-header">
-            <i class="fa-solid fa-chart-line accent-cyan"></i>
-            <h3>Data Engineering & Math</h3>
-          </div>
-          <div class="skill-chips">
-            <span class="chip">Python 3.12</span>
-            <span class="chip">NumPy</span>
-            <span class="chip">Pandas</span>
-            <span class="chip">SciPy</span>
-            <span class="chip">Jupyter Lab</span>
-            <span class="chip">Matplotlib / Seaborn</span>
-            <span class="chip">Vector Databases</span>
-          </div>
-        </div>
-
-        <div class="glass-card skill-cat">
-          <div class="cat-header">
-            <i class="fa-solid fa-server accent-green"></i>
-            <h3>MLOps & Infrastructure</h3>
-          </div>
-          <div class="skill-chips">
-            <span class="chip">CUDA Acceleration</span>
-            <span class="chip">FastAPI</span>
-            <span class="chip">Docker Containers</span>
-            <span class="chip">Git / GitHub Actions</span>
-            <span class="chip">Linux System Administration</span>
-            <span class="chip">ONNX Runtime</span>
-          </div>
-        </div>
-      </div>
-    
-        </div>
-      </div>
-    </section>
-
-    <!-- Beyond Code / Manhwa Shelf & Passions -->
-    <section class="section-container" id="beyond-code" data-num="06">
-      <div class="atelier-grid">
-        <aside class="marginalia-rail" aria-hidden="true">
-          <div class="marginalia-sticky">
-            <span class="section-index">§ 06</span>
-            <span class="section-label">Perspectives</span>
-          </div>
-        </aside>
-        <div class="content-field">
-      <div class="section-header">
-        <span class="section-tag-warm">Reading Shelf & Passions</span>
-        <h2 class="section-title">Beyond Code</h2>
-        <p class="section-subtitle">Real interests, languages, and stories that keep life interesting outside model loss curves. I strictly prefer reading over watching anime.</p>
-      </div>
-
-      <!-- Interactive Manhwa / Manga Reading Shelf -->
-      <div class="reading-shelf-container glass-card">
-        <div class="reading-shelf-header">
-          <div class="shelf-title-wrap">
-            <span class="shelf-emoji" aria-hidden="true">📚</span>
-            <div>
-              <h3 class="shelf-heading">My Manhwa & Manga Reading Shelf</h3>
-              <p class="shelf-desc">"Reading lets me digest visual composition, narrative pacing, and panel art at my own rhythm — far more immersive than watching."</p>
-            </div>
-          </div>
-          <div class="shelf-badge">
-            <i class="fa-solid fa-book-bookmark" aria-hidden="true"></i> 500+ Chapters Logged
-          </div>
-        </div>
-
-        <div class="reading-grid">
-          <div class="reading-item">
-            <div class="reading-cover cover-solo">
-              <span class="reading-status status-completed">Completed</span>
-              <div class="cover-art-overlay">
-                <span class="cover-icon" aria-hidden="true">🗡️</span>
+              <div class="channel-item">
+                <div class="channel-icon icon-purple"><i class="fa-solid fa-envelope"></i></div>
+                <div class="channel-info">
+                  <span class="channel-label">Direct Inbox</span>
+                  <a href="mailto:gavindersingh164@gmail.com" class="channel-link">gavindersingh164@gmail.com</a>
+                </div>
+                <button type="button" class="copy-small-btn" id="copyEmailBtnChannel" title="Copy Email"
+                  aria-label="Copy Email">
+                  <i class="fa-regular fa-copy"></i>
+                </button>
               </div>
-            </div>
-            <div class="reading-info">
-              <h4 class="reading-title">Solo Leveling</h4>
-              <span class="reading-author">Chugong & DUBU (REDICE)</span>
-              <span class="reading-progress"><i class="fa-solid fa-check" aria-hidden="true"></i> Read 179 / 179 Ch. (Read 2x)</span>
-              <p class="reading-comment">Peak visual hype. The shadow army resurrection sequence is unmatched in webtoon history.</p>
-            </div>
-          </div>
 
-          <div class="reading-item">
-            <div class="reading-cover cover-orv">
-              <span class="reading-status status-reading">Caught Up</span>
-              <div class="cover-art-overlay">
-                <span class="cover-icon" aria-hidden="true">📖</span>
+              <div class="channel-item">
+                <div class="channel-icon icon-cyan"><i class="fa-brands fa-linkedin-in"></i></div>
+                <div class="channel-info">
+                  <span class="channel-label">LinkedIn</span>
+                  <a href="https://www.linkedin.com/in/gavindra-singh/" target="_blank" rel="noopener noreferrer"
+                    class="channel-link">linkedin.com/in/gavindra-singh</a>
+                </div>
+                <a href="https://www.linkedin.com/in/gavindra-singh/" target="_blank" rel="noopener noreferrer"
+                  class="copy-small-btn" title="Open LinkedIn" aria-label="Open LinkedIn">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
               </div>
-            </div>
-            <div class="reading-info">
-              <h4 class="reading-title">Omniscient Reader's Viewpoint</h4>
-              <span class="reading-author">sing N song & Sleepy-C</span>
-              <span class="reading-progress"><i class="fa-solid fa-bolt" aria-hidden="true"></i> Ch. 220+ · Webtoon</span>
-              <p class="reading-comment">Mind-bending meta-narrative about a sole reader surviving in the novel he read for 10 years.</p>
-            </div>
-          </div>
 
-          <div class="reading-item">
-            <div class="reading-cover cover-tog">
-              <span class="reading-status status-reading">Active</span>
-              <div class="cover-art-overlay">
-                <span class="cover-icon" aria-hidden="true">🏰</span>
+              <div class="channel-item">
+                <div class="channel-icon icon-emerald"><i class="fa-brands fa-github"></i></div>
+                <div class="channel-info">
+                  <span class="channel-label">GitHub</span>
+                  <a href="https://github.com/Gavisingh12" target="_blank" rel="noopener noreferrer"
+                    class="channel-link">github.com/Gavisingh12</a>
+                </div>
+                <a href="https://github.com/Gavisingh12" target="_blank" rel="noopener noreferrer"
+                  class="copy-small-btn" title="Open GitHub" aria-label="Open GitHub">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
               </div>
-            </div>
-            <div class="reading-info">
-              <h4 class="reading-title">Tower of God</h4>
-              <span class="reading-author">SIU</span>
-              <span class="reading-progress"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> Season 3 · 600+ Ch.</span>
-              <p class="reading-comment">The world-building and complex faction dynamics rival epic high-fantasy literature.</p>
-            </div>
-          </div>
 
-          <div class="reading-item">
-            <div class="reading-cover cover-boxer">
-              <span class="reading-status status-completed">Completed</span>
-              <div class="cover-art-overlay">
-                <span class="cover-icon" aria-hidden="true">🥊</span>
+            </div>
+
+            <div class="availability-callout">
+              <div class="avail-indicator">
+                <span class="pulse-dot"></span>
+                <span>Immediate Availability</span>
               </div>
-            </div>
-            <div class="reading-info">
-              <h4 class="reading-title">The Boxer</h4>
-              <span class="reading-author">JH</span>
-              <span class="reading-progress"><i class="fa-solid fa-check" aria-hidden="true"></i> 104 / 104 Ch.</span>
-              <p class="reading-comment">Philosophical masterpiece exploring human trauma, raw talent, light, and redemption.</p>
+              <p class="avail-text-clean">
+                Open for <strong>Full-Time AI / ML Engineer Roles</strong> and select <strong>Voice AI &amp; RAG
+                  sprints</strong>.
+              </p>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div class="funfacts-grid">
-        <div class="glass-card funfact-card">
-          <div class="funfact-emoji" aria-hidden="true">🇫🇷</div>
-          <h4 class="funfact-title">Parlez-vous Français?</h4>
-          <p class="funfact-desc">Fluent in French! Coding in Python, thinking in Hinglish, and speaking French when looking for a fresh perspective or diving into multilingual NLP tokenizer architectures.</p>
+          <!-- Contact Right: Segmented Interactive Inquiry Form -->
+          <div class="contact-form-side">
+
+            <!-- Dual Segment Selector: Freelance vs Recruiter -->
+            <div class="inquiry-type-toggle" role="tablist">
+              <button type="button" class="type-toggle-btn active" id="btnTypeFreelance" data-type="freelance"
+                role="tab" aria-selected="true">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>Freelance / Project Inquiry</span>
+              </button>
+              <button type="button" class="type-toggle-btn" id="btnTypeRecruiter" data-type="recruiter" role="tab"
+                aria-selected="false">
+                <i class="fa-solid fa-building"></i>
+                <span>Hiring / Recruiter</span>
+              </button>
+            </div>
+
+            <!-- Functional Web3Forms Form -->
+            <form class="inquiry-form" id="inquiryForm" action="https://api.web3forms.com/submit" method="POST">
+              <!-- Web3Forms Hidden Keys -->
+              <input type="hidden" name="access_key" value="ebaaeea4-5fbd-43f5-9b7b-cca5c9aa7366" />
+              <input type="hidden" name="subject" id="formSubject"
+                value="New AI Project Inquiry from Gavinder Portfolio" />
+              <input type="hidden" name="from_name" value="Gavinder Singh Portfolio" />
+              <input type="checkbox" name="botcheck" style="display: none;" tabindex="-1" autocomplete="off" />
+
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="userName" class="field-label">Your Name <span class="required">*</span></label>
+                  <input type="text" id="userName" name="name" class="form-input" placeholder="e.g. Alex Mercer"
+                    required />
+                </div>
+                <div class="form-field">
+                  <label for="userEmail" class="field-label">Work Email <span class="required">*</span></label>
+                  <input type="email" id="userEmail" name="email" class="form-input" placeholder="alex@company.com"
+                    required />
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label for="userMessage" class="field-label">Project Details or Role Overview <span
+                    class="required">*</span></label>
+                <textarea id="userMessage" name="message" class="form-input form-textarea" rows="4"
+                  placeholder="Briefly describe what you're looking to build, your current bottlenecks, or role responsibilities..."
+                  required></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-lg submit-btn" id="btnSubmitForm">
+                <i class="fa-solid fa-paper-plane"></i>
+                <span id="btnSubmitText">Send Message</span>
+              </button>
+
+              <div class="form-status-msg" id="formStatusMsg" role="status" aria-live="polite"></div>
+            </form>
+
+          </div>
+
         </div>
-        <div class="glass-card funfact-card">
-          <div class="funfact-emoji" aria-hidden="true">🎙️</div>
-          <h4 class="funfact-title">Voice AI & Speech Models</h4>
-          <p class="funfact-desc">At Alpever AI, I engineer real-time voice agents using ElevenLabs lifelike voice cloning, Gemini Live continuous audio feeds, and Whisper/Deepgram low-latency transcribers.</p>
-        </div>
-        <div class="glass-card funfact-card">
-          <div class="funfact-emoji" aria-hidden="true">🤖</div>
-          <h4 class="funfact-title">LinkedIn Growth Automation</h4>
-          <p class="funfact-desc">Built an automated platform that searches leads, dispatches personalized connection requests, detects when requests are accepted, and triggers customized messages seamlessly.</p>
-        </div>
-        <div class="glass-card funfact-card">
-          <div class="funfact-emoji" aria-hidden="true">☕</div>
-          <h4 class="funfact-title">Chai > Coffee</h4>
-          <p class="funfact-desc">I've debugged more code with masala chai than any debugger tool. My best ideas and neural architectural breakthroughs come at 2 AM with a cup in hand.</p>
-        </div>
-      </div>
-    
-        </div>
+
       </div>
     </section>
 
-    <!-- Contact Form -->
-    <section class="section-container" id="contact" data-num="07">
-      <div class="atelier-grid">
-        <aside class="marginalia-rail" aria-hidden="true">
-          <div class="marginalia-sticky">
-            <span class="section-index">§ 07</span>
-            <span class="section-label">Inquiry</span>
-          </div>
-        </aside>
-        <div class="content-field">
-      <div class="section-header">
-        <span class="section-tag-warm">Say Hello / Let's Connect</span>
-        <h2 class="section-title">Let's Talk</h2>
-        <p class="section-subtitle">Got an idea? Looking for an AI Solution Engineer or ML intern? Or want to chat about manhwas or French literature? Drop a line.</p>
-      </div>
-
-      <div class="contact-layout">
-        <div class="contact-info">
-          <div class="glass-card contact-card">
-            <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
-            <div class="contact-details">
-              <h4>Email</h4>
-              <a href="mailto:gavindersingh164@gmail.com" class="contact-link" title="gavindersingh164@gmail.com">gavindersingh164@gmail.com</a>
-            </div>
-          </div>
-          <div class="glass-card contact-card">
-            <div class="contact-icon"><i class="fa-brands fa-github"></i></div>
-            <div class="contact-details">
-              <h4>GitHub</h4>
-              <a href="https://github.com/Gavisingh12" target="_blank" rel="noopener noreferrer" class="contact-link">@Gavisingh12</a>
-            </div>
-          </div>
-          <div class="glass-card contact-card">
-            <div class="contact-icon"><i class="fa-brands fa-linkedin"></i></div>
-            <div class="contact-details">
-              <h4>LinkedIn</h4>
-              <a href="https://www.linkedin.com/in/gavindra-singh/" target="_blank" rel="noopener noreferrer" class="contact-link">Gavindra Singh</a>
-            </div>
-          </div>
-        </div>
-
-        <form class="glass-card contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
-          <input type="hidden" name="access_key" value="ebaaeea4-5fbd-43f5-9b7b-cca5c9aa7366" />
-          <input type="hidden" name="subject" value="New Message from Portfolio (Gavinder.AI)" />
-          <input type="hidden" name="from_name" value="Portfolio Contact Form" />
-          <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" aria-hidden="true" autocomplete="off" style="display: none;" />
-
-          <div class="form-group">
-            <label for="contactName" class="form-label">Your Name</label>
-            <input type="text" id="contactName" name="name" class="form-input" placeholder="What should I call you?" required />
-          </div>
-          <div class="form-group">
-            <label for="contactEmail" class="form-label">Email</label>
-            <input type="email" id="contactEmail" name="email" class="form-input" placeholder="Where can I reply?" required />
-          </div>
-          <div class="form-group">
-            <label for="contactMessage" class="form-label">Message</label>
-            <textarea id="contactMessage" name="message" class="form-input form-textarea" placeholder="Tell me what's on your mind..." rows="5" required></textarea>
-          </div>
-          <button type="submit" class="form-submit">
-            <i class="fa-solid fa-paper-plane"></i>
-            <span>Send Message</span>
-          </button>
-          <p class="form-note">I usually reply within 24 hours. Direct inbox: gavindersingh164@gmail.com</p>
-        </form>
-      </div>
-    
-        </div>
-      </div>
-    </section>
   </main>
 
-  <!-- Connect & Footer -->
-    <footer class="footer">
-      <div class="footer-content">
-        <div class="footer-main">
-          <h2>Thanks for stopping by <span aria-hidden="true">🙏</span></h2>
-          <p>Whether you're looking for an AI Solution Engineer, exploring real-time Voice AI & autonomous systems, or just love reading manhwa — I'd love to chat.</p>
-          
-          <div class="footer-signature-wrap">
-            <span class="sign-label">Crafted with care by</span>
-            <div class="handwritten-signature">Gavinder Singh</div>
-            <span class="sign-sub">Pre-Final Year B.Tech CSE @ Lovely Professional University · AI Solution Engineer Intern @ Alpever AI</span>
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-top-row">
+        <div class="footer-brand">
+          <div class="logo-mark small">
+            <i class="fa-solid fa-microchip"></i>
           </div>
-
-          <div class="footer-links">
-            <a href="https://github.com/Gavisingh12" target="_blank" class="footer-btn">
-              <i class="fa-brands fa-github"></i> GitHub
-            </a>
-            <a href="mailto:gavindersingh164@gmail.com" class="footer-btn">
-              <i class="fa-solid fa-envelope"></i> Email Me
-            </a>
-            <a href="https://www.linkedin.com/in/gavindra-singh/" target="_blank" class="footer-btn">
-              <i class="fa-brands fa-linkedin"></i> LinkedIn
-            </a>
-          </div>
+          <span class="footer-brand-name">Gavinder Singh</span>
+          <span class="footer-brand-title">· AI Solution Engineer</span>
         </div>
-        <div class="footer-bottom">
-          <p>© 2026 Gavinder Singh · Built with vanilla JS, CSS & pure HTML5 Canvas math · Zero external framework bloat</p>
+
+        <div class="footer-nav">
+          <a href="#overview">Overview</a>
+          <a href="#solutions">Services</a>
+          <a href="#experience">Experience</a>
+          <a href="#projects">Systems</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </div>
+
+        <div class="footer-socials">
+          <a href="https://github.com/Gavisingh12" target="_blank" rel="noopener noreferrer" title="GitHub"
+            aria-label="GitHub">
+            <i class="fa-brands fa-github"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/gavindra-singh/" target="_blank" rel="noopener noreferrer"
+            title="LinkedIn" aria-label="LinkedIn">
+            <i class="fa-brands fa-linkedin-in"></i>
+          </a>
+          <a href="mailto:gavindersingh164@gmail.com" title="Email" aria-label="Email">
+            <i class="fa-solid fa-envelope"></i>
+          </a>
         </div>
       </div>
-    </footer>
 
-  <!-- Toast Notification Container -->
-  <div class="toast-notification" id="toastNotification">
-    <i class="fa-solid fa-circle-check toast-icon" id="toastIcon"></i>
-    <span class="toast-message" id="toastMessage">Action completed</span>
+      <div class="footer-bottom-row">
+        <p class="copyright-text">
+          © 2026 Gavinder Singh. Engineered with modern vanilla JavaScript and CSS. High-performance, zero bloated
+          runtime frameworks.
+        </p>
+        <a href="#overview" class="back-to-top" aria-label="Back to top">
+          <span>Back to Top</span>
+          <i class="fa-solid fa-arrow-up"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive Toast Notification -->
+  <div class="toast-wrapper" id="toastNotification" role="alert" aria-live="polite">
+    <div class="toast-card glass-panel">
+      <i class="fa-solid fa-circle-check toast-icon" id="toastIcon"></i>
+      <span class="toast-text" id="toastMessage">Email copied to clipboard!</span>
+    </div>
   </div>
 
-  <script src="script.js"></script>
+  <!-- Primary Application Script -->
+  <script src="script.js?v=4.0"></script>
 </body>
-</html>
 
+</html>

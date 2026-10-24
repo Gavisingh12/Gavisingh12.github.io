@@ -1,1159 +1,241 @@
 /**
- * Gavinder Singh - Interactive 3D Neural Network Motion Frames & Canvas
+ * GAVINDER SINGH — PORTFOLIO RUNTIME ENGINE (v4.0)
+ * Modern, High-Performance, Framework-Free JavaScript
+ * 
  * Features:
- * - Frame scrubbing via Mouse Scroll, Wheel & Keyboard (Arrows, Space)
- * - 3D Perspective Projection Engine (pure HTML5 Canvas, 60 FPS)
- * - Dynamic Telemetry HUD & Stage Annotations
- * - Interactive Terminal Simulator
- * - Web Audio API Synthesizer Feedback
+ * - Unified Obsidian & Mint Emerald Theme Design System
+ * - Mobile Navigation Drawer
+ * - Interactive AI Architecture & Latency Playground (Voice, RAG, LoRA)
+ * - Project Category Filter Engine
+ * - Bilingual Bio Switcher (English / French)
+ * - Clipboard Copy with Animated Toasts
+ * - Context-Aware Contact Form Submission with Web3Forms AJAX
+ * - Smooth Scroll Active Section Spy
  */
 
 (function () {
   'use strict';
 
-  // --- DOM Elements ---
-  const canvas = document.getElementById('neuralCanvas');
-  const ctx = canvas.getContext('2d');
-  const progressBar = document.getElementById('progressBar');
-  const hudPhase = document.getElementById('hudPhase');
-  const hudProgress = document.getElementById('hudProgress');
-  const hudEpoch = document.getElementById('hudEpoch');
-  const hudLoss = document.getElementById('hudLoss');
-  const hudAcc = document.getElementById('hudAcc');
-  const annotTag = document.getElementById('annotTag');
-  const annotTitle = document.getElementById('annotTitle');
-  const annotDesc = document.getElementById('annotDesc');
-  const frameAnnotation = document.getElementById('frameAnnotation');
-  const cursorGlow = document.getElementById('cursorGlow');
-  const scroller = document.getElementById('scroller');
-  const stageAnnouncer = document.getElementById('stageAnnouncer');
-  let lastAnnouncedStageIdx = -1;
-
-  // --- Dimensions & Canvas Sizing ---
-  let width = (canvas.width = window.innerWidth);
-  let height = (canvas.height = window.innerHeight);
-
-  window.addEventListener('resize', () => {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-    renderOnce();
-  });
-
-  // Prevent browser from restoring scroll to middle on refresh
-  if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-  }
-  window.scrollTo(0, 0);
-
-  // --- Reduced Motion Preference Detection ---
-  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-  let prefersReducedMotion = motionQuery.matches;
-
-  // --- Motion Frames Timeline State ---
-  let targetProgress = 0.0;
-  let currentProgress = 0.0;
-  let autoPlay = false;
-  let rotX = 0.15;
-  let rotY = 0.0;
-  let targetRotX = 0.15;
-  let targetRotY = 0.0;
-  let isDragging = false;
-  let lastMouseX = 0;
-  let lastMouseY = 0;
-  let mouseCanvasX = null;
-  let mouseCanvasY = null;
-
-  // --- Stages Meta Data ---
-  const STAGES = [
-    {
-      phase: '1 / 4 [RAW UNIVERSE]',
-      tag: 'STAGE 01 · THE RAW UNIVERSE',
-      title: 'Scattered Data & Noise',
-      desc: 'Millions of raw words, sounds, and pixels floating in space — waiting to be given meaning.'
-    },
-    {
-      phase: '2 / 4 [ATTENTION]',
-      tag: 'STAGE 02 · MAKING CONNECTIONS',
-      title: 'Connecting the Dots',
-      desc: 'Like constellations forming in the night sky, attention layers discover hidden relationships between every piece of data.'
-    },
-    {
-      phase: '3 / 4 [GRAVITATIONAL PULL]',
-      tag: 'STAGE 03 · THE GRAVITATIONAL PULL',
-      title: 'Collapsing the Noise',
-      desc: 'Errors fade away. Random noise disappears. The system continuously refines itself until only pure logic remains.'
-    },
-    {
-      phase: '4 / 4 [CONVERGENCE]',
-      tag: 'STAGE 04 · SINGULARITY CONVERGENCE',
-      title: 'The Intelligence Core',
-      desc: 'A universe of chaotic data condensed into a single neural brain — ready to think, speak, and solve real human problems.'
-    }
-  ];
-
-  // --- 3D Neural Connectome Lattice (Organic 3D Graph Manifold) ---
-  const nodes = [];
-  const connections = [];
-
-  // Define 5 Interconnected Semantic Clusters (Multi-Modal Intelligence Architecture)
-  const CLUSTERS = [
-    { name: 'Perception',      cx: -140, cy: -30, cz: -60,  radius: 65, color: '#F5F3EF', count: 18 },
-    { name: 'AudioVoice',      cx: -50,  cy: 90,  cz: 50,   radius: 60, color: '#D4AF7A', count: 16 },
-    { name: 'LatentEmbedding', cx: 0,    cy: -50, cz: 80,   radius: 75, color: '#E88554', count: 20 },
-    { name: 'MemoryAttention', cx: 120,  cy: 40,  cz: -40,  radius: 65, color: '#F5A642', count: 18 },
-    { name: 'ActionSynthesis', cx: 60,   cy: -90, cz: -80,  radius: 55, color: '#F86343', count: 16 }
-  ];
-
-  let totalNodeIndex = 0;
-  CLUSTERS.forEach((cluster, cIdx) => {
-    for (let i = 0; i < cluster.count; i++) {
-      // Uniform random distribution within 3D sphere volume
-      const u = Math.random();
-      const r = cluster.radius * Math.cbrt(u);
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-
-      const baseX = cluster.cx + r * Math.sin(phi) * Math.cos(theta);
-      const baseY = cluster.cy + r * Math.sin(phi) * Math.sin(theta);
-      const baseZ = cluster.cz + r * Math.cos(phi);
-
-      // Convergence Singularity Target (Stage 4 Core Orbit)
-      const ringAngle = (totalNodeIndex / 88) * Math.PI * 2;
-      const coreR = 60 + (totalNodeIndex % 4) * 20;
-
-      nodes.push({
-        baseX,
-        baseY,
-        baseZ,
-        clusterIdx: cIdx,
-        // Wide ambient dispersion for Stage 1
-        scatterX: (Math.random() - 0.5) * 1150,
-        scatterY: (Math.random() - 0.5) * 850,
-        scatterZ: (Math.random() - 0.5) * 850,
-        // Converged singularity core for Stage 4
-        coreX: Math.cos(ringAngle) * coreR,
-        coreY: Math.sin(ringAngle) * coreR,
-        coreZ: ((totalNodeIndex % 5) - 2) * 35,
-        pulseOffset: Math.random() * Math.PI * 2,
-        color: cluster.color,
-        size: 1.0 + Math.random() * 0.8
-      });
-      totalNodeIndex++;
-    }
-  });
-
-  // Connect spatially proximate nodes to form a delicate, airy 3D lattice (Zero Broom Effect)
-  for (let i = 0; i < nodes.length; i++) {
-    const src = nodes[i];
-    const neighbors = [];
-
-    for (let j = 0; j < nodes.length; j++) {
-      if (i === j) continue;
-      const tgt = nodes[j];
-      const dx = src.baseX - tgt.baseX;
-      const dy = src.baseY - tgt.baseY;
-      const dz = src.baseZ - tgt.baseZ;
-      const dist = Math.hypot(dx, dy, dz);
-
-      // Connect if within spatial radius threshold
-      if (dist < 115) {
-        neighbors.push({ tgt, dist });
-      }
-    }
-
-    neighbors.sort((a, b) => a.dist - b.dist);
-
-    // Limit to 2-3 closest neighbors per node to ensure crystalline, airy transparency
-    const maxEdges = (i % 3 === 0) ? 3 : 2;
-    for (let k = 0; k < Math.min(neighbors.length, maxEdges); k++) {
-      const { tgt, dist } = neighbors[k];
-      const alreadyConnected = connections.some(c => 
-        (c.src === src && c.tgt === tgt) || (c.src === tgt && c.tgt === src)
-      );
-
-      if (!alreadyConnected) {
-        connections.push({
-          src,
-          tgt,
-          dist,
-          weight: 0.35 + Math.random() * 0.65,
-          pulseSpeed: 1.2 + Math.random() * 1.8,
-          curveBend: (Math.random() - 0.5) * 18,
-          packetT: Math.random()
-        });
-      }
-    }
-  }
-
-  // --- 3D Realistic Cosmic Galaxy (4 Spiral Arms, Volumetric Nebula Gas, Stellar Bulge) ---
-  const isMobileTier = window.innerWidth < 768 || (typeof navigator !== 'undefined' && typeof navigator.deviceMemory === 'number' && navigator.deviceMemory < 4);
-  const NUM_GALAXY_STARS = isMobileTier ? 180 : 450;
-  const galaxyStars = [];
-  const NUM_NEBULA_CLOUDS = isMobileTier ? 8 : 18;
-  const nebulaClouds = [];
-
-  // 1. Generate Volumetric Cosmic Gas & Dust Clouds
-  for (let i = 0; i < NUM_NEBULA_CLOUDS; i++) {
-    const armIdx = i % 4;
-    const armOffset = armIdx * (Math.PI / 2);
-    const radius = 120 + Math.random() * 520;
-    const theta = armOffset + radius * 0.003 + (Math.random() - 0.5) * 0.6;
-    const phi = (Math.random() - 0.5) * 0.22;
-
-    const x = Math.cos(theta) * Math.cos(phi) * radius;
-    const y = Math.sin(phi) * radius * 0.6;
-    const z = Math.sin(theta) * Math.cos(phi) * radius;
-
-    const gasColors = [
-      { core: 'rgba(248, 99, 67, 0.07)', mid: 'rgba(230, 161, 92, 0.03)', outer: 'transparent' }, // Warm Vermilion Ember
-      { core: 'rgba(180, 175, 165, 0.05)', mid: 'rgba(110, 105, 98, 0.02)', outer: 'transparent' }, // Graphite Cosmic Matter
-      { core: 'rgba(232, 133, 84, 0.06)', mid: 'rgba(168, 120, 80, 0.02)', outer: 'transparent' }   // Amber Latent Dust
-    ];
-
-    nebulaClouds.push({
-      baseX: x,
-      baseY: y,
-      baseZ: z,
-      baseRadius: radius,
-      baseTheta: theta,
-      basePhi: phi,
-      size: 130 + Math.random() * 190,
-      orbitSpeed: 0.0002 + Math.random() * 0.0004,
-      colors: gasColors[i % gasColors.length]
-    });
-  }
-
-  // 2. Generate Logarithmic Spiral Stars & Ambient Galaxy
-  for (let i = 0; i < NUM_GALAXY_STARS; i++) {
-    const isHalo = Math.random() < 0.25;
-    let radius, theta, phi, color, glow, baseAlpha, size, hasFlare;
-
-    if (isHalo) {
-      // Outer spherical 3D Halo
-      radius = 320 + Math.random() * 850;
-      theta = Math.random() * Math.PI * 2;
-      phi = (Math.random() - 0.5) * Math.PI;
-      color = '#ffffff';
-      glow = 'rgba(255, 255, 255, 0.35)';
-      baseAlpha = 0.5 + Math.random() * 0.4;
-      size = 1.0 + Math.random() * 1.4;
-      hasFlare = false;
-    } else {
-      // 4-Arm Logarithmic Spiral Density (Orbiting around the neural cortex)
-      const armIdx = i % 4;
-      const armOffset = armIdx * (Math.PI / 2);
-      radius = 180 + Math.pow(Math.random(), 1.2) * 780;
-      theta = armOffset + (radius * 0.0035) + (Math.random() - 0.5) * 0.35;
-      phi = (Math.random() - 0.5) * 0.28;
-
-      const roll = Math.random();
-      if (roll < 0.50) {
-        color = '#f5f3ef'; // Pearl bone white
-        glow = 'rgba(245, 243, 239, 0.28)';
-        size = 0.9 + Math.random() * 1.1;
-      } else if (roll < 0.78) {
-        color = '#c2beb5'; // Warm silver titanium
-        glow = 'rgba(194, 190, 181, 0.20)';
-        size = 0.8 + Math.random() * 1.0;
-      } else if (roll < 0.92) {
-        color = '#f5a642'; // Latent amber spark
-        glow = 'rgba(245, 166, 66, 0.32)';
-        size = 1.0 + Math.random() * 1.2;
-      } else {
-        color = '#f86343'; // Active Vermilion token
-        glow = 'rgba(248, 99, 67, 0.38)';
-        size = 1.1 + Math.random() * 1.4;
-      }
-
-      baseAlpha = 0.45 + Math.random() * 0.45;
-      hasFlare = false;
-    }
-
-    const x = Math.cos(theta) * Math.cos(phi) * radius;
-    const y = Math.sin(phi) * radius;
-    const z = Math.sin(theta) * Math.cos(phi) * radius;
-
-    galaxyStars.push({
-      baseRadius: radius,
-      baseTheta: theta,
-      basePhi: phi,
-      baseX: x,
-      baseY: y,
-      baseZ: z,
-      size,
-      color,
-      glow,
-      twinkleSpeed: 1.5 + Math.random() * 3.5,
-      twinkleOffset: Math.random() * Math.PI * 2,
-      baseAlpha,
-      orbitSpeed: 0.0003 + (1 / (radius + 80)) * 0.08, // Differential galactic rotation
-      hasFlare
-    });
-  }
-
-  // --- Controls: Scroll, Wheel & Keyboard Handling ---
-  
-  // Track scroll position of scroller container
-  function updateScrollProgress() {
-    const rect = scroller.getBoundingClientRect();
-    const totalHeight = scroller.offsetHeight - window.innerHeight;
-    if (totalHeight <= 0) return;
-    const scrolled = -rect.top;
-    const progress = Math.max(0, Math.min(1, scrolled / totalHeight));
-    targetProgress = progress;
-  }
-
-  window.addEventListener('scroll', () => {
-    updateScrollProgress();
-    if (!shouldAnimate()) {
-      renderOnce();
-    }
-  }, { passive: true });
-
-  // --- Viewport Scoped Key Handling (1-4 only when sticky viewport has focus) ---
-  const stickyViewport = document.querySelector('.sticky-viewport');
-  if (stickyViewport) {
-    stickyViewport.addEventListener('keydown', (e) => {
-      if (e.key >= '1' && e.key <= '4') {
-        e.preventDefault();
-        const stageIndex = parseInt(e.key, 10) - 1; // 0, 1, 2, 3
-        const targetFraction = stageIndex / 3; // 0.0, 0.333, 0.667, 1.0
-        const totalHeight = scroller.offsetHeight - window.innerHeight;
-        const newScrollTop = scroller.offsetTop + targetFraction * totalHeight;
-        window.scrollTo({ top: newScrollTop, behavior: 'smooth' });
-      }
-    });
-  }
-
-  // --- Pause / Play Motion Control ---
-  const canvasPauseBtn = document.getElementById('canvasPauseBtn');
-  const canvasPauseIcon = document.getElementById('canvasPauseIcon');
-  const canvasPauseLabel = document.getElementById('canvasPauseLabel');
-  let isUserPaused = false;
-
-  function toggleUserPause() {
-    isUserPaused = !isUserPaused;
-    autoPlay = false; // stop auto-drive on manual toggle
-    if (canvasPauseBtn) {
-      canvasPauseBtn.setAttribute('aria-label', isUserPaused ? 'Resume neural animation' : 'Pause neural animation');
-      if (canvasPauseIcon) canvasPauseIcon.className = isUserPaused ? 'fa-solid fa-play' : 'fa-solid fa-pause';
-      if (canvasPauseLabel) canvasPauseLabel.textContent = isUserPaused ? 'Play Motion' : 'Pause Motion';
-    }
-    if (isUserPaused) {
-      stopIdleLoop();
-      renderOnce();
-    } else if (shouldAnimate()) {
-      startIdleLoop();
-    }
-  }
-
-  if (canvasPauseBtn) {
-    canvasPauseBtn.addEventListener('click', toggleUserPause);
-  }
-
-  // Mouse drag for 3D Camera Orbit & Hover Physics
-  canvas.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    lastMouseX = e.clientX;
-    lastMouseY = e.clientY;
-  });
-
-  canvas.addEventListener('mousemove', (e) => {
-    const rect = canvas.getBoundingClientRect();
-    mouseCanvasX = e.clientX - rect.left;
-    mouseCanvasY = e.clientY - rect.top;
-  });
-
-  canvas.addEventListener('mouseleave', () => {
-    mouseCanvasX = null;
-    mouseCanvasY = null;
-  });
-
-  window.addEventListener('mousemove', (e) => {
-    // Update custom cursor
-    if (cursorGlow) {
-      cursorGlow.style.left = e.clientX + 'px';
-      cursorGlow.style.top = e.clientY + 'px';
-    }
-
-    if (isDragging) {
-      const deltaX = e.clientX - lastMouseX;
-      const deltaY = e.clientY - lastMouseY;
-      targetRotY += deltaX * 0.006;
-      targetRotX += deltaY * 0.006;
-      lastMouseX = e.clientX;
-      lastMouseY = e.clientY;
-      if (!shouldAnimate()) {
-        renderOnce();
-      }
-    } else {
-      // Direct, buttery-smooth 3D parallax tilt following cursor
-      const normX = (e.clientX / window.innerWidth - 0.5) * 2;
-      const normY = (e.clientY / window.innerHeight - 0.5) * 2;
-      targetRotY = normX * 0.65;
-      targetRotX = -normY * 0.35 + 0.15;
-    }
-  });
-
-  window.addEventListener('mouseup', () => {
-    isDragging = false;
-  });
-
-  // --- 3D Projection Helpers ---
-  const focalLength = 650;
-
-  function project(x, y, z) {
-    // 3D rotation
-    const cosY = Math.cos(rotY);
-    const sinY = Math.sin(rotY);
-    const cosX = Math.cos(rotX);
-    const sinX = Math.sin(rotX);
-
-    // Rotate Y
-    const x1 = x * cosY + z * sinY;
-    const z1 = -x * sinY + z * cosY;
-
-    // Rotate X
-    const y2 = y * cosX - z1 * sinX;
-    const z2 = y * sinX + z1 * cosX;
-
-    const scale = focalLength / (focalLength + z2 + 400);
-    const projX = x1 * scale + width / 2;
-    const projY = y2 * scale + height / 2;
-
-    return { x: projX, y: projY, scale, z: z2 };
-  }
-
-  // --- Render Architecture & Gating ---
-  let isHeroInViewport = true;
-  let animId = null;
-
-  function shouldAnimate() {
-    if (document.hidden) return false;
-    if (!isHeroInViewport) return false;
-    if (isUserPaused) return false;
-    if (prefersReducedMotion) return false;
-    return true;
-  }
-
-  function startIdleLoop() {
-    if (!animId && shouldAnimate()) {
-      animId = requestAnimationFrame(render);
-    }
-  }
-
-  function stopIdleLoop() {
-    if (animId) {
-      cancelAnimationFrame(animId);
-      animId = null;
-    }
-  }
-
-  // Telemetry Cache to prevent DOM thrashing
-  let lastHudProgress = '';
-  let lastHudEpoch = '';
-  let lastHudLoss = '';
-  let lastHudAcc = '';
-  let lastHudPhase = '';
-  let lastAnnotTag = '';
-  let lastAnnotTitle = '';
-  let lastAnnotDesc = '';
-
-  let time = 0;
-
-  function drawFrame() {
-    // Update Progress Bar & HUD (only mutate DOM when string changes)
-    const progPercent = (currentProgress * 100).toFixed(1);
-    const progStr = `${progPercent}%`;
-    if (lastHudProgress !== progStr) {
-      progressBar.style.width = progStr;
-      hudProgress.textContent = progStr;
-      lastHudProgress = progStr;
-    }
-
-    const epochNum = Math.min(100, Math.floor(currentProgress * 99) + 1);
-    const epochStr = `${epochNum < 10 ? '0' + epochNum : epochNum} / 100`;
-    if (lastHudEpoch !== epochStr) {
-      hudEpoch.textContent = epochStr;
-      lastHudEpoch = epochStr;
-    }
-
-    const lossVal = (2.418 * Math.exp(-currentProgress * 4.2) + 0.012).toFixed(3);
-    if (lastHudLoss !== lossVal) {
-      hudLoss.textContent = lossVal;
-      lastHudLoss = lossVal;
-    }
-
-    const accVal = `${(41.2 + currentProgress * 58.2).toFixed(1)}%`;
-    if (lastHudAcc !== accVal) {
-      hudAcc.textContent = accVal;
-      lastHudAcc = accVal;
-    }
-
-    // Active Stage Index
-    const stageIdx = Math.min(3, Math.floor(currentProgress * 4));
-    const stage = STAGES[stageIdx];
-    if (lastHudPhase !== stage.phase) {
-      hudPhase.textContent = stage.phase;
-      lastHudPhase = stage.phase;
-    }
-    if (lastAnnotTag !== stage.tag) {
-      annotTag.textContent = stage.tag;
-      lastAnnotTag = stage.tag;
-    }
-    if (lastAnnotTitle !== stage.title) {
-      annotTitle.textContent = stage.title;
-      lastAnnotTitle = stage.title;
-    }
-    if (lastAnnotDesc !== stage.desc) {
-      annotDesc.textContent = stage.desc;
-      lastAnnotDesc = stage.desc;
-    }
-
-    if (stageIdx !== lastAnnouncedStageIdx) {
-      lastAnnouncedStageIdx = stageIdx;
-      if (stageAnnouncer) {
-        stageAnnouncer.textContent = `${stage.tag} — ${stage.title}`;
-      }
-    }
-
-    // Stage 4 Convergence State Moment (Progress >= 0.95)
-    const isConverged = currentProgress >= 0.95;
-    if (stickyViewport) {
-      if (isConverged && !stickyViewport.classList.contains('is-converged')) {
-        stickyViewport.classList.add('is-converged');
-      } else if (!isConverged && stickyViewport.classList.contains('is-converged')) {
-        stickyViewport.classList.remove('is-converged');
-      }
-    }
-
-    // Clear Canvas
-    ctx.clearRect(0, 0, width, height);
-
-    const p = currentProgress;
-
-    // --- 1. RENDER VOLUMETRIC COSMIC NEBULA & GAS CLOUDS ---
-    nebulaClouds.forEach((cloud) => {
-      let currentTheta = cloud.baseTheta + time * cloud.orbitSpeed;
-      let curX = Math.cos(currentTheta) * Math.cos(cloud.basePhi) * cloud.baseRadius;
-      let curY = cloud.baseY + Math.sin(time * 0.4 + cloud.baseRadius) * 15;
-      let curZ = Math.sin(currentTheta) * Math.cos(cloud.basePhi) * cloud.baseRadius;
-
-      if (p > 0.65) {
-        const cFactor = Math.min(1, (p - 0.65) / 0.35);
-        curX *= (1 - cFactor * 0.7);
-        curY *= (1 - cFactor * 0.7);
-        curZ *= (1 - cFactor * 0.7);
-      }
-
-      const proj = project(curX, curY, curZ);
-      if (proj.scale <= 0) return;
-
-      const cloudRadius = cloud.size * proj.scale;
-      const gasGrad = ctx.createRadialGradient(
-        proj.x, proj.y, 0,
-        proj.x, proj.y, cloudRadius
-      );
-      gasGrad.addColorStop(0, cloud.colors.core);
-      gasGrad.addColorStop(0.55, cloud.colors.mid);
-      gasGrad.addColorStop(1, 'transparent');
-
-      ctx.fillStyle = gasGrad;
-      ctx.beginPath();
-      ctx.arc(proj.x, proj.y, cloudRadius, 0, Math.PI * 2);
-      ctx.fill();
-    });
-
-    // --- 2. RENDER 3D COSMIC GALAXY (SPIRAL ARMS + STELLAR BULGE + COLLAPSE) ---
-    const isCollapsing = p > 0.65;
-    const collapseT = isCollapsing ? Math.min(1, (p - 0.65) / 0.35) : 0;
-    const gravityPull = Math.pow(collapseT, 2.2);
-
-    galaxyStars.forEach((star) => {
-      let currentTheta = star.baseTheta + time * star.orbitSpeed;
-      let currentRadius = star.baseRadius;
-
-      let curX = Math.cos(currentTheta) * Math.cos(star.basePhi) * currentRadius;
-      let curY = star.baseY;
-      let curZ = Math.sin(currentTheta) * Math.cos(star.basePhi) * currentRadius;
-
-      if (isCollapsing) {
-        currentRadius = star.baseRadius * (1 - gravityPull * 0.88);
-        currentTheta += gravityPull * 10.0;
-
-        curX = Math.cos(currentTheta) * Math.cos(star.basePhi) * currentRadius;
-        curY = Math.sin(star.basePhi) * currentRadius * (1 - gravityPull * 0.7);
-        curZ = Math.sin(currentTheta) * Math.cos(star.basePhi) * currentRadius;
-      }
-
-      const proj = project(curX, curY, curZ);
-      if (proj.scale <= 0) return;
-
-      // Depth of Field calculation: sharp near focal plane, subtle in distance
-      const distFromFocus = Math.abs(proj.z);
-      const dofFactor = Math.max(0.25, 1 - distFromFocus / 650);
-      const twinkle = (Math.sin(time * star.twinkleSpeed + star.twinkleOffset) * 0.2 + 0.8) * star.baseAlpha * dofFactor;
-      const finalAlpha = Math.min(0.92, twinkle + gravityPull * 0.3);
-      const starRadius = Math.max(0.8, star.size * proj.scale * (1 + gravityPull * 0.5));
-
-      // Delicate glow aura (only for nearer/brighter data points)
-      if (starRadius > 1.1 && finalAlpha > 0.35) {
-        ctx.fillStyle = star.glow;
-        ctx.globalAlpha = finalAlpha * 0.28;
-        ctx.beginPath();
-        ctx.arc(proj.x, proj.y, starRadius * 2.4, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      // Brilliant Star Core
-      ctx.fillStyle = star.color;
-      ctx.globalAlpha = finalAlpha;
-      ctx.beginPath();
-      ctx.arc(proj.x, proj.y, starRadius, 0, Math.PI * 2);
-      ctx.fill();
-    });
-
-    ctx.globalAlpha = 1.0;
-
-    // --- 3. CENTRAL HOLOGRAPHIC LATENT ATTENTION CORE ---
-    // Compute center projection ONCE for both holographic core & singularity rendering
-    const centerProj = project(0, 0, 0);
-
-    if (p > 0.68 && centerProj.scale > 0) {
-      const ringAlpha = (p - 0.68) / 0.32;
-      ctx.save();
-      ctx.translate(centerProj.x, centerProj.y);
-      ctx.rotate(time * 0.8);
-      ctx.strokeStyle = `rgba(248, 99, 67, ${ringAlpha * 0.55})`;
-      ctx.lineWidth = 1.2 * centerProj.scale;
-      ctx.beginPath();
-      ctx.ellipse(0, 0, 50 * centerProj.scale, 20 * centerProj.scale, Math.PI / 3, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.restore();
-    }
-
-    // --- 4. COMPUTE NODE 3D COORDINATES & DYNAMIC 4-STAGE TRANSFORMATION ---
-    const projectedNodes = nodes.map((node) => {
-      let curX, curY, curZ;
-
-      if (p < 0.25) {
-        // Stage 1 (0 -> 0.25): Coalescing (Scattered Noise -> 3D Latent Lattice)
-        const t = p / 0.25;
-        const ease = t * t * (3 - 2 * t);
-        curX = node.scatterX + (node.baseX - node.scatterX) * ease;
-        curY = node.scatterY + (node.baseY - node.scatterY) * ease;
-        curZ = node.scatterZ + (node.baseZ - node.scatterZ) * ease;
-      } else if (p < 0.50) {
-        // Stage 2 (0.25 -> 0.50): Attention Web Resonance (Harmonic Breathing & Cluster Alignment)
-        const t = (p - 0.25) / 0.25;
-        const breathe = 1 + Math.sin(t * Math.PI) * 0.12;
-        const pulse = Math.sin(time * 2.2 + node.pulseOffset) * 5;
-        curX = node.baseX * breathe + pulse * 0.7;
-        curY = node.baseY * breathe + Math.cos(time * 1.8 + node.pulseOffset) * 4;
-        curZ = node.baseZ * breathe + Math.sin(time * 2.0 + node.pulseOffset) * 5;
-      } else if (p < 0.75) {
-        // Stage 3 (0.50 -> 0.75): Gravitational Inward Pull (Organic Swirl & Radial Compression)
-        const t = (p - 0.50) / 0.25;
-        const compress = 1 - t * 0.42;
-        // Subtle orbital rotation around Y as it collapses inward
-        const angle = t * 0.75;
-        const rotX_node = node.baseX * Math.cos(angle) - node.baseZ * Math.sin(angle);
-        const rotZ_node = node.baseX * Math.sin(angle) + node.baseZ * Math.cos(angle);
-        const inwardWave = Math.sin(time * 3 + node.pulseOffset) * (4 * (1 - t));
-        curX = (rotX_node + inwardWave) * compress;
-        curY = (node.baseY + inwardWave) * compress;
-        curZ = (rotZ_node + inwardWave) * compress;
-      } else {
-        // Stage 4 (0.75 -> 1.00): Convergence Singularity (Tight Intelligence Core)
-        const t = (p - 0.75) / 0.25;
-        const smoothT = Math.pow(t, 1.4);
-        const startX = node.baseX * 0.58;
-        const startY = node.baseY * 0.58;
-        const startZ = node.baseZ * 0.58;
-        curX = startX + (node.coreX - startX) * smoothT;
-        curY = startY + (node.coreY - startY) * smoothT;
-        curZ = startZ + (node.coreZ - startZ) * smoothT;
-      }
-
-      const proj = project(curX, curY, curZ);
-
-      // Interactive Cursor Magnetic Excitation
-      if (mouseCanvasX !== null && mouseCanvasY !== null && proj.scale > 0) {
-        const dx = mouseCanvasX - proj.x;
-        const dy = mouseCanvasY - proj.y;
-        const dist = Math.hypot(dx, dy);
-        if (dist < 180 && dist > 1) {
-          const pull = (1 - dist / 180) * 32 * proj.scale;
-          proj.x += (dx / dist) * pull;
-          proj.y += (dy / dist) * pull;
-        }
-      }
-
-      return { proj, node, z: proj.z };
-    });
-
-    // Sort nodes back-to-front for realistic Depth of Field
-    projectedNodes.sort((a, b) => b.z - a.z);
-
-    // --- 5. RENDER CURVED BEZIER SYNAPSES & SIGNAL PACKETS ---
-    // --- 5. RENDER DELICATE 3D NEURAL CONNECTOME FILAMENTS ---
-    connections.forEach((conn) => {
-      const srcNode = projectedNodes.find(n => n.node === conn.src);
-      const tgtNode = projectedNodes.find(n => n.node === conn.tgt);
-
-      if (srcNode && tgtNode && srcNode.proj.scale > 0 && tgtNode.proj.scale > 0) {
-        // Filaments materialize as scattered points settle into 3D structure
-        if (p < 0.12) return;
-        const fadeIn = Math.min(1, (p - 0.12) / 0.18);
-        const pulse = (Math.sin(time * conn.pulseSpeed + conn.weight * 6) + 1) * 0.5;
-        const alpha = Math.min(0.60, (0.10 + pulse * 0.28) * fadeIn);
-
-        const avgScale = (srcNode.proj.scale + tgtNode.proj.scale) * 0.5;
-        const ctrlX = (srcNode.proj.x + tgtNode.proj.x) * 0.5 + conn.curveBend * avgScale;
-        const ctrlY = (srcNode.proj.y + tgtNode.proj.y) * 0.5 - Math.abs(conn.curveBend) * 0.35 * avgScale;
-
-        ctx.strokeStyle = p >= 0.75 
-          ? `rgba(248, 99, 67, ${alpha * 1.15})` 
-          : p > 0.40 
-            ? `rgba(232, 133, 84, ${alpha * 0.90})` 
-            : `rgba(210, 205, 195, ${alpha * 0.70})`;
-        ctx.lineWidth = Math.max(0.5, (0.55 + conn.weight * 0.7) * avgScale);
-        ctx.beginPath();
-        ctx.moveTo(srcNode.proj.x, srcNode.proj.y);
-        ctx.quadraticCurveTo(ctrlX, ctrlY, tgtNode.proj.x, tgtNode.proj.y);
-        ctx.stroke();
-
-        // Synaptic Signal Packet along Filament
-        if (p > 0.20) {
-          conn.packetT = (conn.packetT + 0.012 * conn.pulseSpeed) % 1;
-          const t = conn.packetT;
-          const px = Math.pow(1 - t, 2) * srcNode.proj.x + 2 * (1 - t) * t * ctrlX + Math.pow(t, 2) * tgtNode.proj.x;
-          const py = Math.pow(1 - t, 2) * srcNode.proj.y + 2 * (1 - t) * t * ctrlY + Math.pow(t, 2) * tgtNode.proj.y;
-
-          const packetRadius = Math.max(1.2, 2.2 * avgScale);
-          ctx.fillStyle = p > 0.5 ? '#f86343' : '#f5a642';
-          ctx.beginPath();
-          ctx.arc(px, py, packetRadius, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
-    });
-
-    // --- 6. RENDER ARTIFICIAL NEURONS (CLEAN CRISP NEON GLOW) ---
-    projectedNodes.forEach(({ proj, node }) => {
-      if (proj.scale <= 0) return;
-
-      const baseRadius = (3.5 + Math.sin(time * 2 + node.pulseOffset) * 1.4) * proj.scale;
-      const nodeRadius = Math.max(1.5, baseRadius);
-
-      // Clean Vermilion / Amber Radiant Glow
-      const grad = ctx.createRadialGradient(proj.x, proj.y, 0, proj.x, proj.y, nodeRadius * 2.8);
-      grad.addColorStop(0, p >= 0.90 ? '#f86343' : node.color);
-      grad.addColorStop(0.45, p >= 0.90 ? 'rgba(248, 99, 67, 0.22)' : 'rgba(230, 161, 92, 0.16)');
-      grad.addColorStop(1, 'transparent');
-
-      ctx.fillStyle = grad;
-      ctx.beginPath();
-      ctx.arc(proj.x, proj.y, nodeRadius * 2.8, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Sharp Crisp White Neuron Core
-      ctx.fillStyle = '#ffffff';
-      ctx.beginPath();
-      ctx.arc(proj.x, proj.y, Math.max(1.2, nodeRadius * 0.85), 0, Math.PI * 2);
-      ctx.fill();
-    });
-
-    // --- 7. STAGE 4: GRAVITATIONAL SINGULARITY & ACCRETION DISK ---
-    if (p > 0.68) {
-      const ringAlpha = (p - 0.68) / 0.32;
-      if (centerProj.scale > 0) {
-        // Event Horizon Singularity Glow
-        const haloRadius = Math.max(35, 210 * centerProj.scale * ringAlpha);
-        const singGlow = ctx.createRadialGradient(
-          centerProj.x, centerProj.y, 4,
-          centerProj.x, centerProj.y, haloRadius
-        );
-        singGlow.addColorStop(0, `rgba(248, 99, 67, ${ringAlpha * 0.65})`);
-        singGlow.addColorStop(0.35, `rgba(245, 166, 66, ${ringAlpha * 0.35})`);
-        singGlow.addColorStop(0.7, `rgba(180, 100, 50, ${ringAlpha * 0.15})`);
-        singGlow.addColorStop(1, 'transparent');
-
-        ctx.fillStyle = singGlow;
-        ctx.beginPath();
-        ctx.arc(centerProj.x, centerProj.y, haloRadius, 0, Math.PI * 2);
-        ctx.fill();
-
-        // 3D Relativistic Accretion Swirl Rings
-        ctx.save();
-        ctx.translate(centerProj.x, centerProj.y);
-        ctx.rotate(time * 0.65 + rotY * 0.5);
-
-        ctx.strokeStyle = `rgba(248, 99, 67, ${ringAlpha * 0.65})`;
-        ctx.lineWidth = 2.0 * centerProj.scale;
-        ctx.beginPath();
-        ctx.ellipse(0, 0, 220 * centerProj.scale, 75 * centerProj.scale, Math.PI / 4, 0, Math.PI * 2);
-        ctx.stroke();
-
-        ctx.strokeStyle = `rgba(245, 166, 66, ${ringAlpha * 0.50})`;
-        ctx.beginPath();
-        ctx.ellipse(0, 0, 260 * centerProj.scale, 95 * centerProj.scale, -Math.PI / 5, 0, Math.PI * 2);
-        ctx.stroke();
-
-        ctx.strokeStyle = `rgba(245, 243, 239, ${ringAlpha * 0.38})`;
-        ctx.beginPath();
-        ctx.ellipse(0, 0, 300 * centerProj.scale, 110 * centerProj.scale, Math.PI / 6, 0, Math.PI * 2);
-        ctx.stroke();
-
-        ctx.restore();
-      }
-    }
-  }
-
-  function renderOnce() {
-    if (!shouldAnimate()) {
-      currentProgress = targetProgress;
-      rotY = targetRotY;
-      rotX = targetRotX;
-    }
-    drawFrame();
-  }
-
-  function render() {
-    if (!shouldAnimate()) {
-      animId = null;
-      return;
-    }
-
-    time += 0.016;
-
-    if (autoPlay) {
-      targetProgress = (targetProgress + 0.002) % 1;
-    }
-
-    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced) {
-      currentProgress = targetProgress;
-      rotY = targetRotY;
-      rotX = targetRotX;
-    } else {
-      currentProgress += (targetProgress - currentProgress) * 0.12;
-      rotY += (targetRotY - rotY) * 0.08;
-      rotX += (targetRotX - rotX) * 0.08;
-      rotY += Math.sin(time * 0.35) * 0.0012;
-      rotX += Math.cos(time * 0.28) * 0.0006;
-    }
-
-    drawFrame();
-
-    animId = requestAnimationFrame(render);
-  }
-
-  // --- Toast Notification System ---
-  const toastEl = document.getElementById('toastNotification');
-  const toastMsg = document.getElementById('toastMessage');
-  const toastIcon = document.getElementById('toastIcon');
-  let toastTimer = null;
-
-  function showToast(message, isSuccess = true) {
-    if (!toastEl) return;
-    if (toastMsg) toastMsg.textContent = message;
-    if (toastIcon) {
-      toastIcon.className = isSuccess ? 'fa-solid fa-circle-check toast-icon' : 'fa-solid fa-circle-info toast-icon';
-      toastIcon.style.color = isSuccess ? 'var(--green)' : 'var(--cyan)';
-    }
-    toastEl.classList.add('active');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => {
-      toastEl.classList.remove('active');
-    }, 3800);
-  }
-
-  // Quick Copy Email
-  const quickCopyEmail = document.getElementById('quickCopyEmail');
-  if (quickCopyEmail) {
-    quickCopyEmail.addEventListener('click', () => {
-      const email = quickCopyEmail.getAttribute('data-email') || 'gavindersingh164@gmail.com';
-      navigator.clipboard.writeText(email).then(() => {
-        showToast('Email copied to clipboard (gavindersingh164@gmail.com)', true);
-      }).catch(() => {
-        showToast('Direct contact: gavindersingh164@gmail.com', false);
-      });
-    });
-  }
-
-  // Interactive Contact Form Handling via Web3Forms
-  const contactForm = document.getElementById('contactForm');
-  if (contactForm) {
-    contactForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const submitBtn = contactForm.querySelector('button[type="submit"]');
-      const originalHTML = submitBtn ? submitBtn.innerHTML : '<span>Send Message</span>';
-
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Sending...</span>';
-      }
-
-      const formData = new FormData(contactForm);
-
-      try {
-        const response = await fetch('https://api.web3forms.com/submit', {
-          method: 'POST',
-          body: formData
-        });
-        const result = await response.json();
-
-        if (result.success) {
-          const nameVal = document.getElementById('contactName')?.value || 'Friend';
-          showToast(`Thank you, ${nameVal}! Message sent directly to Gavinder's inbox.`, true);
-          contactForm.reset();
-        } else {
-          showToast(result.message || 'Something went wrong. Direct inbox: gavindersingh164@gmail.com', false);
-        }
-      } catch (err) {
-        showToast('Direct email: gavindersingh164@gmail.com', false);
-      } finally {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = originalHTML;
-        }
-      }
-    });
-  }
-
-  // Number Counter Animations on Scroll
-  const statNumbers = document.querySelectorAll('.stat-number');
-  if ('IntersectionObserver' in window && statNumbers.length > 0) {
-    const observer = new IntersectionObserver((entries, obs) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const el = entry.target;
-          const text = el.textContent.trim();
-          const match = text.match(/^(\d+)(\+?)$/);
-          if (match) {
-            const targetNum = parseInt(match[1], 10);
-            const suffix = match[2] || '';
-            let current = 0;
-            const step = Math.max(1, Math.floor(targetNum / 20));
-            const timer = setInterval(() => {
-              current += step;
-              if (current >= targetNum) {
-                el.textContent = `${targetNum}${suffix}`;
-                clearInterval(timer);
-              } else {
-                el.textContent = `${current}${suffix}`;
-              }
-            }, 30);
-          }
-          obs.unobserve(el);
-        }
-      });
-    }, { threshold: 0.3 });
-
-    statNumbers.forEach(num => observer.observe(num));
-  }
-
-  // Interactive 3D Card Hover Tilt for Project Cards & Glass Cards
-  const tiltCards = document.querySelectorAll('.project-card, .funfact-card, .timeline-content');
-  tiltCards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      if (prefersReducedMotion) return;
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const rotX = ((y - centerY) / centerY) * -4;
-      const rotY = ((x - centerX) / centerX) * 4;
-      card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-2px)`;
-    });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = '';
-    });
-  });
-
-  motionQuery.addEventListener('change', (e) => {
-    prefersReducedMotion = e.matches;
-    if (prefersReducedMotion) {
-      autoPlay = false;
-      tiltCards.forEach(card => { card.style.transform = ''; });
-    }
-  });
-
-  // --- Viewport & Visibility Observers ---
-  if ('IntersectionObserver' in window && scroller) {
-    const heroObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        const wasInViewport = isHeroInViewport;
-        isHeroInViewport = entry.isIntersecting;
-        if (isHeroInViewport) {
-          renderOnce();
-          if (!wasInViewport && shouldAnimate()) {
-            startIdleLoop();
-          }
-        } else {
-          stopIdleLoop();
-        }
-      });
-    }, { threshold: 0 });
-    heroObserver.observe(scroller);
-  }
-
-  document.addEventListener('visibilitychange', () => {
-    if (!document.hidden && isHeroInViewport) {
-      renderOnce();
-      if (shouldAnimate()) {
-        startIdleLoop();
-      }
-    } else {
-      stopIdleLoop();
-    }
-  });
-
-  // Start Rendering
-  updateScrollProgress();
-  renderOnce();
-  if (shouldAnimate()) {
-    startIdleLoop();
-  }
-
-  /* -----------------------------------------------------------------------
-     THEME TOGGLE — Light / Dark mode with localStorage persistence
-  ----------------------------------------------------------------------- */
-  const themeToggle = document.getElementById('themeToggle');
-  const themeIcon   = document.getElementById('themeIcon');
-  const themeLabel  = document.getElementById('themeLabel');
-
-  function applyTheme(isLight) {
-    if (isLight) {
-      document.documentElement.classList.add('light-mode');
-      document.documentElement.classList.remove('dark-mode');
-      document.documentElement.style.colorScheme = 'light';
-      if (document.body) {
-        document.body.classList.add('light-mode');
-        document.body.classList.remove('dark-mode');
-      }
-      if (themeIcon)  themeIcon.className  = 'fa-solid fa-moon';
-      if (themeLabel) themeLabel.textContent = 'DARK';
-    } else {
-      document.documentElement.classList.remove('light-mode');
-      document.documentElement.classList.add('dark-mode');
-      document.documentElement.style.colorScheme = 'dark';
-      if (document.body) {
-        document.body.classList.remove('light-mode');
-        document.body.classList.add('dark-mode');
-      }
-      if (themeIcon)  themeIcon.className  = 'fa-solid fa-sun';
-      if (themeLabel) themeLabel.textContent = 'LIGHT';
-    }
-    renderOnce();
-  }
-
-  // Restore saved preference with try/catch and fallback to prefers-color-scheme
-  try {
-    const savedTheme = localStorage.getItem('gs-theme');
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const isLight = savedTheme ? (savedTheme === 'light') : !prefersDark;
-    applyTheme(isLight);
-  } catch (e) {
-    applyTheme(false);
-  }
-
-  if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-      const nowLight = !document.documentElement.classList.contains('light-mode');
-      applyTheme(nowLight);
-      try {
-        localStorage.setItem('gs-theme', nowLight ? 'light' : 'dark');
-      } catch (e) {}
-    });
-  }
-
-  /* -----------------------------------------------------------------------
-     MOBILE NAVIGATION DRAWER
-  ----------------------------------------------------------------------- */
+  // ─── 1. MOBILE NAVIGATION DRAWER ──────────────────────────────────────────
   const mobileMenuBtn = document.getElementById('mobileMenuBtn');
   const mobileMenuIcon = document.getElementById('mobileMenuIcon');
-  const navLinks = document.getElementById('navLinks');
+  const navMenu = document.getElementById('navMenu');
 
-  function closeMobileMenu() {
-    if (!navLinks) return;
-    navLinks.classList.remove('mobile-open');
-    if (mobileMenuBtn) {
-      mobileMenuBtn.setAttribute('aria-expanded', 'false');
-      mobileMenuBtn.focus();
-    }
-    if (mobileMenuIcon) {
-      mobileMenuIcon.className = 'fa-solid fa-bars';
-    }
-  }
+  if (mobileMenuBtn && navMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+      const isOpen = navMenu.classList.toggle('open');
+      mobileMenuBtn.setAttribute('aria-expanded', isOpen);
+      if (mobileMenuIcon) {
+        if (isOpen) {
+          mobileMenuIcon.classList.remove('fa-bars');
+          mobileMenuIcon.classList.add('fa-xmark');
+        } else {
+          mobileMenuIcon.classList.remove('fa-xmark');
+          mobileMenuIcon.classList.add('fa-bars');
+        }
+      }
+    });
 
-  function toggleMobileMenu() {
-    if (!navLinks) return;
-    const isOpen = navLinks.classList.contains('mobile-open');
-    if (isOpen) {
-      navLinks.classList.remove('mobile-open');
-      if (mobileMenuBtn) mobileMenuBtn.setAttribute('aria-expanded', 'false');
-      if (mobileMenuIcon) mobileMenuIcon.className = 'fa-solid fa-bars';
-    } else {
-      navLinks.classList.add('mobile-open');
-      if (mobileMenuBtn) mobileMenuBtn.setAttribute('aria-expanded', 'true');
-      if (mobileMenuIcon) mobileMenuIcon.className = 'fa-solid fa-xmark';
-    }
-  }
-
-  if (mobileMenuBtn) {
-    mobileMenuBtn.addEventListener('click', toggleMobileMenu);
-  }
-
-  // Keyboard navigation: Escape key closes menu and returns focus to toggle button
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && navLinks && navLinks.classList.contains('mobile-open')) {
-      closeMobileMenu();
-    }
-  });
-
-  // Close menu when any nav link is clicked
-  if (navLinks) {
-    navLinks.querySelectorAll('a').forEach(link => {
+    // Close menu when clicking on any nav link
+    const navLinks = navMenu.querySelectorAll('.nav-link');
+    navLinks.forEach((link) => {
       link.addEventListener('click', () => {
-        if (navLinks.classList.contains('mobile-open')) {
-          navLinks.classList.remove('mobile-open');
-          if (mobileMenuBtn) mobileMenuBtn.setAttribute('aria-expanded', 'false');
-          if (mobileMenuIcon) mobileMenuIcon.className = 'fa-solid fa-bars';
+        navMenu.classList.remove('open');
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        if (mobileMenuIcon) {
+          mobileMenuIcon.classList.remove('fa-xmark');
+          mobileMenuIcon.classList.add('fa-bars');
         }
       });
     });
   }
 
-  /* -----------------------------------------------------------------------
-     LANGUAGE TOGGLE — English / French bio swap
-  ----------------------------------------------------------------------- */
-  const btnEn = document.getElementById('btnLangEn');
-  const btnFr = document.getElementById('btnLangFr');
-  const bioEn = document.getElementById('bioEn');
-  const bioFr = document.getElementById('bioFr');
+  // ─── 2. 3D FLIP SHOWCASE CARD CONTROLLER ─────────────────────────────────
+  const profileFlipCard = document.getElementById('profileFlipCard');
+  if (profileFlipCard) {
+    profileFlipCard.addEventListener('click', (e) => {
+      // Don't toggle flip if user clicked directly on action links/buttons
+      if (e.target.closest('a') || e.target.closest('button')) {
+        return;
+      }
+      profileFlipCard.classList.toggle('is-flipped');
+    });
 
-  function showBio(lang) {
-    if (!bioEn || !bioFr) return;
-    if (lang === 'fr') {
-      bioEn.style.display = 'none';
-      bioFr.style.display = '';
-      if (btnEn) btnEn.classList.remove('active');
-      if (btnFr) btnFr.classList.add('active');
+    // Keyboard accessibility: flip on Enter or Space
+    profileFlipCard.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        if (!e.target.closest('a') && !e.target.closest('button')) {
+          e.preventDefault();
+          profileFlipCard.classList.toggle('is-flipped');
+        }
+      }
+    });
+  }
+
+  // ─── 3. CLIPBOARD COPY WITH ANIMATED TOAST ────────────────────────────────
+  const toastNotification = document.getElementById('toastNotification');
+  const toastMessage = document.getElementById('toastMessage');
+  let toastTimer = null;
+
+  function showToast(message) {
+    if (!toastNotification || !toastMessage) return;
+    toastMessage.textContent = message;
+    toastNotification.classList.add('show');
+
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toastNotification.classList.remove('show');
+    }, 3200);
+  }
+
+  function copyTextToClipboard(text, successMsg) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(successMsg || 'Copied to clipboard!');
+      }).catch(() => {
+        fallbackCopy(text, successMsg);
+      });
     } else {
-      bioFr.style.display = 'none';
-      bioEn.style.display = '';
-      if (btnFr) btnFr.classList.remove('active');
-      if (btnEn) btnEn.classList.add('active');
+      fallbackCopy(text, successMsg);
     }
   }
 
-  if (btnEn) btnEn.addEventListener('click', () => showBio('en'));
-  if (btnFr) btnFr.addEventListener('click', () => showBio('fr'));
-  // Set initial state
-  showBio('en');
+  function fallbackCopy(text, successMsg) {
+    const tempInput = document.createElement('input');
+    tempInput.value = text;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    try {
+      document.execCommand('copy');
+      showToast(successMsg || 'Copied to clipboard!');
+    } catch (err) {
+      showToast('Please copy manually: ' + text);
+    }
+    document.body.removeChild(tempInput);
+  }
 
+  // Bind all copy triggers dynamically
+  const copyButtons = document.querySelectorAll('#copyEmailBtnChannel, [data-copy-email]');
+  copyButtons.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const email = btn.getAttribute('data-email') || 'gavindersingh164@gmail.com';
+      copyTextToClipboard(email, 'Email copied: ' + email);
+    });
+  });
+
+  // ─── 7. CONTACT FORM DUAL INQUIRY SEGMENT SWITCHER ────────────────────────
+  const btnTypeFreelance = document.getElementById('btnTypeFreelance');
+  const btnTypeRecruiter = document.getElementById('btnTypeRecruiter');
+  const formSubject = document.getElementById('formSubject');
+  const userMessage = document.getElementById('userMessage');
+
+  if (btnTypeFreelance && btnTypeRecruiter) {
+    btnTypeFreelance.addEventListener('click', () => {
+      btnTypeFreelance.classList.add('active');
+      btnTypeFreelance.setAttribute('aria-selected', 'true');
+      btnTypeRecruiter.classList.remove('active');
+      btnTypeRecruiter.setAttribute('aria-selected', 'false');
+
+      if (formSubject) formSubject.value = 'New Freelance AI Project Inquiry (Gavinder Portfolio)';
+      if (userMessage) userMessage.placeholder = 'Briefly describe what you\'re looking to build (e.g. voice agent, RAG, custom fine-tuning), target timeline, or current bottlenecks...';
+    });
+
+    btnTypeRecruiter.addEventListener('click', () => {
+      btnTypeRecruiter.classList.add('active');
+      btnTypeRecruiter.setAttribute('aria-selected', 'true');
+      btnTypeFreelance.classList.remove('active');
+      btnTypeFreelance.setAttribute('aria-selected', 'false');
+
+      if (formSubject) formSubject.value = 'Recruiter / Full-Time Role Inquiry for Gavinder Singh';
+      if (userMessage) userMessage.placeholder = 'Tell me about the role, team, technology stack, and compensation/location details...';
+    });
+  }
+
+  // ─── 8. CONTACT FORM AJAX SUBMISSION (Web3Forms) ──────────────────────────
+  const inquiryForm = document.getElementById('inquiryForm');
+  const btnSubmitForm = document.getElementById('btnSubmitForm');
+  const btnSubmitText = document.getElementById('btnSubmitText');
+  const formStatusMsg = document.getElementById('formStatusMsg');
+
+  if (inquiryForm) {
+    inquiryForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      if (!inquiryForm.checkValidity()) {
+        inquiryForm.reportValidity();
+        return;
+      }
+
+      if (btnSubmitForm) btnSubmitForm.disabled = true;
+      if (btnSubmitText) btnSubmitText.textContent = 'Sending Message...';
+      if (formStatusMsg) {
+        formStatusMsg.className = 'form-status-msg';
+        formStatusMsg.textContent = 'Transmitting inquiry to Gavinder\'s inbox...';
+      }
+
+      const formData = new FormData(inquiryForm);
+      const jsonObject = {};
+      formData.forEach((value, key) => {
+        jsonObject[key] = value;
+      });
+
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(jsonObject)
+      })
+        .then(async (response) => {
+          const json = await response.json();
+          if (response.status === 200) {
+            if (formStatusMsg) {
+              formStatusMsg.className = 'form-status-msg success';
+              formStatusMsg.textContent = '✓ Message received! Gavinder will reply within 24 hours.';
+            }
+            inquiryForm.reset();
+            showToast('Message sent successfully!');
+          } else {
+            throw new Error(json.message || 'Error submitting form.');
+          }
+        })
+        .catch((error) => {
+          if (formStatusMsg) {
+            formStatusMsg.className = 'form-status-msg error';
+            formStatusMsg.textContent = 'Submission error. Please email directly at gavindersingh164@gmail.com';
+          }
+        })
+        .finally(() => {
+          if (btnSubmitForm) btnSubmitForm.disabled = false;
+          if (btnSubmitText) btnSubmitText.textContent = 'Send Message';
+        });
+    });
+  }
+
+  // ─── 9. SCROLL SPY FOR NAVIGATION LINKS ───────────────────────────────────
+  const sections = document.querySelectorAll('section[id], header[id]');
+  const desktopNavLinks = document.querySelectorAll('.nav-menu .nav-link');
+
+  function onScrollSpy() {
+    const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+
+    sections.forEach((section) => {
+      const sectionHeight = section.offsetHeight;
+      const sectionTop = section.offsetTop - 120;
+      const sectionId = section.getAttribute('id');
+
+      if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+        desktopNavLinks.forEach((link) => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${sectionId}`) {
+            link.classList.add('active');
+          }
+        });
+      }
+    });
+  }
+
+  window.addEventListener('scroll', onScrollSpy, { passive: true });
 })();
-
