@@ -16,6 +16,46 @@
 (function () {
   'use strict';
 
+  // ─── 0. DUAL THEME CONTROLLER (DEFAULT LIGHT & DARK MODE) ─────────────────
+  const themeToggleBtn = document.getElementById('themeToggleBtn');
+  const themeToggleIcon = document.getElementById('themeToggleIcon');
+
+  function updateThemeUI(theme) {
+    if (!themeToggleIcon) return;
+    if (theme === 'dark') {
+      themeToggleIcon.className = 'fa-solid fa-sun';
+      if (themeToggleBtn) {
+        themeToggleBtn.setAttribute('title', 'Switch to Light Mode');
+        themeToggleBtn.setAttribute('aria-label', 'Switch to Light Mode');
+      }
+    } else {
+      themeToggleIcon.className = 'fa-solid fa-moon';
+      if (themeToggleBtn) {
+        themeToggleBtn.setAttribute('title', 'Switch to Dark Mode');
+        themeToggleBtn.setAttribute('aria-label', 'Switch to Dark Mode');
+      }
+    }
+  }
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.style.colorScheme = theme;
+    localStorage.setItem('portfolio-theme', theme);
+    updateThemeUI(theme);
+  }
+
+  // Sync state on load (Default is 'light')
+  const initialTheme = document.documentElement.getAttribute('data-theme') || localStorage.getItem('portfolio-theme') || 'light';
+  applyTheme(initialTheme);
+
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+      const activeTheme = document.documentElement.getAttribute('data-theme') || 'light';
+      const targetTheme = activeTheme === 'dark' ? 'light' : 'dark';
+      applyTheme(targetTheme);
+    });
+  }
+
   // ─── 1. MOBILE NAVIGATION DRAWER ──────────────────────────────────────────
   const mobileMenuBtn = document.getElementById('mobileMenuBtn');
   const mobileMenuIcon = document.getElementById('mobileMenuIcon');
