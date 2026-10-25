@@ -40,12 +40,26 @@
   function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     document.documentElement.style.colorScheme = theme;
-    localStorage.setItem('portfolio-theme', theme);
+    try {
+      sessionStorage.setItem('portfolio-theme', theme);
+      localStorage.setItem('portfolio-theme', theme);
+    } catch (e) {}
     updateThemeUI(theme);
   }
 
-  // Sync state on load (Default is 'light')
-  const initialTheme = document.documentElement.getAttribute('data-theme') || localStorage.getItem('portfolio-theme') || 'light';
+  // Ensure default on fresh open is always Light Mode ("pehle wo hi khule")
+  let initialTheme = 'light';
+  try {
+    const sessionTheme = sessionStorage.getItem('portfolio-theme');
+    if (sessionTheme === 'dark' || sessionTheme === 'light') {
+      initialTheme = sessionTheme;
+    } else {
+      initialTheme = 'light';
+      localStorage.setItem('portfolio-theme', 'light');
+    }
+  } catch (e) {
+    initialTheme = 'light';
+  }
   applyTheme(initialTheme);
 
   if (themeToggleBtn) {

@@ -1,13 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light" style="color-scheme: light;">
 
 <head>
   <meta charset="UTF-8" />
   <script>
     (function () {
-      const savedTheme = localStorage.getItem('portfolio-theme') || 'light';
-      document.documentElement.setAttribute('data-theme', savedTheme);
-      document.documentElement.style.colorScheme = savedTheme;
+      let theme = 'light';
+      try {
+        const sessionTheme = sessionStorage.getItem('portfolio-theme');
+        if (sessionTheme === 'dark' || sessionTheme === 'light') {
+          theme = sessionTheme;
+        } else {
+          // Fresh open: Default is always Light Mode
+          theme = 'light';
+          localStorage.setItem('portfolio-theme', 'light');
+        }
+      } catch (e) {
+        theme = 'light';
+      }
+      document.documentElement.setAttribute('data-theme', theme);
+      document.documentElement.style.colorScheme = theme;
     })();
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -39,7 +51,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <!-- Primary Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=9.0" />
+  <link rel="stylesheet" href="style.css?v=10.0" />
 </head>
 
 <body>
@@ -1465,7 +1477,7 @@
   </div>
 
   <!-- Primary Application Script -->
-  <script src="script.js?v=9.0"></script>
+  <script src="script.js?v=10.0"></script>
 </body>
 
 </html>
