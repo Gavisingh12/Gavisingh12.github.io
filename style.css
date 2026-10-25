@@ -1335,10 +1335,48 @@ ul, ol {
   margin-bottom: 20px;
   background: rgba(217, 45, 80, 0.08);
   color: var(--accent-primary);
+  border: 1px solid rgba(217, 45, 80, 0.2);
 }
-.icon-purple, .icon-cyan, .icon-emerald, .icon-amber {
-  background: rgba(217, 45, 80, 0.08);
-  color: var(--accent-primary);
+.icon-purple {
+  background: rgba(124, 58, 237, 0.09) !important;
+  color: #7c3aed !important;
+  border-color: rgba(124, 58, 237, 0.22) !important;
+}
+.icon-emerald {
+  background: rgba(13, 148, 136, 0.09) !important;
+  color: #0d9488 !important;
+  border-color: rgba(13, 148, 136, 0.22) !important;
+}
+.icon-cyan {
+  background: rgba(2, 132, 199, 0.09) !important;
+  color: #0284c7 !important;
+  border-color: rgba(2, 132, 199, 0.22) !important;
+}
+.icon-amber {
+  background: rgba(217, 119, 6, 0.09) !important;
+  color: #d97706 !important;
+  border-color: rgba(217, 119, 6, 0.22) !important;
+}
+
+[data-theme="dark"] .icon-purple {
+  background: rgba(167, 139, 250, 0.12) !important;
+  color: #a78bfa !important;
+  border-color: rgba(167, 139, 250, 0.25) !important;
+}
+[data-theme="dark"] .icon-emerald {
+  background: rgba(66, 211, 146, 0.12) !important;
+  color: #42d392 !important;
+  border-color: rgba(66, 211, 146, 0.25) !important;
+}
+[data-theme="dark"] .icon-cyan {
+  background: rgba(56, 189, 248, 0.12) !important;
+  color: #38bdf8 !important;
+  border-color: rgba(56, 189, 248, 0.25) !important;
+}
+[data-theme="dark"] .icon-amber {
+  background: rgba(251, 191, 36, 0.12) !important;
+  color: #fbbf24 !important;
+  border-color: rgba(251, 191, 36, 0.25) !important;
 }
 
 .service-badge {
@@ -1409,6 +1447,12 @@ ul, ol {
 }
 .experience-card {
   padding: 36px;
+  transition: transform var(--trans-base), box-shadow var(--trans-base), border-color var(--trans-base);
+}
+.experience-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-medium);
+  box-shadow: var(--shadow-lg), 0 0 24px var(--accent-glow-primary);
 }
 .exp-header-row {
   display: flex;
@@ -1425,8 +1469,8 @@ ul, ol {
   gap: 16px;
 }
 .company-logo-badge {
-  width: 50px;
-  height: 50px;
+  width: 52px;
+  height: 52px;
   border-radius: 14px;
   background: var(--bg-surface-elevated);
   border: 1px solid var(--border-medium);
@@ -1435,6 +1479,20 @@ ul, ol {
   justify-content: center;
   color: var(--accent-primary);
   font-size: 1.4rem;
+  transition: transform var(--trans-fast);
+}
+.experience-card:hover .company-logo-badge {
+  transform: scale(1.05);
+}
+.company-logo-badge.brand-freelance {
+  color: #0d9488;
+  background: rgba(13, 148, 136, 0.08);
+  border-color: rgba(13, 148, 136, 0.25);
+}
+[data-theme="dark"] .company-logo-badge.brand-freelance {
+  color: #42d392;
+  background: rgba(66, 211, 146, 0.12);
+  border-color: rgba(66, 211, 146, 0.28);
 }
 .exp-role-title {
   font-size: 1.35rem;
@@ -1448,7 +1506,8 @@ ul, ol {
   gap: 10px;
   font-size: 0.95rem;
   color: var(--text-secondary);
-  margin-top: 2px;
+  margin-top: 4px;
+  flex-wrap: wrap;
 }
 .status-pill.current {
   background: rgba(217, 45, 80, 0.10);
@@ -1456,8 +1515,22 @@ ul, ol {
   border: 1px solid rgba(217, 45, 80, 0.25);
   font-size: 0.75rem;
   font-weight: 600;
-  padding: 2px 8px;
+  padding: 3px 10px;
   border-radius: var(--radius-full);
+}
+.status-pill.freelance {
+  background: rgba(13, 148, 136, 0.10);
+  color: #0d9488;
+  border: 1px solid rgba(13, 148, 136, 0.28);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+}
+[data-theme="dark"] .status-pill.freelance {
+  background: rgba(66, 211, 146, 0.12);
+  color: #42d392;
+  border: 1px solid rgba(66, 211, 146, 0.3);
 }
 .exp-meta {
   display: flex;
@@ -1497,11 +1570,20 @@ ul, ol {
   padding: 16px 20px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-subtle);
+  transition: transform var(--trans-fast), border-color var(--trans-fast), box-shadow var(--trans-fast);
+}
+.achievement-item:hover {
+  transform: translateX(4px);
+  border-color: var(--border-medium);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+}
+[data-theme="dark"] .achievement-item:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
 }
 .achievement-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   display: flex;
@@ -1510,6 +1592,7 @@ ul, ol {
   color: var(--accent-cyan);
   flex-shrink: 0;
   margin-top: 2px;
+  font-size: 0.95rem;
 }
 .achievement-text {
   font-size: 0.92rem;
@@ -1533,6 +1616,11 @@ ul, ol {
   background: var(--bg-surface-elevated);
   border: 1px solid var(--border-subtle);
   color: var(--text-main);
+  transition: border-color var(--trans-fast), color var(--trans-fast);
+}
+.tech-tag:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
 }
 
 /* ─── SECTION 4: SELECTED PROJECTS ───────────────────────────────────────── */
