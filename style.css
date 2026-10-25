@@ -684,125 +684,268 @@ ul, ol {
     inset 0 1px 0 rgba(244, 247, 245, 0.14);
 }
 
-/* ─── BACK CARD CONTENT & 4 REFERENCE BLOCKS ─────────────────────────────── */
+/* ─── NEW BACK CARD CONTENT (Matching Reference Design Screenshot) ───────── */
 .card-back-content {
   position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 8px;
   height: 100%;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.card-back-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card-back-heading {
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: #F4F7F5;
+  letter-spacing: -0.015em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.card-back-heading .accent-word {
+  color: #42D392;
+}
+
+.card-back-head-row {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
 }
 
-.card-back-box {
+.back-view-all-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(244, 247, 245, 0.7);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid #252B27;
+  padding: 3px 9px;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  transition: all var(--trans-fast);
+}
+.back-view-all-btn:hover {
+  color: #42D392;
+  border-color: #42D392;
+  background: rgba(66, 211, 146, 0.08);
+}
+.back-view-all-btn i {
+  font-size: 0.68rem;
+  transition: transform var(--trans-fast);
+}
+.back-view-all-btn:hover i {
+  transform: translateX(2px);
+}
+
+/* 1. Tech Stack 4x2 Icon Grid */
+.tech-stack-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.tech-icon-tile {
   background: #121614;
   border: 1px solid #252B27;
   border-radius: 12px;
-  padding: 10px 13px;
-  transition: border-color var(--trans-fast), background var(--trans-fast);
-}
-
-.card-back-box:hover {
-  border-color: rgba(66, 211, 146, 0.35);
-  background: #161c18;
-}
-
-.back-box-title-row {
+  height: 44px;
   display: flex;
   align-items: center;
-  gap: 7px;
-  margin-bottom: 4px;
-}
-
-.back-box-icon {
-  font-size: 0.86rem;
-  color: #42D392;
-  flex-shrink: 0;
-}
-
-.back-box-title {
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: #F4F7F5;
-  letter-spacing: -0.01em;
-}
-
-.back-box-text {
-  font-size: 0.77rem;
-  color: rgba(244, 247, 245, 0.72);
-  line-height: 1.4;
-  margin: 0;
-}
-
-/* Interests Pills */
-.back-interests-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-}
-
-.back-pill {
-  font-size: 0.7rem;
-  font-weight: 600;
-  padding: 3px 9px;
-  border-radius: 9999px;
-  background: #090B0A;
-  border: 1px solid #252B27;
-  color: #F4F7F5;
+  justify-content: center;
   transition: all var(--trans-fast);
-  cursor: default;
+  cursor: pointer;
+  position: relative;
+}
+.tech-icon-tile:hover {
+  background: #171E1A;
+  border-color: rgba(66, 211, 146, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), 0 0 10px rgba(66, 211, 146, 0.15);
+}
+.tech-icon-tile svg {
+  width: 22px;
+  height: 22px;
+  display: block;
 }
 
-.back-pill:hover {
-  border-color: #42D392;
-  color: #42D392;
-  background: #121614;
-}
-
-/* Education block */
-.back-edu-details {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.back-edu-degree {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #F4F7F5;
-  line-height: 1.25;
-}
-
-.back-edu-inst {
-  font-size: 0.74rem;
-  color: rgba(244, 247, 245, 0.65);
-  line-height: 1.25;
-}
-
-/* Highlights list */
-.back-highlights-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 0;
-  margin: 0;
-}
-
-.back-highlights-list li {
+/* Divider with glowing center dot */
+.card-back-divider {
   display: flex;
   align-items: center;
-  gap: 7px;
-  font-size: 0.76rem;
-  color: rgba(244, 247, 245, 0.85);
-  line-height: 1.25;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  margin: 1px 0;
+}
+.card-back-divider .divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #202622, transparent);
+}
+.card-back-divider .divider-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #42D392;
+  box-shadow: 0 0 8px rgba(66, 211, 146, 0.9);
 }
 
-.highlight-check {
-  font-size: 0.78rem;
+/* 2. Featured Projects List */
+.back-projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.back-project-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #121614;
+  border: 1px solid #252B27;
+  border-radius: 12px;
+  padding: 8px 12px;
+  text-decoration: none;
+  transition: all var(--trans-fast);
+}
+.back-project-card:hover {
+  background: #161C18;
+  border-color: rgba(66, 211, 146, 0.45);
+  transform: translateX(2px);
+}
+
+.back-project-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: rgba(66, 211, 146, 0.1);
+  border: 1px solid rgba(66, 211, 146, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #42D392;
+  font-size: 0.9rem;
   flex-shrink: 0;
+}
+
+.back-project-meta {
+  flex: 1;
+  min-width: 0;
+}
+.back-project-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #F4F7F5;
+  margin: 0 0 1px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.back-project-sub {
+  font-size: 0.7rem;
+  color: rgba(244, 247, 245, 0.55);
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.back-project-arrow {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid #252B27;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(244, 247, 245, 0.6);
+  font-size: 0.72rem;
+  flex-shrink: 0;
+  transition: all var(--trans-fast);
+}
+.back-project-card:hover .back-project-arrow {
+  background: #42D392;
+  color: #090B0A;
+  border-color: #42D392;
+  transform: translateX(2px);
+}
+
+/* 3. Let's Connect Row */
+.back-connect-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.back-social-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.connect-icon-tile {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #121614;
+  border: 1px solid #252B27;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  text-decoration: none;
+  transition: all var(--trans-fast);
+}
+.connect-icon-tile.linkedin { color: #0A66C2; }
+.connect-icon-tile.github { color: #FFFFFF; }
+.connect-icon-tile.email { color: #42D392; }
+
+.connect-icon-tile:hover {
+  background: #171E1A;
+  border-color: #42D392;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.back-say-hello-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border-radius: var(--radius-full);
+  background: rgba(66, 211, 146, 0.06);
+  border: 1px solid #42D392;
+  color: #42D392;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all var(--trans-fast);
+  white-space: nowrap;
+}
+.back-say-hello-btn:hover {
+  background: #42D392;
+  color: #090B0A;
+  box-shadow: 0 0 16px rgba(66, 211, 146, 0.4);
+  transform: translateY(-1px);
+}
+.back-say-hello-btn i {
+  font-size: 0.74rem;
+  transition: transform var(--trans-fast);
+}
+.back-say-hello-btn:hover i {
+  transform: translateX(3px);
 }
 
 /* Ambient Backlight Glow */
