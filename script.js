@@ -239,7 +239,58 @@
 
   window.addEventListener('scroll', onScrollSpy, { passive: true });
 
-  // ─── 10. STAGGERED SCROLL REVEAL & CASCADE MOTION ENGINE ──────────────────
+  // ─── 10. DFS ARCHITECTURE DEEP DIVE MODAL CONTROLLER ──────────────────────
+  const openDfsInfoBtn = document.getElementById('openDfsInfoBtn');
+  const closeDfsModalBtn = document.getElementById('closeDfsModalBtn');
+  const closeDfsModalFooterBtn = document.getElementById('closeDfsModalFooterBtn');
+  const dfsModalBackdrop = document.getElementById('dfsModalBackdrop');
+
+  function openDfsModal() {
+    if (!dfsModalBackdrop) return;
+    dfsModalBackdrop.hidden = false;
+    requestAnimationFrame(() => {
+      dfsModalBackdrop.classList.add('is-open');
+    });
+    document.body.style.overflow = 'hidden';
+    if (openDfsInfoBtn) openDfsInfoBtn.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeDfsModal() {
+    if (!dfsModalBackdrop) return;
+    dfsModalBackdrop.classList.remove('is-open');
+    setTimeout(() => {
+      dfsModalBackdrop.hidden = true;
+      document.body.style.overflow = '';
+      if (openDfsInfoBtn) {
+        openDfsInfoBtn.setAttribute('aria-expanded', 'false');
+        openDfsInfoBtn.focus();
+      }
+    }, 250);
+  }
+
+  if (openDfsInfoBtn && dfsModalBackdrop) {
+    openDfsInfoBtn.addEventListener('click', openDfsModal);
+  }
+  if (closeDfsModalBtn) {
+    closeDfsModalBtn.addEventListener('click', closeDfsModal);
+  }
+  if (closeDfsModalFooterBtn) {
+    closeDfsModalFooterBtn.addEventListener('click', closeDfsModal);
+  }
+  if (dfsModalBackdrop) {
+    dfsModalBackdrop.addEventListener('click', (e) => {
+      if (e.target === dfsModalBackdrop) {
+        closeDfsModal();
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !dfsModalBackdrop.hidden) {
+        closeDfsModal();
+      }
+    });
+  }
+
+  // ─── 11. STAGGERED SCROLL REVEAL & CASCADE MOTION ENGINE ──────────────────
   function initScrollRevealMotion() {
     // 1. Enable reveal CSS classes on document
     document.documentElement.classList.add('js-reveal-ready');
