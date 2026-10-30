@@ -344,6 +344,113 @@
     });
   }
 
+  // ─── 10B. CARE CLINIQ ARCHITECTURE DEEP DIVE MODAL CONTROLLER ─────────────
+  const openCareCliniqModalBtn = document.getElementById('openCareCliniqModalBtn');
+  const closeCareCliniqModalBtn = document.getElementById('closeCareCliniqModalBtn');
+  const closeCareCliniqModalFooterBtn = document.getElementById('closeCareCliniqModalFooterBtn');
+  const careCliniqModalBackdrop = document.getElementById('careCliniqModalBackdrop');
+
+  function openCareCliniqModal() {
+    if (!careCliniqModalBackdrop) return;
+    careCliniqModalBackdrop.hidden = false;
+    requestAnimationFrame(() => {
+      careCliniqModalBackdrop.classList.add('is-open');
+    });
+    document.body.style.overflow = 'hidden';
+    if (openCareCliniqModalBtn) openCareCliniqModalBtn.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeCareCliniqModal() {
+    if (!careCliniqModalBackdrop) return;
+    careCliniqModalBackdrop.classList.remove('is-open');
+    setTimeout(() => {
+      careCliniqModalBackdrop.hidden = true;
+      document.body.style.overflow = '';
+      if (openCareCliniqModalBtn) {
+        openCareCliniqModalBtn.setAttribute('aria-expanded', 'false');
+        openCareCliniqModalBtn.focus();
+      }
+    }, 250);
+  }
+
+  if (openCareCliniqModalBtn && careCliniqModalBackdrop) {
+    openCareCliniqModalBtn.addEventListener('click', openCareCliniqModal);
+  }
+  if (closeCareCliniqModalBtn) {
+    closeCareCliniqModalBtn.addEventListener('click', closeCareCliniqModal);
+  }
+  if (closeCareCliniqModalFooterBtn) {
+    closeCareCliniqModalFooterBtn.addEventListener('click', closeCareCliniqModal);
+  }
+  if (careCliniqModalBackdrop) {
+    careCliniqModalBackdrop.addEventListener('click', (e) => {
+      if (e.target === careCliniqModalBackdrop) {
+        closeCareCliniqModal();
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !careCliniqModalBackdrop.hidden) {
+        closeCareCliniqModal();
+      }
+    });
+  }
+
+  // ─── 10C. HORIZONTAL SINGLE-ROW PROJECTS SLIDER CONTROLLER ────────────────
+  const projectsSliderTrack = document.getElementById('projectsSliderTrack');
+  const projectsPrevBtn = document.getElementById('projectsPrevBtn');
+  const projectsNextBtn = document.getElementById('projectsNextBtn');
+
+  function updateProjectSliderArrows() {
+    if (!projectsSliderTrack || !projectsPrevBtn || !projectsNextBtn) return;
+    const scrollLeft = Math.ceil(projectsSliderTrack.scrollLeft);
+    const maxScroll = projectsSliderTrack.scrollWidth - projectsSliderTrack.clientWidth;
+
+    // Left arrow: ONLY show when scrolled forward from the beginning (> 10px)
+    // When at the very left edge, left arrow stays hidden
+    if (scrollLeft <= 10) {
+      projectsPrevBtn.classList.remove('is-visible');
+      projectsPrevBtn.setAttribute('aria-hidden', 'true');
+    } else {
+      projectsPrevBtn.classList.add('is-visible');
+      projectsPrevBtn.setAttribute('aria-hidden', 'false');
+    }
+
+    // Right arrow: show if there is more content to scroll to on the right
+    if (scrollLeft >= maxScroll - 10 || maxScroll <= 5) {
+      projectsNextBtn.classList.remove('is-visible');
+      projectsNextBtn.setAttribute('aria-hidden', 'true');
+    } else {
+      projectsNextBtn.classList.add('is-visible');
+      projectsNextBtn.setAttribute('aria-hidden', 'false');
+    }
+  }
+
+  if (projectsNextBtn && projectsSliderTrack) {
+    projectsNextBtn.addEventListener('click', () => {
+      const firstCard = projectsSliderTrack.querySelector('.project-card');
+      const gap = parseInt(window.getComputedStyle(projectsSliderTrack).gap) || 20;
+      const scrollStep = firstCard ? (firstCard.offsetWidth + gap) : 380;
+      projectsSliderTrack.scrollBy({ left: scrollStep, behavior: 'smooth' });
+    });
+  }
+
+  if (projectsPrevBtn && projectsSliderTrack) {
+    projectsPrevBtn.addEventListener('click', () => {
+      const firstCard = projectsSliderTrack.querySelector('.project-card');
+      const gap = parseInt(window.getComputedStyle(projectsSliderTrack).gap) || 20;
+      const scrollStep = firstCard ? (firstCard.offsetWidth + gap) : 380;
+      projectsSliderTrack.scrollBy({ left: -scrollStep, behavior: 'smooth' });
+    });
+  }
+
+  if (projectsSliderTrack) {
+    projectsSliderTrack.addEventListener('scroll', updateProjectSliderArrows, { passive: true });
+    window.addEventListener('resize', updateProjectSliderArrows);
+    // Initial check on load
+    setTimeout(updateProjectSliderArrows, 80);
+    setTimeout(updateProjectSliderArrows, 300);
+  }
+
   // ─── 11. STAGGERED SCROLL REVEAL & CASCADE MOTION ENGINE ──────────────────
   function initScrollRevealMotion() {
     // 1. Enable reveal CSS classes on document
@@ -358,6 +465,7 @@
     // 3. Configure Stagger Groups and their Children
     const groupsConfig = [
       { container: '.services-grid', child: '.service-card' },
+      { container: '.projects-slider-track', child: '.project-card' },
       { container: '.projects-grid', child: '.project-card' },
       { container: '.experience-timeline', child: '.experience-card' },
       { container: '.stack-grid', child: '.stack-card' },

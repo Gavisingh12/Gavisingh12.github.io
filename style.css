@@ -410,8 +410,8 @@ ul, ol {
 .nav-link.active {
   color: var(--accent-primary);
   font-weight: 600;
-  background: rgba(217, 45, 80, 0.08);
-  border: 1px solid rgba(217, 45, 80, 0.20);
+  background: var(--accent-glow-primary);
+  border: 1px solid var(--border-medium);
 }
 .nav-link.cta-nav-link {
   display: none;
@@ -1510,9 +1510,9 @@ ul, ol {
   flex-wrap: wrap;
 }
 .status-pill.current {
-  background: rgba(217, 45, 80, 0.10);
+  background: var(--accent-glow-primary);
   color: var(--accent-primary);
-  border: 1px solid rgba(217, 45, 80, 0.25);
+  border: 1px solid var(--border-medium);
   font-size: 0.75rem;
   font-weight: 600;
   padding: 3px 10px;
@@ -1624,17 +1624,145 @@ ul, ol {
 }
 
 /* ─── SECTION 4: SELECTED PROJECTS ───────────────────────────────────────── */
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  margin-top: 24px;
+/* ─── SECTION 4: SELECTED PROJECTS (HORIZONTAL SINGLE-ROW SLIDER) ────────── */
+.projects-carousel-wrapper {
+  position: relative;
+  width: 100%;
+  margin-top: 28px;
 }
+
+#projects .container {
+  max-width: 1280px;
+}
+
+.projects-slider-track {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+  padding: 14px 4px 26px 4px;
+  width: 100%;
+}
+
+.projects-slider-track::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+/* Individual Project Card in Single-Row Slider */
+.projects-slider-track .project-card,
+.projects-grid .project-card,
 .project-card {
-  padding: 30px;
+  padding: 24px 22px;
   display: flex;
   flex-direction: column;
+  transition: transform var(--trans-base), border-color var(--trans-base), box-shadow var(--trans-base);
+  box-sizing: border-box;
 }
+
+/* At least 3 projects visible in 1 frame on desktop */
+.projects-slider-track .project-card {
+  flex: 0 0 calc((100% - 40px) / 3);
+  max-width: calc((100% - 40px) / 3);
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+/* 2 projects per frame on tablet / medium screens */
+@media (max-width: 1024px) {
+  .projects-slider-track .project-card {
+    flex: 0 0 calc((100% - 20px) / 2);
+    max-width: calc((100% - 20px) / 2);
+  }
+}
+
+/* 1 project per frame on mobile */
+@media (max-width: 680px) {
+  .projects-slider-track {
+    gap: 16px;
+  }
+  .projects-slider-track .project-card {
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding: 22px 18px;
+  }
+}
+
+/* Side Carousel Navigation Arrow Buttons */
+.project-carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--bg-surface-elevated);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-medium);
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  cursor: pointer;
+  z-index: 30;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16), 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.2s ease,
+              border-color 0.2s ease,
+              box-shadow 0.2s ease;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.project-carousel-btn.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.project-carousel-btn.prev {
+  left: -22px;
+}
+
+.project-carousel-btn.next {
+  right: -22px;
+}
+
+.project-carousel-btn:hover {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: #FFFFFF;
+  transform: translateY(-50%) scale(1.12);
+  box-shadow: 0 8px 24px var(--accent-glow-primary);
+}
+
+.project-carousel-btn:active {
+  transform: translateY(-50%) scale(0.96);
+}
+
+@media (max-width: 900px) {
+  .project-carousel-btn.prev {
+    left: 4px;
+  }
+  .project-carousel-btn.next {
+    right: 4px;
+  }
+  .project-carousel-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 1rem;
+  }
+}
+
 .project-card:hover {
   transform: translateY(-4px);
   border-color: var(--border-highlight);
